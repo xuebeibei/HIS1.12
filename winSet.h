@@ -3,8 +3,8 @@
 #include <QString>
 
 const QString g_strNull = "";
-const QString g_strIconPath = "./icon/";
-
+//const QString g_strIconPath = "./icon/"; // 其他图标路径
+const QString g_strIconPath = "./icon/";// windows相对路径
 //---------------------------------------------------------------------------------------------------------------------------------------
 // 医保类型
 //---------------------------------------------------------------------------------------------------------------------------------------
@@ -67,7 +67,8 @@ enum ChargeItemIndex
 // 数据库
 //---------------------------------------------------------------------------------------------------------------------------------------
 const QString g_strDBType = "QSQLITE";
-const QString g_strDBName = "./sqlite/test.db";
+// const QString g_strDBName = "./sqlite/test.db"; // 其他系统数据库路径
+const QString g_strDBName = "./sqlite/test.db"; // windows相对路径
 const QString g_strClinicCharge = "ClinicCharge";
 const QString g_strClinicChargeDetails = "ClinicChargeDetails";
 const QString g_strClinicDailyReport = "ClinicDailyReport";
