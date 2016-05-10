@@ -106,7 +106,7 @@ bool Inpatient::Read()
             m_strName = record.value("Name").toString();
             m_eGender = (Gender)record.value("Gender").toInt();
             m_nAge = record.value("Age").toInt();
-            m_strIDCard = record.value("IDCard").toString();
+            m_strIDCard = record.value("IdCardNum").toString();
             m_strCaseID = record.value("CaseID").toString();
             m_strDepartment = record.value("Department").toString();
             m_strDoctor = record.value("Doctor").toString();
@@ -118,7 +118,11 @@ bool Inpatient::Read()
             m_account->Read();
 
             m_strMedicalResult = record.value("MedicalResult").toString();
+            m_contacts.setName(record.value("Contacts").toString());
+            m_contacts.setTel(record.value("Tel").toString());
+            m_contacts.setAddress(record.value("Address").toString());
             m_registryDate = record.value("Date").toDate();
+
 
             return true;
         }
@@ -166,7 +170,7 @@ bool Inpatient::Save()
 
 bool Inpatient::Delete()
 {
-    return true;
+    return deleteRows(g_strInPatient,"HospitalID",m_strID);
 }
 
 QStringList Inpatient::getIDsFromDB(QString strID, QString strName, Gender eGender)

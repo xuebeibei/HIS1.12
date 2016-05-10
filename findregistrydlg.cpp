@@ -59,7 +59,7 @@ void FindRegistryDlg::initResults()
     QStringList strList;
     strList.append("住院号");
     strList.append("姓名");
-    strList.append("住院时间");
+    strList.append("入院日期");
     strList.append("科室");
     strList.append("医生");
     initTable(strList);

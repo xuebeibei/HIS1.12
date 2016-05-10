@@ -8,6 +8,7 @@ HospitalisationRegistry::HospitalisationRegistry(SubForm *parent) :
     setMyLayout();
     init();
     setAllDefaultEnable();
+    newTableFile();
 }
 
 HospitalisationRegistry::~HospitalisationRegistry()
@@ -29,7 +30,13 @@ bool HospitalisationRegistry::saveTableFile()
 
 bool HospitalisationRegistry::deleteTableFile()
 {
-    return true;
+    if(m_inpatient->Delete())
+    {
+       newTableFile();
+       return true;
+    }
+    else
+       return false;
 }
 
 void HospitalisationRegistry::exportTableFile()
@@ -41,11 +48,20 @@ bool HospitalisationRegistry::findTableFile()
 
     FindRegistryDlg *dailog = new FindRegistryDlg;
     dailog->exec();
+    QString strID = dailog->getID();
+    if(!strID.isEmpty())
+    {
+        m_inpatient->setID(strID);
+        Read();
+        setAllUnEnable();
+    }
+
     return true;
 }
 
 void HospitalisationRegistry::amendTableFile()
 {
+    setAllDefaultEnable();
 }
 
 void HospitalisationRegistry::previewTableFile()
