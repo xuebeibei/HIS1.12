@@ -22,6 +22,8 @@ INPUT(
 ./debug\account.o
 ./debug\contacts.o
 ./debug\hospitalsationregistrytable.o
+./debug\finddlg.o
+./debug\findregistrydlg.o
 ./debug\moc_hismainwindow.o
 ./debug\moc_subform.o
 ./debug\moc_findclincchargedlg.o
@@ -33,4 +35,5 @@ INPUT(
 ./debug\moc_clinicpaymentstatisticform.o
 ./debug\moc_finddailyreportdialog.o
 ./debug\moc_hospitalisationregistry.o
+./debug\moc_finddlg.o
 );

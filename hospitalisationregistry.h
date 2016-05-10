@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "stdafx.h"
 #include "subform.h"
-#include "hospitalsationregistrytable.h"
+#include "inpatient.h"
 
 class HospitalisationRegistry : public SubForm
 {
@@ -22,6 +22,7 @@ public:
     void amendTableFile();
     void previewTableFile();
     void printTableFile();
+
 protected:
     void create();
     void setMyLayout();
@@ -58,7 +59,7 @@ protected:
 
     QLabel *m_hospitalisationNumLabel;        // 住院号
     QLabel *m_caseNumLabel;                   // 病例号
-    QLabel *m_guaranteeDepositLabel;       // 最少押金
+    QLabel *m_guaranteeDepositLabel;          // 押金
     QLabel *m_dateLabel;                      // 登记日期
 
     QLabel *m_medicalResultLabel;             // 诊断结果
@@ -92,7 +93,7 @@ protected:
     QGroupBox *m_hospitalGroup;
     QGroupBox *m_hospitalisationGroup;
 
-    HospitalsationRegistryTable *m_HRegistryTable; // 门诊登记表
+    Inpatient *m_inpatient; // 门诊登记表
 };
 
 #endif // HOSPITALISATIONREGISTRY_H

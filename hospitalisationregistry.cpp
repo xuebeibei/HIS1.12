@@ -1,4 +1,5 @@
 #include "hospitalisationregistry.h"
+#include "findregistrydlg.h"
 
 HospitalisationRegistry::HospitalisationRegistry(SubForm *parent) :
     SubForm(parent)
@@ -16,7 +17,7 @@ HospitalisationRegistry::~HospitalisationRegistry()
 
 void HospitalisationRegistry::newTableFile()
 {
-    m_HRegistryTable = new HospitalsationRegistryTable;
+    m_inpatient = new Inpatient;
     Read();
 }
 
@@ -37,6 +38,9 @@ void HospitalisationRegistry::exportTableFile()
 
 bool HospitalisationRegistry::findTableFile()
 {
+
+    FindRegistryDlg *dailog = new FindRegistryDlg;
+    dailog->exec();
     return true;
 }
 
@@ -267,61 +271,58 @@ void HospitalisationRegistry::createHospitalisationPart()
 
 void HospitalisationRegistry::Read()
 {
-    m_HRegistryTable->Read();
+    m_inpatient->Read();
     updateAllValue();
 }
 
 void HospitalisationRegistry::Save()
 {
-    Inpatient *oneInpatient = new Inpatient(m_hospitalisationNumEdit->text());
-    oneInpatient->setName(m_nameEdit->text());
-    oneInpatient->setGender((Gender)m_genderCombo->currentIndex());
-    oneInpatient->setAge(m_ageEdit->text().toInt());
-    oneInpatient->setIDCard(m_idCardNumEdit->text());
+    m_inpatient->setName(m_nameEdit->text());
+    m_inpatient->setGender((Gender)m_genderCombo->currentIndex());
+    m_inpatient->setAge(m_ageEdit->text().toInt());
+    m_inpatient->setIDCard(m_idCardNumEdit->text());
 
     Contacts oneContacts;
     oneContacts.setName(m_contactsEdit->text());
     oneContacts.setTel(m_telEdit->text());
     oneContacts.setAddress(m_addressEdit->toPlainText());
-    oneInpatient->setContacts(oneContacts);
+    m_inpatient->setContacts(oneContacts);
 
-    oneInpatient->setDepartment(m_departmentEdit->text());
-    oneInpatient->setDoctor(m_doctorEdit->text());
-    oneInpatient->setBedNum(m_bedNumEdit->text().toInt());
-    oneInpatient->setNursingLevel((NursingLevel)m_nursinglevelCombo->currentIndex());
+    m_inpatient->setDepartment(m_departmentEdit->text());
+    m_inpatient->setDoctor(m_doctorEdit->text());
+    m_inpatient->setBedNum(m_bedNumEdit->text().toInt());
+    m_inpatient->setNursingLevel((NursingLevel)m_nursinglevelCombo->currentIndex());
     //oneInpatient->setCaseID(m_caseNumEdit->text());
 
-    Account *oneAccount = new Account(oneInpatient->getID());
+    Account *oneAccount = new Account(m_inpatient->getID());
     oneAccount->setAction(payIn);
     oneAccount->setActionMoney(m_minGuaranteeDepositEdit->text().toDouble());
 
-    oneInpatient->setAccount(oneAccount);
-    oneInpatient->setMedicalResult(m_medicalResultEdit->toPlainText());
+    m_inpatient->setAccount(oneAccount);
+    m_inpatient->setMedicalResult(m_medicalResultEdit->toPlainText());
+    m_inpatient->setRegistryDate(m_dateEdit->date());
 
-    m_HRegistryTable->setInpatient(oneInpatient);
-    m_HRegistryTable->setRegistryDate(m_dateEdit->date());
-
-    m_HRegistryTable->Save();
+    m_inpatient->Save();
 }
 
 void HospitalisationRegistry::updateAllValue()
 {
-    m_nameEdit->setText(m_HRegistryTable->getInpatient()->getName());
-    m_genderCombo->setCurrentIndex(m_HRegistryTable->getInpatient()->getGender());
-    m_ageEdit->setText(QString::number(m_HRegistryTable->getInpatient()->getAge()));
-    m_idCardNumEdit->setText(m_HRegistryTable->getInpatient()->getIDCard());
-    m_contactsEdit->setText(m_HRegistryTable->getInpatient()->getContacts().getName());
-    m_telEdit->setText(m_HRegistryTable->getInpatient()->getContacts().getTel());
-    m_addressEdit->setText(m_HRegistryTable->getInpatient()->getContacts().getAddress());
+    m_nameEdit->setText(m_inpatient->getName());
+    m_genderCombo->setCurrentIndex(m_inpatient->getGender());
+    m_ageEdit->setText(QString::number(m_inpatient->getAge()));
+    m_idCardNumEdit->setText(m_inpatient->getIDCard());
+    m_contactsEdit->setText(m_inpatient->getContacts().getName());
+    m_telEdit->setText(m_inpatient->getContacts().getTel());
+    m_addressEdit->setText(m_inpatient->getContacts().getAddress());
 
-    m_departmentEdit->setText(m_HRegistryTable->getInpatient()->getDepartment());
-    m_doctorEdit->setText(m_HRegistryTable->getInpatient()->getDoctor());
-    m_bedNumEdit->setText(QString::number(m_HRegistryTable->getInpatient()->getBedNum()));
-    m_nursinglevelCombo->setCurrentIndex(m_HRegistryTable->getInpatient()->getNursingLevel());
+    m_departmentEdit->setText(m_inpatient->getDepartment());
+    m_doctorEdit->setText(m_inpatient->getDoctor());
+    m_bedNumEdit->setText(QString::number(m_inpatient->getBedNum()));
+    m_nursinglevelCombo->setCurrentIndex(m_inpatient->getNursingLevel());
 
-    m_hospitalisationNumEdit->setText(m_HRegistryTable->getInpatient()->getID());
-    m_caseNumEdit->setText(m_HRegistryTable->getInpatient()->getCaseID());
+    m_hospitalisationNumEdit->setText(m_inpatient->getID());
+    m_caseNumEdit->setText(m_inpatient->getCaseID());
     m_minGuaranteeDepositEdit->setText(g_strNull); //??
-    m_dateEdit->setDate(m_HRegistryTable->getRegistryDate());
-    m_medicalResultEdit->setText(m_HRegistryTable->getInpatient()->getMedicalResult());
+    m_dateEdit->setDate(m_inpatient->getRegistryDate());
+    m_medicalResultEdit->setText(m_inpatient->getMedicalResult());
 }

@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     inpatient.cpp \
     account.cpp \
     contacts.cpp \
-    hospitalsationregistrytable.cpp
+    finddlg.cpp \
+    findregistrydlg.cpp
 
 HEADERS  += hismainwindow.h \
     stdafx.h \
@@ -62,7 +63,8 @@ HEADERS  += hismainwindow.h \
     inpatient.h \
     account.h \
     contacts.h \
-    hospitalsationregistrytable.h
+    finddlg.h \
+    findregistrydlg.h
 
 FORMS    +=
 
