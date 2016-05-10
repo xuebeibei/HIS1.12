@@ -23,6 +23,7 @@ INPUT(
 ./debug\contacts.o
 ./debug\finddlg.o
 ./debug\findregistrydlg.o
+./debug\qrc_pic.o
 ./debug\moc_hismainwindow.o
 ./debug\moc_subform.o
 ./debug\moc_findclincchargedlg.o

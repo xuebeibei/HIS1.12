@@ -101,6 +101,9 @@ void HISMainWindow::showHospitalisationRegistry()
     initToolsAllEnable();
     subForm = new HospitalisationRegistry;
     setCentralWidget(subForm);
+
+    deleteAction->setEnabled(false);
+    amendAction->setEnabled(false);
     locationLabel->setText("住院登记");
 }
 
@@ -120,15 +123,37 @@ void HISMainWindow::saveTableFile()
         saveAction->setEnabled(false);
         deleteAction->setEnabled(true);
         amendAction->setEnabled(true);
+        QMessageBox::information(this,"提示","保存成功！");
+    }
+    else
+    {
+        QMessageBox::information(this,"提示","保存失败");
     }
 }
 
 void HISMainWindow::deleteTableFile()
 {
-    subForm->deleteTableFile();
-    saveAction->setEnabled(true);
-    deleteAction->setEnabled(false);
-    amendAction->setEnabled(false);
+    QMessageBox *box = new QMessageBox;
+    box->setWindowTitle(tr("警告"));
+    box->setIcon(QMessageBox::Warning);
+    box->setText(tr("确认删除？"));
+    box->setStandardButtons(QMessageBox::Yes|QMessageBox::No);
+    box->setButtonText(QMessageBox::Yes,"是");
+    box->setButtonText(QMessageBox::No,"否");
+    if(box->exec()==QMessageBox::Yes)
+    {
+        if(subForm->deleteTableFile())
+        {
+            saveAction->setEnabled(true);
+            deleteAction->setEnabled(false);
+            amendAction->setEnabled(false);
+            QMessageBox::information(this,"提示","删除成功！");
+        }
+        else
+        {
+            QMessageBox::information(this,"提示","删除失败！");
+        }
+    }
 }
 
 void HISMainWindow::exportTableFile()

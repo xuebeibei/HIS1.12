@@ -70,4 +70,5 @@ FORMS    +=
 
 OTHER_FILES +=
 
-RESOURCES +=
+RESOURCES += \
+    pic.qrc

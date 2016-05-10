@@ -23,6 +23,7 @@ INPUT(
 ./release\contacts.o
 ./release\finddlg.o
 ./release\findregistrydlg.o
+./release\qrc_pic.o
 ./release\moc_hismainwindow.o
 ./release\moc_subform.o
 ./release\moc_findclincchargedlg.o

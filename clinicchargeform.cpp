@@ -39,21 +39,8 @@ bool ClinicChargeForm::saveTableFile()
 
 bool ClinicChargeForm::deleteTableFile()
 {
-    QMessageBox *box = new QMessageBox;
-    box->setWindowTitle(tr("警告"));
-    box->setIcon(QMessageBox::Warning);
-    box->setText(tr("确认删除当前收费单？"));
-    box->setStandardButtons(QMessageBox::Yes|QMessageBox::No);
-    box->setButtonText(QMessageBox::Yes,"是");
-    box->setButtonText(QMessageBox::No,"否");
-    if(box->exec()==QMessageBox::Yes)
-    {
-        return Delete();
-    }
-    else
-    {
-        return false;
-    }
+
+    return Delete();
 }
 
 void ClinicChargeForm::exportTableFile()
@@ -511,7 +498,6 @@ bool ClinicChargeForm::Save()
 
     if(m_chargeTable->Save())
     {
-        QMessageBox::information(this,"提示","保存成功！");
         return true;
     }
     else
@@ -522,13 +508,11 @@ bool ClinicChargeForm::Delete()
 {
     if(m_chargeTable->Delete())
     {
-        QMessageBox::information(this,"提示","删除成功！");
         newTableFile();
         return true;
     }
     else
     {
-        QMessageBox::information(this,"提示","删除失败！");
         return false;
     }
 }
