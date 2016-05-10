@@ -1,4 +1,5 @@
 #include "findregistrydlg.h"
+#include "inpatient.h"
 
 FindRegistryDlg::FindRegistryDlg(FindDlg *parent):
     FindDlg(parent)
@@ -50,6 +51,11 @@ void FindRegistryDlg::setMyLayout()
 
 void FindRegistryDlg::init()
 {
+    initResults();
+}
+
+void FindRegistryDlg::initResults()
+{
     QStringList strList;
     strList.append("住院号");
     strList.append("姓名");
@@ -61,5 +67,22 @@ void FindRegistryDlg::init()
 
 void FindRegistryDlg::find()
 {
+    QString strID = m_hospitalisationNumEdit->text();
+    QString strName = m_nameEdit->text();
+    Gender eGender = (Gender)m_genderCombo->currentIndex();
 
+    initResults();
+
+    QVector<Inpatient *> vec = Inpatient::selectFromDB(strID, strName, eGender);
+
+    for(int i = 0; i < vec.size();i++)
+    {
+        Inpatient *temp = vec.at(i);
+        m_resultsModel->setItem(i,0,new QStandardItem(temp->getID()));
+        m_resultsModel->setItem(i,1,new QStandardItem(temp->getName()));
+        m_resultsModel->setItem(i,2,new QStandardItem(temp->getRegistryDate().toString("yyyy-MM-dd")));
+        m_resultsModel->setItem(i,3,new QStandardItem(temp->getDepartment()));
+        m_resultsModel->setItem(i,4,new QStandardItem(temp->getDoctor()));
+    }
+    m_resultsView->setModel(m_resultsModel);
 }

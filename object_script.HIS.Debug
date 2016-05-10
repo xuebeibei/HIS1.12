@@ -21,7 +21,6 @@ INPUT(
 ./debug\inpatient.o
 ./debug\account.o
 ./debug\contacts.o
-./debug\hospitalsationregistrytable.o
 ./debug\finddlg.o
 ./debug\findregistrydlg.o
 ./debug\moc_hismainwindow.o

@@ -12,6 +12,7 @@ protected:
     void create();
     void setMyLayout();
     void init();
+    void initResults();
 protected slots:
     void find();
 

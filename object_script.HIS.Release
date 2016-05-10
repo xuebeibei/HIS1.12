@@ -21,7 +21,6 @@ INPUT(
 ./release\inpatient.o
 ./release\account.o
 ./release\contacts.o
-./release\hospitalsationregistrytable.o
 ./release\finddlg.o
 ./release\findregistrydlg.o
 ./release\moc_hismainwindow.o
