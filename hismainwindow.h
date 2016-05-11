@@ -10,6 +10,7 @@
 #include "clinicreportstatisticform.h"
 #include "clinicpaymentstatisticform.h"
 #include "hospitalisationregistry.h"
+#include "hospitalistation.h"
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 // HIS系统主界面类

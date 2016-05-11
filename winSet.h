@@ -121,8 +121,8 @@ const QString g_strhospitalRegistryAction = "登记";
 const QString g_strhospitalPayAction = "缴费";
 const QString g_strhospitalDischargeAction = "出院";
 
-const int g_nSubFormDefaultWidth = 850;
-const int g_nSubFormDefaultHeight = 600;
+const int g_nSubFormDefaultWidth = 1024;
+const int g_nSubFormDefaultHeight = 768;
 
 const QString g_strPatientGroup = "患者信息";
 const QString g_strNameLabel = "姓名：";
@@ -147,7 +147,7 @@ const QString g_strNCMS = "新农合";
 const QString g_strDoctorGroup = "就诊信息";
 const QString g_strDepartmentLabel = "就诊科室：";
 const QString g_strDoctorLabel = "医生：";
-const QString g_strBedNumLabel = "床位编号：";
+const QString g_strBedNumLabel = "床位：";
 const QString g_strNursingLevelLabel = "护理级别：";
 
 const QString g_strHospitalisationNumLabel = "住院号：";
@@ -178,6 +178,12 @@ const QString g_strDailyReopotNumPR = "D";
 
 const QString g_strStartDateLabel = "起始日期：";
 const QString g_strEndDateLabel = "终止日期：";
+
+
+// 样式
+const QString g_strLineEditNoBorder = "QLineEdit{border: 0px;}";
+const QString g_strStatusBarNoBorder = "QStatusBar::item{border: 0px;}";
+//const QString g_strFormBorder = "QWidget{border: 1px solid black;border-radius:8px}";
 
 
 #endif // WINSTRING_H

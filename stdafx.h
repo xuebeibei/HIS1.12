@@ -30,6 +30,7 @@
 #include <QButtonGroup>
 #include <QStatusBar>
 #include <QTextEdit>
+#include <QTreeView>
 #include "winSet.h"
 
 #endif // STDAFX_H

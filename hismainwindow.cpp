@@ -9,6 +9,10 @@ HISMainWindow::HISMainWindow(QWidget *parent) :
     createStatusBar();
     //showClinicCharge();
     showHospitalisationRegistry();
+
+    setMinimumHeight(g_nSubFormDefaultHeight);
+    setMinimumWidth(g_nSubFormDefaultWidth);
+
 }
 
 HISMainWindow::~HISMainWindow()
@@ -99,12 +103,16 @@ void HISMainWindow::showPaymentStatistic()
 void HISMainWindow::showHospitalisationRegistry()
 {
     initToolsAllEnable();
-    subForm = new HospitalisationRegistry;
-    setCentralWidget(subForm);
+    //subForm = new HospitalisationRegistry;
+    Hospitalistation *Form = new Hospitalistation;
+    setCentralWidget(Form);
 
+    newAction->setEnabled(false);
     deleteAction->setEnabled(false);
     amendAction->setEnabled(false);
-    locationLabel->setText("住院登记");
+    findAction->setEnabled(false);
+    saveAction->setEnabled(false);
+    locationLabel->setText("住院管理");
 }
 
 void HISMainWindow::newTableFile()
@@ -282,7 +290,7 @@ void HISMainWindow::createStatusBar()
 {
      locationLabel= new QLabel;
      statusBar()->addWidget(locationLabel);
-     statusBar()->setStyleSheet(QString("QStatusBar::item{border: 0px}"));
+     statusBar()->setStyleSheet(g_strStatusBarNoBorder);
 }
 
 void HISMainWindow::initToolsAllEnable()

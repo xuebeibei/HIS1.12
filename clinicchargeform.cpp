@@ -6,7 +6,7 @@ ClinicChargeForm::ClinicChargeForm(SubForm *parent) :
 {
     create();
     init();
-    SetMyLayout();
+    setMyLayout();
     setAllDefaultEnable();
     newTableFile();
 }
@@ -335,7 +335,7 @@ void ClinicChargeForm::CreateChargeTablePart()
     initTableModel();
 }
 
-void ClinicChargeForm::SetMyLayout()
+void ClinicChargeForm::setMyLayout()
 {
     QVBoxLayout *LeftLayout = new QVBoxLayout;
     LeftLayout->addWidget(m_chargeNumGroup);

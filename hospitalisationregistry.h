@@ -40,6 +40,7 @@ protected:
     void Save();
     void updateAllValue();
 protected:
+
     QLabel *m_nameLabel;                      // 姓名
     QLabel *m_genderLabel;                    // 性别
     QLabel *m_ageLabel;                       // 年龄
@@ -49,7 +50,6 @@ protected:
     QLabel *m_addressLabel;                   // 家庭住址
 
     QLabel *m_medicalInsuranceTypeLabel;      // 医保类型
-    QLabel *m_NCMSNumLabel;                   // 参合号码
     QLabel *m_socialSecurityNumLabel;         // 社保号码
 
     QLabel *m_departmentLabel;                // 科室
@@ -73,7 +73,6 @@ protected:
     QTextEdit *m_addressEdit;                 // 家庭住址
 
     QComboBox *m_medicalInsuranceTypeCombo;   // 医保类型
-    QLineEdit *m_NCMSNumEdit;                 // 参合号码
     QLineEdit *m_socialSecurityNumEdit;       // 社保号码
 
     QLineEdit *m_departmentEdit;              // 科室
@@ -83,7 +82,7 @@ protected:
 
     QLineEdit *m_hospitalisationNumEdit;      // 住院号
     QLineEdit *m_caseNumEdit;                 // 病例号
-    QLineEdit *m_minGuaranteeDepositEdit;     // 最少押金
+    //QLineEdit *m_minGuaranteeDepositEdit;     // 最少押金
     QDateEdit *m_dateEdit;                    // 登记日期
 
     QTextEdit *m_medicalResultEdit;           // 诊断结果

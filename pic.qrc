@@ -1,8 +1,13 @@
 <RCC>
     <qresource prefix="/">
+        <file>icon/amend.png</file>
+        <file>icon/delete.png</file>
+        <file>icon/new.png</file>
+        <file>icon/save.png</file>
+        <file>icon/set.png</file>
         <file>icon/addRow.png</file>
-        <file>icon/combo.png</file>
         <file>icon/deleteRow.png</file>
+        <file>icon/combo.png</file>
         <file>icon/find.png</file>
     </qresource>
 </RCC>

@@ -2,6 +2,7 @@
 #define SUBFORM_H
 
 #include <QWidget>
+#include "stdafx.h"
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 // HIS系统子界面类
@@ -13,7 +14,7 @@ class SubForm : public QWidget
 public:
     explicit SubForm(QWidget *parent = 0);
     ~SubForm();
-
+public slots:
     //-----------------------------------------------------------------------------------------------------------------------------------
     // 名称：newTableFile
     // 作用：新建
@@ -99,7 +100,18 @@ public:
     // 时间：2016-04-15
     //-----------------------------------------------------------------------------------------------------------------------------------
     virtual void printTableFile() = 0;
-    
+protected:
+    virtual void create() = 0;
+    virtual void setMyLayout() = 0;
+    virtual void init() = 0;
+protected:
+    QToolButton *m_newButton;                  // 新建
+    QToolButton *m_saveButton;                 // 保存
+    QToolButton *m_deleteButton;               // 删除
+    QToolButton *m_amendButton;                // 修改
+    QToolButton *m_findButton;                 // 查找
+
+    QHBoxLayout *m_topLayout;
 };
 
 #endif // SUBFORM_H

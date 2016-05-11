@@ -23,6 +23,11 @@ INPUT(
 ./debug\contacts.o
 ./debug\finddlg.o
 ./debug\findregistrydlg.o
+./debug\hospitalistation.o
+./debug\hospitalisationaccountform.o
+./debug\hospitalisationchargeform.o
+./debug\leavehospitalform.o
+./debug\allinpatientsform.o
 ./debug\qrc_pic.o
 ./debug\moc_hismainwindow.o
 ./debug\moc_subform.o
@@ -36,4 +41,9 @@ INPUT(
 ./debug\moc_finddailyreportdialog.o
 ./debug\moc_hospitalisationregistry.o
 ./debug\moc_finddlg.o
+./debug\moc_hospitalistation.o
+./debug\moc_hospitalisationaccountform.o
+./debug\moc_hospitalisationchargeform.o
+./debug\moc_leavehospitalform.o
+./debug\moc_allinpatientsform.o
 );

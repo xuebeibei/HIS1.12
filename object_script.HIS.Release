@@ -23,6 +23,11 @@ INPUT(
 ./release\contacts.o
 ./release\finddlg.o
 ./release\findregistrydlg.o
+./release\hospitalistation.o
+./release\hospitalisationaccountform.o
+./release\hospitalisationchargeform.o
+./release\leavehospitalform.o
+./release\allinpatientsform.o
 ./release\qrc_pic.o
 ./release\moc_hismainwindow.o
 ./release\moc_subform.o
@@ -36,4 +41,9 @@ INPUT(
 ./release\moc_finddailyreportdialog.o
 ./release\moc_hospitalisationregistry.o
 ./release\moc_finddlg.o
+./release\moc_hospitalistation.o
+./release\moc_hospitalisationaccountform.o
+./release\moc_hospitalisationchargeform.o
+./release\moc_leavehospitalform.o
+./release\moc_allinpatientsform.o
 );

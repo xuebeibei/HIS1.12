@@ -37,7 +37,12 @@ SOURCES += main.cpp\
     account.cpp \
     contacts.cpp \
     finddlg.cpp \
-    findregistrydlg.cpp
+    findregistrydlg.cpp \
+    hospitalistation.cpp \
+    hospitalisationaccountform.cpp \
+    hospitalisationchargeform.cpp \
+    leavehospitalform.cpp \
+    allinpatientsform.cpp
 
 HEADERS  += hismainwindow.h \
     stdafx.h \
@@ -64,7 +69,12 @@ HEADERS  += hismainwindow.h \
     account.h \
     contacts.h \
     finddlg.h \
-    findregistrydlg.h
+    findregistrydlg.h \
+    hospitalistation.h \
+    hospitalisationaccountform.h \
+    hospitalisationchargeform.h \
+    leavehospitalform.h \
+    allinpatientsform.h
 
 FORMS    +=
 

@@ -9,6 +9,7 @@ HospitalisationRegistry::HospitalisationRegistry(SubForm *parent) :
     init();
     setAllDefaultEnable();
     newTableFile();
+    setMaximumHeight(300);
 }
 
 HospitalisationRegistry::~HospitalisationRegistry()
@@ -73,7 +74,7 @@ void HospitalisationRegistry::printTableFile()
 }
 
 void HospitalisationRegistry::create()
-{
+{  
     createPatientPart();
     createInsurancePart();
     createHospitalPart();
@@ -81,28 +82,69 @@ void HospitalisationRegistry::create()
 }
 
 void HospitalisationRegistry::setMyLayout()
-{
-    QVBoxLayout *leftLayout = new QVBoxLayout;
-    leftLayout->addWidget(m_patientGroup);
+{   
+    m_patientGroup = new QGroupBox;
+    QGridLayout *patientLayout = new QGridLayout;
 
-    QHBoxLayout *rightTopLayout = new QHBoxLayout;
-    rightTopLayout->addWidget(m_hospitalisationGroup);
-    rightTopLayout->addWidget(m_insuranceGroup);
-    rightTopLayout->addWidget(m_hospitalGroup);
+    patientLayout->addWidget(m_hospitalisationNumLabel,0,0);
+    patientLayout->addWidget(m_hospitalisationNumEdit,0,1,1,3);
+    patientLayout->addWidget(m_caseNumLabel,1,0);
+    patientLayout->addWidget(m_caseNumEdit,1,1,1,3);
+    patientLayout->addWidget(m_nameLabel,2,0);
+    patientLayout->addWidget(m_nameEdit,2,1,1,3);
+    patientLayout->addWidget(m_genderLabel,3,0);
+    patientLayout->addWidget(m_genderCombo,3,1);
+    patientLayout->addWidget(m_ageLabel,3,2);
+    patientLayout->addWidget(m_ageEdit,3,3);
+    patientLayout->addWidget(m_idCardNumLabel,4,0);
+    patientLayout->addWidget(m_idCardNumEdit,4,1,1,3);
+    m_patientGroup->setLayout(patientLayout);
 
-    QVBoxLayout *rightBottomLayout = new QVBoxLayout;
-    rightBottomLayout->addWidget(m_medicalResultLabel);
-    rightBottomLayout->addWidget(m_medicalResultEdit);
+    m_insuranceGroup = new QGroupBox;
+    QGridLayout *insuranceLayout = new QGridLayout;
+    insuranceLayout->addWidget(m_medicalInsuranceTypeLabel,0,0);
+    insuranceLayout->addWidget(m_medicalInsuranceTypeCombo,0,1,1,3);
+    insuranceLayout->addWidget(m_socialSecurityNumLabel,1,0);
+    insuranceLayout->addWidget(m_socialSecurityNumEdit,1,1,1,3);
+    insuranceLayout->addWidget(m_contactsLabel,2,0,1,1);
+    insuranceLayout->addWidget(m_contactsEdit,2,1,1,1);
+    insuranceLayout->addWidget(m_telLabel,2,2,1,1);
+    insuranceLayout->addWidget(m_telEdit,2,3,1,1);
+    insuranceLayout->addWidget(m_addressLabel,3,0,1,1);
+    insuranceLayout->addWidget(m_addressEdit,3,1,1,3);
 
-    QVBoxLayout *rightLayout = new QVBoxLayout;
-    rightLayout->addLayout(rightTopLayout);
-    rightLayout->addLayout(rightBottomLayout);
+    m_insuranceGroup->setLayout(insuranceLayout);
 
-    QHBoxLayout *mainLayout = new QHBoxLayout;
-    mainLayout->addLayout(leftLayout);
-    mainLayout->addLayout(rightLayout);
-    mainLayout->setStretchFactor(rightLayout,1);
+    m_hospitalGroup = new QGroupBox;
+    QGridLayout *hospitalLayout = new QGridLayout;
+    hospitalLayout->addWidget(m_departmentLabel,0,0);
+    hospitalLayout->addWidget(m_departmentEdit,0,1);
+    hospitalLayout->addWidget(m_doctorLabel,0,2);
+    hospitalLayout->addWidget(m_doctorEdit,0,3);
+    hospitalLayout->addWidget(m_dateLabel,1,0);
+    hospitalLayout->addWidget(m_dateEdit,1,1,1,3);
+    hospitalLayout->addWidget(m_nursinglevelLabel,2,0);
+    hospitalLayout->addWidget(m_nursinglevelCombo,2,1);
+    hospitalLayout->addWidget(m_bedNumLabel,2,2);
+    hospitalLayout->addWidget(m_bedNumEdit,2,3);
+    hospitalLayout->addWidget(m_medicalResultLabel,3,0,1,1);
+    hospitalLayout->addWidget(m_medicalResultEdit,3,1,1,3);
+    m_hospitalGroup->setLayout(hospitalLayout);
 
+    QHBoxLayout *bottomLayout = new QHBoxLayout;
+    bottomLayout->addWidget(m_patientGroup);
+    bottomLayout->addWidget(m_insuranceGroup);
+    bottomLayout->addWidget(m_hospitalGroup);
+
+    QGroupBox *allGroup = new QGroupBox;
+    allGroup->setTitle("登记");
+    QVBoxLayout *allLayout = new QVBoxLayout;
+    allLayout->addLayout(m_topLayout);
+    allLayout->addLayout(bottomLayout);
+    allGroup->setLayout(allLayout);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(allGroup);
     setLayout(mainLayout);
 }
 
@@ -122,7 +164,6 @@ void HospitalisationRegistry::setAllDefaultEnable()
     m_addressEdit->setReadOnly(false);
 
     m_medicalInsuranceTypeCombo->setEnabled(true);
-    m_NCMSNumEdit->setReadOnly(false);
     m_socialSecurityNumEdit->setReadOnly(false);
 
     m_departmentEdit->setReadOnly(false);
@@ -132,7 +173,6 @@ void HospitalisationRegistry::setAllDefaultEnable()
 
     m_hospitalisationNumEdit->setReadOnly(true);
     m_caseNumEdit->setReadOnly(true);
-    m_minGuaranteeDepositEdit->setReadOnly(false);
     m_dateEdit->setReadOnly(true);
     m_medicalResultEdit->setReadOnly(false);
 }
@@ -148,7 +188,6 @@ void HospitalisationRegistry::setAllUnEnable()
     m_addressEdit->setReadOnly(true);
 
     m_medicalInsuranceTypeCombo->setEnabled(false);
-    m_NCMSNumEdit->setReadOnly(true);
     m_socialSecurityNumEdit->setReadOnly(true);
 
     m_departmentEdit->setReadOnly(true);
@@ -158,7 +197,6 @@ void HospitalisationRegistry::setAllUnEnable()
 
     m_hospitalisationNumEdit->setReadOnly(true);
     m_caseNumEdit->setReadOnly(true);
-    m_minGuaranteeDepositEdit->setReadOnly(true);
     m_dateEdit->setReadOnly(true);
     m_medicalResultEdit->setReadOnly(true);
 }
@@ -183,48 +221,20 @@ void HospitalisationRegistry::createPatientPart()
     m_contactsEdit = new QLineEdit;
     m_telEdit = new QLineEdit;
     m_addressEdit = new QTextEdit;
-
-    m_patientGroup = new QGroupBox;
-    QGridLayout *patientLayout = new QGridLayout;
-    patientLayout->addWidget(m_nameLabel,0,0);
-    patientLayout->addWidget(m_nameEdit,0,1);
-    patientLayout->addWidget(m_genderLabel,1,0);
-    patientLayout->addWidget(m_genderCombo,1,1);
-    patientLayout->addWidget(m_ageLabel,2,0);
-    patientLayout->addWidget(m_ageEdit,2,1);
-    patientLayout->addWidget(m_idCardNumLabel,3,0);
-    patientLayout->addWidget(m_idCardNumEdit,3,1);
-    patientLayout->addWidget(m_contactsLabel,4,0);
-    patientLayout->addWidget(m_contactsEdit,4,1);
-    patientLayout->addWidget(m_telLabel,5,0);
-    patientLayout->addWidget(m_telEdit,5,1);
-    patientLayout->addWidget(m_addressLabel,6,0);
-    patientLayout->addWidget(m_addressEdit,7,0,1,2);
-    m_patientGroup->setLayout(patientLayout);
 }
 
 void HospitalisationRegistry::createInsurancePart()
 {
     m_medicalInsuranceTypeLabel = new QLabel(g_strMedicalInsuranceTypeLabel);
-    m_NCMSNumLabel = new QLabel(g_strNCMSNumLabel);
     m_socialSecurityNumLabel = new QLabel(g_strSocialSecurityNumLabel);
 
     m_medicalInsuranceTypeCombo = new QComboBox;
     m_medicalInsuranceTypeCombo->addItem(g_strSelfPay);
     m_medicalInsuranceTypeCombo->addItem(g_strMedicare);
     m_medicalInsuranceTypeCombo->addItem(g_strNCMS);
-    m_NCMSNumEdit = new QLineEdit;
     m_socialSecurityNumEdit = new QLineEdit;
 
-    m_insuranceGroup = new QGroupBox;
-    QGridLayout *insuranceLayout = new QGridLayout;
-    insuranceLayout->addWidget(m_medicalInsuranceTypeLabel,0,0);
-    insuranceLayout->addWidget(m_medicalInsuranceTypeCombo,0,1);
-    insuranceLayout->addWidget(m_NCMSNumLabel,1,0);
-    insuranceLayout->addWidget(m_NCMSNumEdit,1,1);
-    insuranceLayout->addWidget(m_socialSecurityNumLabel,2,0);
-    insuranceLayout->addWidget(m_socialSecurityNumEdit,2,1);
-    m_insuranceGroup->setLayout(insuranceLayout);
+
 }
 
 void HospitalisationRegistry::createHospitalPart()
@@ -243,17 +253,7 @@ void HospitalisationRegistry::createHospitalPart()
     m_nursinglevelCombo->addItem("二级");
     m_nursinglevelCombo->addItem("特级");
 
-    m_hospitalGroup = new QGroupBox;
-    QGridLayout *hospitalLayout = new QGridLayout;
-    hospitalLayout->addWidget(m_departmentLabel,0,0);
-    hospitalLayout->addWidget(m_departmentEdit,0,1);
-    hospitalLayout->addWidget(m_doctorLabel,1,0);
-    hospitalLayout->addWidget(m_doctorEdit,1,1);
-    hospitalLayout->addWidget(m_bedNumLabel,2,0);
-    hospitalLayout->addWidget(m_bedNumEdit,2,1);
-    hospitalLayout->addWidget(m_nursinglevelLabel,3,0);
-    hospitalLayout->addWidget(m_nursinglevelCombo,3,1);
-    m_hospitalGroup->setLayout(hospitalLayout);
+
 }
 
 void HospitalisationRegistry::createHospitalisationPart()
@@ -265,24 +265,14 @@ void HospitalisationRegistry::createHospitalisationPart()
     m_medicalResultLabel = new QLabel(g_strMedicalResultLabel);
 
     m_hospitalisationNumEdit = new QLineEdit;
+    m_hospitalisationNumEdit->setStyleSheet(g_strLineEditNoBorder);
     m_caseNumEdit = new QLineEdit;
-    m_minGuaranteeDepositEdit = new QLineEdit;
+    m_caseNumEdit->setStyleSheet(g_strLineEditNoBorder);
     m_dateEdit = new QDateEdit;
     m_dateEdit->setCalendarPopup(true);
 
     m_medicalResultEdit = new QTextEdit;
 
-    m_hospitalisationGroup = new QGroupBox;
-    QGridLayout *hospitalisationLayout = new QGridLayout;
-    hospitalisationLayout->addWidget(m_hospitalisationNumLabel,0,0);
-    hospitalisationLayout->addWidget(m_hospitalisationNumEdit,0,1);
-    hospitalisationLayout->addWidget(m_caseNumLabel,1,0);
-    hospitalisationLayout->addWidget(m_caseNumEdit,1,1);
-    hospitalisationLayout->addWidget(m_guaranteeDepositLabel,2,0);
-    hospitalisationLayout->addWidget(m_minGuaranteeDepositEdit,2,1);
-    hospitalisationLayout->addWidget(m_dateLabel,3,0);
-    hospitalisationLayout->addWidget(m_dateEdit,3,1);
-    m_hospitalisationGroup->setLayout(hospitalisationLayout);
 }
 
 void HospitalisationRegistry::Read()
@@ -308,11 +298,10 @@ void HospitalisationRegistry::Save()
     m_inpatient->setDoctor(m_doctorEdit->text());
     m_inpatient->setBedNum(m_bedNumEdit->text().toInt());
     m_inpatient->setNursingLevel((NursingLevel)m_nursinglevelCombo->currentIndex());
-    //oneInpatient->setCaseID(m_caseNumEdit->text());
 
     Account *oneAccount = new Account(m_inpatient->getID());
     oneAccount->setAction(payIn);
-    oneAccount->setActionMoney(m_minGuaranteeDepositEdit->text().toDouble());
+    oneAccount->setActionMoney(0.0);
 
     m_inpatient->setAccount(oneAccount);
     m_inpatient->setMedicalResult(m_medicalResultEdit->toPlainText());
@@ -338,7 +327,6 @@ void HospitalisationRegistry::updateAllValue()
 
     m_hospitalisationNumEdit->setText(m_inpatient->getID());
     m_caseNumEdit->setText(m_inpatient->getCaseID());
-    m_minGuaranteeDepositEdit->setText(g_strNull); //??
     m_dateEdit->setDate(m_inpatient->getRegistryDate());
     m_medicalResultEdit->setText(m_inpatient->getMedicalResult());
 }
