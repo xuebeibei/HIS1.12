@@ -21,9 +21,7 @@ SOURCES += main.cpp\
     persion.cpp \
     patient.cpp \
     clinicchargetable.cpp \
-    clinicchargeitem.cpp \
     findclincchargedlg.cpp \
-    clinicchargeform.cpp \
     clinicdailyreportform.cpp \
     clinicdailyreporttable.cpp \
     clinicinternalpaymentform.cpp \
@@ -42,7 +40,9 @@ SOURCES += main.cpp\
     hospitalisationaccountform.cpp \
     hospitalisationchargeform.cpp \
     leavehospitalform.cpp \
-    allinpatientsform.cpp
+    allinpatientsform.cpp \
+    clinicchargeform.cpp \
+    chargeitem.cpp
 
 HEADERS  += hismainwindow.h \
     stdafx.h \
@@ -53,7 +53,6 @@ HEADERS  += hismainwindow.h \
     patient.h \
     clinicchargetable.h \
     connectDB.h \
-    clinicchargeitem.h \
     findclincchargedlg.h \
     clinicchargeform.h \
     clinicdailyreportform.h \
@@ -74,7 +73,8 @@ HEADERS  += hismainwindow.h \
     hospitalisationaccountform.h \
     hospitalisationchargeform.h \
     leavehospitalform.h \
-    allinpatientsform.h
+    allinpatientsform.h \
+    chargeitem.h
 
 FORMS    +=
 

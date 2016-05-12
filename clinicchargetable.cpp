@@ -37,7 +37,7 @@ Patient ClinicChargeTable::getPatient() const
     return m_patient;
 }
 
-QVector<ClinicChargeItem *> ClinicChargeTable::getChargeItems() const
+QVector<ChargeItem *> ClinicChargeTable::getChargeItems() const
 {
     return m_chargeItems;
 }
@@ -62,12 +62,12 @@ void ClinicChargeTable::setRealIncome(double d_RealIncome)
     this->m_dRealIncome = d_RealIncome;
 }
 
-void ClinicChargeTable::setChargeItems(QVector<ClinicChargeItem *> chargeItems)
+void ClinicChargeTable::setChargeItems(QVector<ChargeItem *> chargeItems)
 {
     m_chargeItems.clear();
     for(int i = 0; i< chargeItems.size(); i++)
     {
-        ClinicChargeItem* item = new ClinicChargeItem(chargeItems.at(i));
+        ChargeItem* item = new ChargeItem(chargeItems.at(i));
         m_chargeItems.append(item);
     }
 }
@@ -122,14 +122,14 @@ bool ClinicChargeTable::ReadChargeRecords()
         {
             QSqlRecord record = model->record(i);
 
-            ClinicChargeItem *item = new ClinicChargeItem;
+            ChargeItem *item = new ChargeItem;
             item->setChargeItemNo(record.value("ChargeItemNo").toString());
             item->setChargeItemName(record.value("ChargeItemName").toString());
             item->setChargeItemCount(record.value("ChargeItemCount").toInt());
             item->setChargeItemPrice(record.value("ChargeItemPrice").toDouble());
-            item->setClinicReceipt(record.value("ChinicReceipt").toString());
-            item->setClinicSort(record.value("ClinicSort").toString());
-            item->setClinicChargeId(record.value("ClinicChargeId").toString());
+            item->setReceipt(record.value("ChinicReceipt").toString());
+            item->setSort(record.value("ClinicSort").toString());
+            item->setChargeId(record.value("ClinicChargeId").toString());
 
             m_chargeItems.append(item);
         }
@@ -157,9 +157,9 @@ bool ClinicChargeTable::saveChargeRecords()
             model->setData(model->index(row,chargeItemName),m_chargeItems.at(row)->getChargeItemName());
             model->setData(model->index(row,chargeItemCount),m_chargeItems.at(row)->getChargeItemCount());
             model->setData(model->index(row,chargeItemPrice),m_chargeItems.at(row)->getChargeItemPrice());
-            model->setData(model->index(row,clinicReceipt),m_chargeItems.at(row)->getClinicReceipt());
-            model->setData(model->index(row,clinicSort),m_chargeItems.at(row)->getClinicSort());
-            model->setData(model->index(row,clinicChargeId),m_chargeItems.at(row)->getClinicChargeId());
+            model->setData(model->index(row,clinicReceipt),m_chargeItems.at(row)->getReceipt());
+            model->setData(model->index(row,clinicSort),m_chargeItems.at(row)->getSort());
+            model->setData(model->index(row,clinicChargeId),m_chargeItems.at(row)->getChargeId());
             model->submitAll();
         }
 

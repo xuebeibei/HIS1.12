@@ -6,9 +6,7 @@ INPUT(
 ./release\persion.o
 ./release\patient.o
 ./release\clinicchargetable.o
-./release\clinicchargeitem.o
 ./release\findclincchargedlg.o
-./release\clinicchargeform.o
 ./release\clinicdailyreportform.o
 ./release\clinicdailyreporttable.o
 ./release\clinicinternalpaymentform.o
@@ -28,6 +26,8 @@ INPUT(
 ./release\hospitalisationchargeform.o
 ./release\leavehospitalform.o
 ./release\allinpatientsform.o
+./release\clinicchargeform.o
+./release\chargeitem.o
 ./release\qrc_pic.o
 ./release\moc_hismainwindow.o
 ./release\moc_subform.o

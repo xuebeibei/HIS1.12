@@ -2,7 +2,7 @@
 #define CLINICCHARGETABLE_H
 #include "histable.h"
 #include "patient.h"
-#include "clinicchargeitem.h"
+#include "chargeitem.h"
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 // 门诊收费单数据类
@@ -76,7 +76,7 @@ public:
     // 备注：无
     // 时间：2016-04-20
     //-----------------------------------------------------------------------------------------------------------------------------------
-    QVector<ClinicChargeItem*> getChargeItems() const;
+    QVector<ChargeItem*> getChargeItems() const;
 
     //-----------------------------------------------------------------------------------------------------------------------------------
     // 名称：getTime
@@ -131,7 +131,7 @@ public:
     // 备注：无
     // 时间：2016-04-20
     //-----------------------------------------------------------------------------------------------------------------------------------
-    void setChargeItems(QVector<ClinicChargeItem*> chargeItems);
+    void setChargeItems(QVector<ChargeItem*> chargeItems);
 
     //-----------------------------------------------------------------------------------------------------------------------------------
     // 名称：setPatient
@@ -232,7 +232,7 @@ protected:
     Patient m_patient;                        // 患者
     QDateTime m_time;                         // 保存进数据库的时间
     QString m_strMaker;                       // 制单员
-    QVector<ClinicChargeItem*> m_chargeItems; // 收费明细列表
+    QVector<ChargeItem*> m_chargeItems; // 收费明细列表
 };
 
 #endif // CLINICCHARGETABLE_H

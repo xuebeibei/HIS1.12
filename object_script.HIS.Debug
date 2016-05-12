@@ -6,9 +6,7 @@ INPUT(
 ./debug\persion.o
 ./debug\patient.o
 ./debug\clinicchargetable.o
-./debug\clinicchargeitem.o
 ./debug\findclincchargedlg.o
-./debug\clinicchargeform.o
 ./debug\clinicdailyreportform.o
 ./debug\clinicdailyreporttable.o
 ./debug\clinicinternalpaymentform.o
@@ -28,6 +26,8 @@ INPUT(
 ./debug\hospitalisationchargeform.o
 ./debug\leavehospitalform.o
 ./debug\allinpatientsform.o
+./debug\clinicchargeform.o
+./debug\chargeitem.o
 ./debug\qrc_pic.o
 ./debug\moc_hismainwindow.o
 ./debug\moc_subform.o

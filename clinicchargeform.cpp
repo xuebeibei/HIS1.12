@@ -380,17 +380,17 @@ bool ClinicChargeForm::Read()
         m_realIncomeEdit->setText(QString::number(m_chargeTable->getRealImcome()));
 
 
-        QVector<ClinicChargeItem*> chargeItems = m_chargeTable->getChargeItems();
+        QVector<ChargeItem*> chargeItems = m_chargeTable->getChargeItems();
         for(int index = 0; index< chargeItems.size();index++)
         {
-            ClinicChargeItem *item = new ClinicChargeItem(chargeItems.at(index));
+            ChargeItem *item = new ChargeItem(chargeItems.at(index));
 
             m_chargeRecordsmodel->setItem(index, chargeItemNo, new QStandardItem(item->getChargeItemNo()));
             m_chargeRecordsmodel->setItem(index, chargeItemName, new QStandardItem(item->getChargeItemName()));
             m_chargeRecordsmodel->setItem(index, chargeItemCount, new QStandardItem(QString::number(item->getChargeItemCount())));
             m_chargeRecordsmodel->setItem(index, chargeItemPrice, new QStandardItem(QString::number(item->getChargeItemPrice())));
-            m_chargeRecordsmodel->setItem(index, clinicReceipt, new QStandardItem(item->getClinicReceipt()));
-            m_chargeRecordsmodel->setItem(index, clinicSort, new QStandardItem(item->getClinicSort()));
+            m_chargeRecordsmodel->setItem(index, clinicReceipt, new QStandardItem(item->getReceipt()));
+            m_chargeRecordsmodel->setItem(index, clinicSort, new QStandardItem(item->getSort()));
         }
         return true;
     }
@@ -428,10 +428,10 @@ bool ClinicChargeForm::Save()
     m_chargeTable->setDueIncome(m_dueIncomeEdit->text().toDouble());
     m_chargeTable->setRealIncome(m_realIncomeEdit->text().toDouble());
 
-    QVector<ClinicChargeItem*> chargeItems;
+    QVector<ChargeItem*> chargeItems;
     for(int row = 0; row< m_chargeRecordsmodel->rowCount();row++)
     {
-        ClinicChargeItem *chargeItem = new ClinicChargeItem;
+        ChargeItem *chargeItem = new ChargeItem;
         for(int column = 0; column < m_chargeRecordsmodel->columnCount();column++)
         {
             QStandardItem *modelItem = m_chargeRecordsmodel->item(row,column);
@@ -469,12 +469,12 @@ bool ClinicChargeForm::Save()
                 }
                 case clinicReceipt:
                 {
-                    chargeItem->setClinicReceipt(strData);
+                    chargeItem->setReceipt(strData);
                     break;
                 }
                 case clinicSort:
                 {
-                    chargeItem->setClinicSort(strData);
+                    chargeItem->setSort(strData);
                     break;
                 }
                 default:
@@ -486,7 +486,7 @@ bool ClinicChargeForm::Save()
         {
             continue;
         }
-        chargeItem->setClinicChargeId(m_chargeNumEdit->text());
+        chargeItem->setChargeId(m_chargeNumEdit->text());
         chargeItems.append(chargeItem);
     }
     if(chargeItems.size() <= 0)
