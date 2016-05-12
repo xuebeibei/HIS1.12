@@ -185,7 +185,7 @@ void ClinicPaymentStatisticForm::updateTable()
     // 获取条件
     initTable();
     // 从数据库按条件查询
-    selectFrom(m_startDateEdit->date(),m_endDateEdit->date(),m_strConditionSort,m_strConditionWho);
+    selectFromDB(m_startDateEdit->date(),m_endDateEdit->date(),m_strConditionSort,m_strConditionWho);
 
     for(int i = 0;i<m_dueIncome.size();i++)
     {
@@ -248,7 +248,7 @@ void ClinicPaymentStatisticForm::setConditionWho()
 }
 
 
-void ClinicPaymentStatisticForm::selectFrom(QDate startDate, QDate endDate, QString strConditionSort,QString strConditionWho)
+void ClinicPaymentStatisticForm::selectFromDB(QDate startDate, QDate endDate, QString strConditionSort,QString strConditionWho)
 {
     if(endDate < startDate)
         return;
