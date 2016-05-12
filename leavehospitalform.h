@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "stdafx.h"
+#include "account.h"
 
 class LeaveHospitalForm : public QWidget
 {
@@ -11,6 +12,10 @@ class LeaveHospitalForm : public QWidget
 public:
     explicit LeaveHospitalForm(QWidget *parent = 0);
     ~LeaveHospitalForm();
+
+public slots:
+    void updatePayIn(double dPayIn,double dConsume);
+
 protected:
     void create();
     void setMyLayout();
@@ -29,6 +34,8 @@ protected:
     QLineEdit *m_proposerEdit;
     QPushButton *m_printButton;
     QPushButton *m_leaveButton;
+
+    QString m_strInpatientID;
 };
 
 #endif // LEAVEHOSPITALFORM_H

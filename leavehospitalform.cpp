@@ -11,17 +11,30 @@ LeaveHospitalForm::~LeaveHospitalForm()
 {
 }
 
+void LeaveHospitalForm::updatePayIn(double dPayIn, double dConsume)
+{
+     double dBalance = 0.0;
+
+     dBalance = dPayIn - dConsume;
+     m_allPayInEdit->setText(QString::number(dPayIn));
+     m_allChargeEdit->setText(QString::number(dConsume));
+     m_allBalanceEdit->setText(QString::number(dBalance));
+}
+
 void LeaveHospitalForm::create()
 {
     m_allPayInLabel = new QLabel("总缴费：");
     m_allPayInEdit = new QLineEdit;
     m_allPayInEdit->setStyleSheet(g_strLineEditNoBorder);
+    m_allPayInEdit->setReadOnly(true);
     m_allChargeLabel = new QLabel("总消费：");
     m_allChargeEdit = new QLineEdit;
     m_allChargeEdit->setStyleSheet(g_strLineEditNoBorder);
+    m_allChargeEdit->setReadOnly(true);
     m_allBalanceLabel = new QLabel("总余额：");
     m_allBalanceEdit = new QLineEdit;
     m_allBalanceEdit->setStyleSheet(g_strLineEditNoBorder);
+    m_allBalanceEdit->setReadOnly(true);
 
     m_payInArrearsButton = new QPushButton("补款");
 

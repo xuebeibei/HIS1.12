@@ -7,7 +7,6 @@ Inpatient::Inpatient()
     m_nBedNum = 0;
     m_eNursingLevel = general;
     m_strMedicalResult = g_strNull;
-    m_account = new Account(m_strID);
     m_registryDate = QDate::currentDate();
 }
 
@@ -34,11 +33,6 @@ NursingLevel Inpatient::getNursingLevel() const
 QString Inpatient::getMedicalResult() const
 {
     return m_strMedicalResult;
-}
-
-Account* Inpatient::getAccount() const
-{
-    return m_account;
 }
 
 Contacts Inpatient::getContacts() const
@@ -76,11 +70,6 @@ void Inpatient::setMedicalResult(QString strMedicalResult)
     m_strMedicalResult = strMedicalResult;
 }
 
-void Inpatient::setAccount(Account *account)
-{
-    m_account = account;
-}
-
 void Inpatient::setContacts(Contacts contacts)
 {
     m_contacts = contacts;
@@ -115,7 +104,6 @@ bool Inpatient::Read()
 
             m_nBedNum = record.value("BedNum").toInt();
             m_eNursingLevel = (NursingLevel)record.value("NursingLevel").toInt();
-            m_account->Read();
 
             m_strMedicalResult = record.value("MedicalResult").toString();
             m_contacts.setName(record.value("Contacts").toString());
@@ -161,7 +149,7 @@ bool Inpatient::Save()
         sqlModel->setData(sqlModel->index(row,16), m_registryDate.toString("yyyy-MM-dd"));
         sqlModel->submitAll();
 
-        return m_account->Save();
+        return true;
     }
     else
         return false;

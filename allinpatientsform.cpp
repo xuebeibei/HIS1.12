@@ -10,6 +10,11 @@ AllInpatientsForm::AllInpatientsForm(QWidget *parent) :
 
 void AllInpatientsForm::create()
 {
+    m_allBedButton = new QRadioButton;
+    m_allBedButton->setIcon(QIcon(g_strIconPath + "bed.png"));
+    m_allPatientButton = new QRadioButton;
+    m_allPatientButton->setIcon(QIcon(g_strIconPath + "patient.png"));
+
     m_setButton = new QToolButton;
     m_setButton->setIcon(QIcon(g_strIconPath + "set.png"));
     m_tree = new QTreeView;
@@ -23,11 +28,15 @@ void AllInpatientsForm::create()
 
 void AllInpatientsForm::setMyLayout()
 {
+    QHBoxLayout *toolLayout = new QHBoxLayout;
+    toolLayout->addWidget(m_allBedButton);
+    toolLayout->addWidget(m_allPatientButton);
+    toolLayout->addStretch();
+    toolLayout->addWidget(m_setButton);
+
     QVBoxLayout *topLayout = new QVBoxLayout;
-    topLayout->addWidget(m_setButton);
+    topLayout->addLayout(toolLayout);
     topLayout->addWidget(m_tree);
-
-
 
     QGroupBox *bottomGroup = new QGroupBox;
     QGridLayout *bottomLayout = new QGridLayout;

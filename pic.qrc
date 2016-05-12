@@ -9,5 +9,7 @@
         <file>icon/deleteRow.png</file>
         <file>icon/combo.png</file>
         <file>icon/find.png</file>
+        <file>icon/bed.png</file>
+        <file>icon/patient.png</file>
     </qresource>
 </RCC>

@@ -6,6 +6,7 @@ HospitalisationChargeForm::HospitalisationChargeForm(SubForm *parent) :
     create();
     setMyLayout();
     setMinimumHeight(240);
+    init();
 }
 
 HospitalisationChargeForm::~HospitalisationChargeForm()
@@ -14,6 +15,7 @@ HospitalisationChargeForm::~HospitalisationChargeForm()
 
 void HospitalisationChargeForm::newTableFile()
 {
+
 }
 
 bool HospitalisationChargeForm::saveTableFile()
@@ -97,4 +99,24 @@ void HospitalisationChargeForm::setMyLayout()
 
 void HospitalisationChargeForm::init()
 {
+    initTable();
+}
+
+void HospitalisationChargeForm::initTable()
+{
+    QStringList strList;
+    strList.append("收费项编码");
+    strList.append("收费项名称");
+    strList.append("数量");
+    strList.append("单价");
+    strList.append("住院收据");
+    strList.append("住院分类");
+
+    m_chargeRecordsModel->clear();
+    for(int i = 0; i < strList.size(); i++)
+    {
+        m_chargeRecordsModel->setHorizontalHeaderItem(i,new QStandardItem(strList.at(i)));
+    }
+    if(strList.size() > 0)
+        m_chargeRecordsModel->setItem(0, strList.size()-1, NULL);
 }

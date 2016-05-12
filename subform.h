@@ -14,6 +14,7 @@ class SubForm : public QWidget
 public:
     explicit SubForm(QWidget *parent = 0);
     ~SubForm();
+
 public slots:
     //-----------------------------------------------------------------------------------------------------------------------------------
     // 名称：newTableFile
@@ -104,6 +105,7 @@ protected:
     virtual void create() = 0;
     virtual void setMyLayout() = 0;
     virtual void init() = 0;
+    void createToolButtons();
 
 protected:
     QToolButton *m_newButton;                  // 新建

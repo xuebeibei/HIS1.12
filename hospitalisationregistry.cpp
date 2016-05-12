@@ -9,7 +9,7 @@ HospitalisationRegistry::HospitalisationRegistry(SubForm *parent) :
     init();
     setAllDefaultEnable();
     newTableFile();
-    setMaximumHeight(240);
+    setMaximumHeight(220);
 }
 
 HospitalisationRegistry::~HospitalisationRegistry()
@@ -52,7 +52,7 @@ bool HospitalisationRegistry::findTableFile()
     QString strID = dailog->getID();
     if(!strID.isEmpty())
     {
-        m_inpatient->setID(strID);
+        setInpatientID(strID);
         Read();
         setAllUnEnable();
     }
@@ -72,6 +72,11 @@ void HospitalisationRegistry::previewTableFile()
 void HospitalisationRegistry::printTableFile()
 {
 }
+
+//QString HospitalisationRegistry::getInpatientID()
+//{
+//    return m_inpatient->getID();
+//}
 
 void HospitalisationRegistry::create()
 {  
@@ -139,7 +144,6 @@ void HospitalisationRegistry::setMyLayout()
     QGroupBox *allGroup = new QGroupBox;
     allGroup->setTitle("登记");
     QVBoxLayout *allLayout = new QVBoxLayout;
-    allLayout->addLayout(m_topLayout);
     allLayout->addLayout(bottomLayout);
     allGroup->setLayout(allLayout);
 
@@ -233,8 +237,6 @@ void HospitalisationRegistry::createInsurancePart()
     m_medicalInsuranceTypeCombo->addItem(g_strMedicare);
     m_medicalInsuranceTypeCombo->addItem(g_strNCMS);
     m_socialSecurityNumEdit = new QLineEdit;
-
-
 }
 
 void HospitalisationRegistry::createHospitalPart()
@@ -252,8 +254,6 @@ void HospitalisationRegistry::createHospitalPart()
     m_nursinglevelCombo->addItem("一级");
     m_nursinglevelCombo->addItem("二级");
     m_nursinglevelCombo->addItem("特级");
-
-
 }
 
 void HospitalisationRegistry::createHospitalisationPart()
@@ -286,7 +286,7 @@ void HospitalisationRegistry::Save()
     m_inpatient->setName(m_nameEdit->text());
     m_inpatient->setGender((Gender)m_genderCombo->currentIndex());
     m_inpatient->setAge(m_ageEdit->text().toInt());
-    m_inpatient->setIDCard(m_idCardNumEdit->text());
+    setInpatientID(m_idCardNumEdit->text());
 
     Contacts oneContacts;
     oneContacts.setName(m_contactsEdit->text());
@@ -299,11 +299,6 @@ void HospitalisationRegistry::Save()
     m_inpatient->setBedNum(m_bedNumEdit->text().toInt());
     m_inpatient->setNursingLevel((NursingLevel)m_nursinglevelCombo->currentIndex());
 
-    Account *oneAccount = new Account(m_inpatient->getID());
-    oneAccount->setAction(payIn);
-    oneAccount->setActionMoney(0.0);
-
-    m_inpatient->setAccount(oneAccount);
     m_inpatient->setMedicalResult(m_medicalResultEdit->toPlainText());
     m_inpatient->setRegistryDate(m_dateEdit->date());
 
@@ -329,4 +324,13 @@ void HospitalisationRegistry::updateAllValue()
     m_caseNumEdit->setText(m_inpatient->getCaseID());
     m_dateEdit->setDate(m_inpatient->getRegistryDate());
     m_medicalResultEdit->setText(m_inpatient->getMedicalResult());
+}
+
+void HospitalisationRegistry::setInpatientID(QString strID)
+{
+    if(strID.compare(m_inpatient->getID()) != 0)
+    {
+        m_inpatient->setID(strID);
+        emit inpatientIDChanged(strID);
+    }
 }

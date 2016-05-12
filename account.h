@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "winSet.h"
 #include "histable.h"
+#include "connectDB.h"
 
 class Account:public HISTable
 {
@@ -12,11 +13,13 @@ public:
     //重载 =
     Account* operator = (Account oneAccount);
     QString getID();
+    QString getInpatientID();
     double getBalance();
     double getActionMoney();
     AccountAction getAction();
     PaymentMethod getPaymentMethod();
     QString getRemarks();
+    QDateTime getDateTime();
 
     void setID(QString strID);
     void setActionMoney(double dMoney);
@@ -30,6 +33,10 @@ public:
     bool Read();
     bool Save();
     bool Delete();
+
+    static QVector<Account*> getRecords(QString strInpatientID);
+    QString actionToString();
+    QString paymentMethodToString();
 protected:
 
     QString m_strID;                 // 缴款单号

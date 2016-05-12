@@ -4,6 +4,16 @@
 SubForm::SubForm(QWidget *parent) :
     QWidget(parent)
 {
+    createToolButtons();
+}
+
+SubForm::~SubForm()
+{
+}
+
+
+void SubForm::createToolButtons()
+{
     m_newButton = new QToolButton;
     m_newButton->setIcon(QIcon(g_strIconPath + "new.png"));
     m_newButton->setToolTip("new");
@@ -36,9 +46,5 @@ SubForm::SubForm(QWidget *parent) :
     m_topLayout->addWidget(m_amendButton);
     m_topLayout->addWidget(m_findButton);
     m_topLayout->addStretch();
-}
-
-SubForm::~SubForm()
-{
 }
 

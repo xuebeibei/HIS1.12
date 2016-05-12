@@ -26,6 +26,8 @@ protected:
     void create();
     void setMyLayout();
     void init();
+
+    void initTable();
 protected:
     QLabel *m_numberLabel;        // 收费单号
     QLineEdit *m_numberEdit;      // 收费单号

@@ -103,15 +103,11 @@ void HISMainWindow::showPaymentStatistic()
 void HISMainWindow::showHospitalisationRegistry()
 {
     initToolsAllEnable();
-    //subForm = new HospitalisationRegistry;
-    Hospitalistation *Form = new Hospitalistation;
-    setCentralWidget(Form);
+    subForm = new Hospitalistation;
+    setCentralWidget(subForm);
 
-    newAction->setEnabled(false);
     deleteAction->setEnabled(false);
     amendAction->setEnabled(false);
-    findAction->setEnabled(false);
-    saveAction->setEnabled(false);
     locationLabel->setText("住院管理");
 }
 

@@ -20,7 +20,11 @@ protected:
     void init();
 
 protected:
+    QRadioButton *m_allBedButton;
+    QRadioButton *m_allPatientButton;
     QToolButton *m_setButton;
+
+
     QTreeView *m_tree;
     QLabel *m_allBedNumLabel;
     QLabel *m_allInpatientNumLabel;
