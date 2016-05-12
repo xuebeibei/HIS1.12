@@ -4,6 +4,10 @@ ClinicInternalPayment::ClinicInternalPayment()
 {
 }
 
+ClinicInternalPayment::~ClinicInternalPayment()
+{
+}
+
 QVector<QString> ClinicInternalPayment::getDistinctFromDB(QString strColumn, QString strTable)
 {
     QVector<QString> vec;

@@ -13,6 +13,46 @@ ClinicChargeForm::ClinicChargeForm(SubForm *parent) :
 
 ClinicChargeForm::~ClinicChargeForm()
 {
+    delete m_chargeNumLabel;
+    delete m_nameLabel;
+    delete m_genderLabel;
+    delete m_ageLabel;
+    delete m_idCardNumLabel;
+    delete m_socialSecurityNumLabel;
+    delete m_medicalInsuranceTypeLabel;
+    delete m_departmentLabel;
+    delete m_doctorLabel;
+    delete m_dueIncomeLabel;
+    delete m_realIncomeLabel;
+
+    delete m_chargeNumEdit;
+    delete m_nameEdit;
+    delete m_ageEdit;
+    delete m_idCardNumEdit;
+    delete m_socialSecurityNumEdit;
+    delete m_departmentEdit;
+    delete m_doctorEdit;
+    delete m_dueIncomeEdit;
+    delete m_realIncomeEdit;
+
+    delete m_genderCombo;
+    delete m_medicalInsuranceTypeCombo;
+
+
+    delete m_chargeTableView;
+    delete m_chargeRecordsmodel;
+
+    delete m_patientGroup;
+    delete m_insuranceGroup;
+    delete m_doctorGroup;
+    delete m_incomeGroup;
+    delete m_chargeNumGroup;
+
+    delete addRowButton;
+    delete deleteRowButton;
+    delete comboButton;
+
+    //delete m_chargeTable;
 
 }
 

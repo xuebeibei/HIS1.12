@@ -8,6 +8,18 @@ AllInpatientsForm::AllInpatientsForm(QWidget *parent) :
     setMaximumWidth(200);
 }
 
+AllInpatientsForm::~AllInpatientsForm()
+{
+    delete m_allBedButton;
+    delete m_allPatientButton;
+    delete m_setButton;
+    delete m_tree;
+    delete m_allBedNumLabel;
+    delete m_allInpatientNumLabel;
+    delete m_allBedNum;
+    delete m_allInpatientNum;
+}
+
 void AllInpatientsForm::create()
 {
     m_allBedButton = new QRadioButton;

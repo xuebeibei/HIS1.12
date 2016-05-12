@@ -37,7 +37,7 @@ protected:
     void selectFrom(QDate startDate, QDate endDate, QString strConditionSort,QString strConditionWho);
 
 protected:
-    QLabel *m_startDateLabel;
+    QLabel *m_startDateLabel;                   //
     QDateEdit *m_startDateEdit;
     QLabel *m_endDateLabel;
     QDateEdit *m_endDateEdit;

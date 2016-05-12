@@ -243,7 +243,7 @@ protected:
     double m_dAllDebt;                                                  // 欠款合计 = 应收合计 - 实收合计
     QDate m_date;                                                       // 日结日期
     QString m_strMaker;
-    QDateTime m_time;                                                       // 制单时间
+    QDateTime m_time;                                                   // 制单时间
 };
 
 #endif // CLINICDAILYREOPRTTABLE_H

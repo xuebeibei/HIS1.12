@@ -232,7 +232,7 @@ protected:
     Patient m_patient;                        // 患者
     QDateTime m_time;                         // 保存进数据库的时间
     QString m_strMaker;                       // 制单员
-    QVector<ChargeItem*> m_chargeItems; // 收费明细列表
+    QVector<ChargeItem*> m_chargeItems;       // 收费明细列表
 };
 
 #endif // CLINICCHARGETABLE_H
