@@ -10,6 +10,17 @@ ClinicChargeStatisticForm::ClinicChargeStatisticForm(SubForm *parent) :
 
 ClinicChargeStatisticForm::~ClinicChargeStatisticForm()
 {
+    delete m_nameLabel;
+    delete m_nameEdit;
+    delete m_genderLabel;
+    delete m_genderComboBox;
+    delete m_startDateLabel;
+    delete m_startDateEdit;
+    delete m_endDateLabel;
+    delete m_endDateEdit;
+
+    delete m_resultsView;
+    delete m_resultsModel;
 }
 
 void ClinicChargeStatisticForm::newTableFile()

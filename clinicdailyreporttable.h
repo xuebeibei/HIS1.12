@@ -13,6 +13,7 @@ class ClinicDailyReportTable : public HISTable
 {
 public:
     ClinicDailyReportTable();
+    ~ClinicDailyReportTable();
     bool Read();
     bool Save();
     bool Delete();

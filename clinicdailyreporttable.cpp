@@ -12,6 +12,10 @@ ClinicDailyReportTable::ClinicDailyReportTable()
     m_time = QDateTime::currentDateTime();
 }
 
+ClinicDailyReportTable::~ClinicDailyReportTable()
+{
+}
+
 bool ClinicDailyReportTable::Read()
 {
    return readDailyReport();

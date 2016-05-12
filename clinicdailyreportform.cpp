@@ -14,7 +14,23 @@ ClinicDailyReportFrom::ClinicDailyReportFrom(SubForm *parent) :
 
 ClinicDailyReportFrom::~ClinicDailyReportFrom()
 {
+    delete m_dailyReportNumLabel;
+    delete m_dateLabel;
+    delete m_allDueIncomeLabel;
+    delete m_allRealIncomeLabel;
+    delete m_allDebtLabel;
 
+    delete m_dailyReportNumEdit;
+    delete m_allDueIncomeEdit;
+    delete m_allRealIncomeEdit;
+    delete m_allDebtEdit;
+
+    delete m_dateEdit;
+    delete m_dailyChargesView;
+
+    delete m_dailyChargesModel;
+
+    //delete m_dailyReportTable;
 }
 
 void ClinicDailyReportFrom::newTableFile()

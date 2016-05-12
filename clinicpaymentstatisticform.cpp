@@ -11,7 +11,25 @@ ClinicPaymentStatisticForm::ClinicPaymentStatisticForm(SubForm *parent) :
 
 ClinicPaymentStatisticForm::~ClinicPaymentStatisticForm()
 {
+    delete m_startDateLabel;
+    delete m_startDateEdit;
+    delete m_endDateLabel;
+    delete m_endDateEdit;
 
+    delete m_conditionSortBtnGroup;
+    delete m_conditionWhoBtnGroup;
+
+    delete m_conditionSortGroup;
+    delete m_clinicReceiptRadio;
+    delete m_clinicSortRadio;
+
+    delete m_conditionWhoGroup;
+    delete m_departmentRadio;
+    delete m_doctorRadio;
+    delete m_makerRadio;
+
+    delete m_resultView;
+    delete m_resultModel;
 }
 
 void ClinicPaymentStatisticForm::newTableFile()

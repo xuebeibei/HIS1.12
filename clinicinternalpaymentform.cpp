@@ -11,6 +11,17 @@ ClinicInternalPaymentForm::ClinicInternalPaymentForm(SubForm *parent) :
 
 ClinicInternalPaymentForm::~ClinicInternalPaymentForm()
 {
+    delete m_startDateLabel;
+    delete m_endDateLabel;
+
+    delete m_startDateEdit;
+    delete m_endDateEdit;
+
+    delete m_allDueIncomeLabel;
+    delete m_allDueIncomeEdit;
+
+    delete m_resultView;
+    delete m_resultModel;
 
 }
 
