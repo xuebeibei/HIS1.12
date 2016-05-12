@@ -104,6 +104,7 @@ protected:
     virtual void create() = 0;
     virtual void setMyLayout() = 0;
     virtual void init() = 0;
+
 protected:
     QToolButton *m_newButton;                  // 新建
     QToolButton *m_saveButton;                 // 保存

@@ -9,7 +9,7 @@ HospitalisationRegistry::HospitalisationRegistry(SubForm *parent) :
     init();
     setAllDefaultEnable();
     newTableFile();
-    setMaximumHeight(300);
+    setMaximumHeight(240);
 }
 
 HospitalisationRegistry::~HospitalisationRegistry()

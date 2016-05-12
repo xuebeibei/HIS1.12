@@ -2,20 +2,23 @@
 #define ACCOUNT_H
 #include "stdafx.h"
 #include "winSet.h"
+#include "histable.h"
 
-class Account
+class Account:public HISTable
 {
 public:
-    Account(QString strID);
+    Account(QString strInpatientID);
 
     //重载 =
     Account* operator = (Account oneAccount);
+    QString getID();
     double getBalance();
     double getActionMoney();
     AccountAction getAction();
     PaymentMethod getPaymentMethod();
     QString getRemarks();
 
+    void setID(QString strID);
     void setActionMoney(double dMoney);
     void setAction(AccountAction eAction);
     void setPaymentMethod(PaymentMethod ePaymentMethod);
@@ -26,8 +29,11 @@ public:
 
     bool Read();
     bool Save();
+    bool Delete();
 protected:
-    QString m_strID;                 // 账户
+
+    QString m_strID;                 // 缴款单号
+    QString m_InpatientID;           // 账户
 
     AccountAction m_eAction;         // 操作：充值，退费，消费扣款
     double m_dActionMoney;           // 操作金额

@@ -5,6 +5,9 @@ HospitalisationAccountForm::HospitalisationAccountForm(SubForm *parent) :
 {
     create();
     setMyLayout();
+    init();
+    setMaximumHeight(240);
+    setMinimumWidth(700);
 }
 
 HospitalisationAccountForm::~HospitalisationAccountForm()
@@ -12,8 +15,15 @@ HospitalisationAccountForm::~HospitalisationAccountForm()
 
 }
 
+void HospitalisationAccountForm::setInpatientID(QString strInpatientID)
+{
+    m_strInpatientID = strInpatientID;
+}
+
 void HospitalisationAccountForm::newTableFile()
 {
+    m_account = new Account(m_strInpatientID);
+    Read();
 }
 
 bool HospitalisationAccountForm::saveTableFile()
@@ -112,4 +122,31 @@ void HospitalisationAccountForm::setMyLayout()
 
 void HospitalisationAccountForm::init()
 {
+    QStringList strList;
+    strList.append("缴费单号");
+    strList.append("住院号");
+    strList.append("操作类型");
+    strList.append("付款方式");
+    strList.append("金额");
+    strList.append("日期");
+    strList.append("余额");
+
+    m_resultsModel->clear();
+    for(int i = 0; i < strList.size(); i++)
+    {
+        m_resultsModel->setHorizontalHeaderItem(i,new QStandardItem(strList.at(i)));
+    }
+    if(strList.size() > 0)
+        m_resultsModel->setItem(0, strList.size()-1, NULL);
+
+}
+
+void HospitalisationAccountForm::Read()
+{
+    if(m_account->Read())
+    {
+        m_beforeBalanceEdit->setText(QString::number(m_account->getBalance()));
+        m_paymentMethodCombo->setCurrentIndex(m_account->getPaymentMethod());
+    }
+    m_numberEdit->setText(m_account->getID());
 }

@@ -5,6 +5,7 @@ HospitalisationChargeForm::HospitalisationChargeForm(SubForm *parent) :
 {
     create();
     setMyLayout();
+    setMinimumHeight(240);
 }
 
 HospitalisationChargeForm::~HospitalisationChargeForm()

@@ -5,6 +5,7 @@ AllInpatientsForm::AllInpatientsForm(QWidget *parent) :
 {
     create();
     setMyLayout();
+    setMaximumWidth(200);
 }
 
 void AllInpatientsForm::create()
@@ -26,7 +27,7 @@ void AllInpatientsForm::setMyLayout()
     topLayout->addWidget(m_setButton);
     topLayout->addWidget(m_tree);
 
-    m_tree->setMaximumWidth(200);
+
 
     QGroupBox *bottomGroup = new QGroupBox;
     QGridLayout *bottomLayout = new QGridLayout;
@@ -50,4 +51,5 @@ void AllInpatientsForm::setMyLayout()
 
 void AllInpatientsForm::init()
 {
+
 }

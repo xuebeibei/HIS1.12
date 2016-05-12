@@ -1,8 +1,9 @@
 #include "account.h"
 
-Account::Account(QString strID)
+Account::Account(QString strInpatientID)
 {
-    m_strID = strID;
+    m_strID = getNewID();
+    m_InpatientID = strInpatientID;
     m_dBalance = 0.0;
     m_eAction = payIn;
     m_dActionMoney = 0.0;
@@ -14,6 +15,7 @@ Account::Account(QString strID)
 Account* Account::operator = (Account oneAccount)
 {
     this->m_strID = oneAccount.m_strID;
+    this->m_InpatientID = oneAccount.m_InpatientID;
     this->m_dBalance = oneAccount.m_dBalance;
     this->m_eAction = oneAccount.m_eAction;
     this->m_dActionMoney = oneAccount.m_dActionMoney;
@@ -22,6 +24,11 @@ Account* Account::operator = (Account oneAccount)
     this->m_strRemarks = oneAccount.m_strRemarks;
 
     return this;
+}
+
+QString Account::getID()
+{
+    return m_strID;
 }
 
 double Account::getBalance()
@@ -47,6 +54,11 @@ PaymentMethod Account::getPaymentMethod()
 QString Account::getRemarks()
 {
     return m_strRemarks;
+}
+
+void Account::setID(QString strID)
+{
+    m_strID = strID;
 }
 
 void Account::setActionMoney(double dMoney)
@@ -83,12 +95,13 @@ bool Account::Read()
 {
     QSqlTableModel *sqlModel = new QSqlTableModel;
     sqlModel->setTable(g_strAccount);
-    sqlModel->setFilter("ID = \'" + m_strID + "\' Order By Time desc");
+    sqlModel->setFilter("ID = \'" + m_strID + "\'");
     sqlModel->select();
 
     if(sqlModel->rowCount() > 0)
     {
         QSqlRecord record = sqlModel->record(0);
+        m_InpatientID = record.value("HospitalID").toString();
         m_eAction = (AccountAction)record.value("Action").toInt();
         m_dActionMoney = record.value("ActionMoney").toDouble();
         m_dBalance = record.value("Balance").toDouble();
@@ -109,14 +122,20 @@ bool Account::Save()
 
     int row = 0;
     sqlModel->insertRow(row);
-    sqlModel->setData(sqlModel->index(row,0), m_strID);
-    sqlModel->setData(sqlModel->index(row,1), m_eAction);
-    sqlModel->setData(sqlModel->index(row,2), m_dActionMoney);
-    sqlModel->setData(sqlModel->index(row,3), m_dBalance);
-    sqlModel->setData(sqlModel->index(row,4), m_dateTime);
-    sqlModel->setData(sqlModel->index(row,5), m_ePaymentMethod);
-    sqlModel->setData(sqlModel->index(row,6), m_strRemarks);
+    sqlModel->setData(sqlModel->index(row,0), m_InpatientID);
+    sqlModel->setData(sqlModel->index(row,1), m_InpatientID);
+    sqlModel->setData(sqlModel->index(row,2), m_eAction);
+    sqlModel->setData(sqlModel->index(row,3), m_dActionMoney);
+    sqlModel->setData(sqlModel->index(row,4), m_dBalance);
+    sqlModel->setData(sqlModel->index(row,5), m_dateTime);
+    sqlModel->setData(sqlModel->index(row,6), m_ePaymentMethod);
+    sqlModel->setData(sqlModel->index(row,7), m_strRemarks);
     sqlModel->submitAll();
 
     return true;
+}
+
+bool Account::Delete()
+{
+
 }
