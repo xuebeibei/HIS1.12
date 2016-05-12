@@ -23,6 +23,10 @@ public:
     void previewTableFile();
     void printTableFile();
 
+
+signals:
+    void inpatientIDChanged(QString strID);
+
 protected:
     void create();
     void setMyLayout();
@@ -39,6 +43,7 @@ protected:
     void Read();
     void Save();
     void updateAllValue();
+    void setInpatientID(QString strID);
 protected:
 
     QLabel *m_nameLabel;                      // 姓名
@@ -82,7 +87,6 @@ protected:
 
     QLineEdit *m_hospitalisationNumEdit;      // 住院号
     QLineEdit *m_caseNumEdit;                 // 病例号
-    //QLineEdit *m_minGuaranteeDepositEdit;     // 最少押金
     QDateEdit *m_dateEdit;                    // 登记日期
 
     QTextEdit *m_medicalResultEdit;           // 诊断结果
