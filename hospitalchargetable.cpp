@@ -9,7 +9,7 @@ HospitalChargeTable::HospitalChargeTable()
 
 QString HospitalChargeTable::getNewHospitalChargeID()
 {
-    return g_strClinicChargeNumPR + getNewID();
+    return g_strHospitalChargeNumPR + getNewID();
 }
 
 bool HospitalChargeTable::Read()
