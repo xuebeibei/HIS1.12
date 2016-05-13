@@ -164,7 +164,8 @@ const QString g_strRealIncomeLabel = "实收金额：";
 const QString g_strClinicChargeNumGroup = "收费单信息";
 const QString g_strClincChargeNumLabel = "收费单号：";
 
-const QString g_strClinicChargeNumPR = "F";
+const QString g_strClinicChargeNumPR = "CF";
+const QString g_strHospitalChargeNumPR = "HF";
 
 const QString g_strChoiseButton = "选择";
 const QString g_strCancelButton = "取消";

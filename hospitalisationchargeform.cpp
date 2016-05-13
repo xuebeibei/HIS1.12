@@ -15,7 +15,8 @@ HospitalisationChargeForm::~HospitalisationChargeForm()
 
 void HospitalisationChargeForm::newTableFile()
 {
-
+    m_chargeTable = new HospitalChargeTable;
+    Read();
 }
 
 bool HospitalisationChargeForm::saveTableFile()
@@ -54,9 +55,11 @@ void HospitalisationChargeForm::create()
     m_numberLabel = new QLabel("收费单号：");
     m_numberEdit = new QLineEdit;
     m_numberEdit->setStyleSheet(g_strLineEditNoBorder);
+    m_numberEdit->setReadOnly(true);
     m_allDueIncomeLabel = new QLabel("应收合计：");
     m_allDueIncomeEdit = new QLineEdit;
     m_allDueIncomeEdit->setStyleSheet(g_strLineEditNoBorder);
+    m_allDueIncomeEdit->setReadOnly(true);
 
     m_chargeRecordsView = new QTableView;
     m_chargeRecordsModel = new QStandardItemModel;
@@ -119,4 +122,25 @@ void HospitalisationChargeForm::initTable()
     }
     if(strList.size() > 0)
         m_chargeRecordsModel->setItem(0, strList.size()-1, NULL);
+}
+
+void HospitalisationChargeForm::Read()
+{
+    if(m_chargeTable->Read())
+    {
+        QVector<ChargeItem*> vec = m_chargeTable->getChargeItems();
+        for(int i = 0; i < vec.size(); i++)
+        {
+            m_chargeRecordsModel->setItem(i, 0, new QStandardItem(vec.at(i)->getChargeItemNo()));
+            m_chargeRecordsModel->setItem(i, 1, new QStandardItem(vec.at(i)->getChargeItemName()));
+            m_chargeRecordsModel->setItem(i, 2, new QStandardItem(vec.at(i)->getChargeItemCount()));
+            m_chargeRecordsModel->setItem(i, 3, new QStandardItem(vec.at(i)->getChargeItemPrice()));
+            //m_chargeRecordsModel->setItem(i, 4, new QStandardItem(vec.at(i)->getC()));
+           // m_chargeRecordsModel->setItem(i, 5, new QStandardItem(vec.at(i)->getChargeId()));
+        }
+    }
+
+    m_numberEdit->setText(m_chargeTable->getID());
+    m_allDueIncomeEdit->setText(QString::number(m_chargeTable->getDueIncome()));
+
 }

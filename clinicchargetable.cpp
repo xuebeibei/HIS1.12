@@ -3,28 +3,13 @@
 
 ClinicChargeTable::ClinicChargeTable()
 {
-    m_strPrefixion = g_strClinicChargeNumPR;
-    m_dDueIncome = 0;
-    m_dRealIncome = 0;
     m_strID = getNewClinicChargeID();
-    m_time = QDateTime::currentDateTime();
-    m_chargeItems.clear();
     m_strMaker = "maker";
-}
-
-QString ClinicChargeTable::getID()
-{
-    return m_strID;
 }
 
 QString ClinicChargeTable::getNewClinicChargeID()
 {
-    return m_strPrefixion + getNewID();
-}
-
-double ClinicChargeTable::getDueIncome() const
-{
-    return m_dDueIncome;
+    return g_strClinicChargeNumPR + getNewID();
 }
 
 double ClinicChargeTable::getRealImcome() const
@@ -37,39 +22,9 @@ Patient ClinicChargeTable::getPatient() const
     return m_patient;
 }
 
-QVector<ChargeItem *> ClinicChargeTable::getChargeItems() const
-{
-    return m_chargeItems;
-}
-
-QDateTime ClinicChargeTable::getTime() const
-{
-    return m_time;
-}
-
-void ClinicChargeTable::setID(QString strID)
-{
-    this->m_strID = strID;
-}
-
-void ClinicChargeTable::setDueIncome(double d_DueIncome)
-{
-    this->m_dDueIncome = d_DueIncome;
-}
-
 void ClinicChargeTable::setRealIncome(double d_RealIncome)
 {
     this->m_dRealIncome = d_RealIncome;
-}
-
-void ClinicChargeTable::setChargeItems(QVector<ChargeItem *> chargeItems)
-{
-    m_chargeItems.clear();
-    for(int i = 0; i< chargeItems.size(); i++)
-    {
-        ChargeItem* item = new ChargeItem(chargeItems.at(i));
-        m_chargeItems.append(item);
-    }
 }
 
 void ClinicChargeTable::setPatient(Patient patient)
@@ -108,6 +63,7 @@ bool ClinicChargeTable::readChargeTable()
     else
         return false;
 }
+
 bool ClinicChargeTable::ReadChargeRecords()
 {
     if(myDB::connectDB())

@@ -3,6 +3,7 @@
 #include <QWidget>
 #include "stdafx.h"
 #include "subform.h"
+#include "hospitalchargetable.h"
 
 class HospitalisationChargeForm: public SubForm
 {
@@ -28,14 +29,17 @@ protected:
     void init();
 
     void initTable();
+    void Read();
 protected:
-    QLabel *m_numberLabel;        // 收费单号
-    QLineEdit *m_numberEdit;      // 收费单号
-    QLabel *m_allDueIncomeLabel;            // 票号，不清楚干什么用的
-    QLineEdit *m_allDueIncomeEdit;          // 票号，不清楚干什么用的
+    QLabel *m_numberLabel;                    // 收费单号
+    QLineEdit *m_numberEdit;                  // 收费单号
+    QLabel *m_allDueIncomeLabel;              // 应收合计
+    QLineEdit *m_allDueIncomeEdit;            // 应收合计
 
     QTableView *m_chargeRecordsView;          // 收费明细
     QStandardItemModel *m_chargeRecordsModel; // 收费明细
+
+    HospitalChargeTable *m_chargeTable;        // 收费单
 };
 
 #endif // HOSIPITALISATIONCHARGEFORM_H

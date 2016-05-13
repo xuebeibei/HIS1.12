@@ -28,6 +28,8 @@ INPUT(
 ./debug\allinpatientsform.o
 ./debug\clinicchargeform.o
 ./debug\chargeitem.o
+./debug\hospitalchargetable.o
+./debug\chargetable.o
 ./debug\qrc_pic.o
 ./debug\moc_hismainwindow.o
 ./debug\moc_subform.o

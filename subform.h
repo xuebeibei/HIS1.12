@@ -105,6 +105,7 @@ protected:
     virtual void create() = 0;
     virtual void setMyLayout() = 0;
     virtual void init() = 0;
+
     void createToolButtons();
 
 protected:
