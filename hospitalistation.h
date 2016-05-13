@@ -39,8 +39,6 @@ protected:
     HospitalisationAccountForm *m_account;
     HospitalisationChargeForm *m_charge;
     LeaveHospitalForm *m_leave;
-
-    //Inpatient *m_patient;
 };
 
 #endif // HOSPITALISTATION_H

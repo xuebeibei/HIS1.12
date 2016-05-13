@@ -5,20 +5,20 @@
 #include "stdafx.h"
 #include "subform.h"
 #include "clinicchargetable.h"
+#include "chargeform.h"
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 // 门诊收费界面类
 //-----------------------------------------------------------------------------------------------------------------------------------
-class ClinicChargeForm : public SubForm
+class ClinicChargeForm :public ChargeForm
 {
     Q_OBJECT
     
 public:
-    explicit ClinicChargeForm(SubForm *parent = 0);
+    explicit ClinicChargeForm(ChargeForm *parent = 0);
     ~ClinicChargeForm();
 
 public slots:
-
     void newTableFile();
     bool saveTableFile();
     bool deleteTableFile();
@@ -27,50 +27,8 @@ public slots:
     void amendTableFile();
     void previewTableFile();
     void printTableFile();
-private slots:
-
-    //-----------------------------------------------------------------------------------------------------------------------------------
-    // 名称：addRow
-    // 作用：在收费明细表中在最底端添加一行
-    // 参数：无
-    // 返回值：无
-    // 备注：无
-    // 时间：2016-04-20
-    //-----------------------------------------------------------------------------------------------------------------------------------
-    void addRow();
-
-    //-----------------------------------------------------------------------------------------------------------------------------------
-    // 名称：deleteRow
-    // 作用：在收费明细中删除选中的行
-    // 参数：无
-    // 返回值：无
-    // 备注：无
-    // 时间：2016-05-03
-    //-----------------------------------------------------------------------------------------------------------------------------------
-    void deleteRow();
-
-    //-----------------------------------------------------------------------------------------------------------------------------------
-    // 名称：combo
-    // 作用：在收费明细表中添加套餐数据
-    // 参数：无
-    // 返回值：无
-    // 备注：还未实现
-    // 时间：2016-04-20
-    //-----------------------------------------------------------------------------------------------------------------------------------
-    void combo();
-
-    //-----------------------------------------------------------------------------------------------------------------------------------
-    // 名称：updateIncome
-    // 作用：根据收费明细表中的数据进行合计金额的计算
-    // 参数：无
-    // 返回值：无
-    // 备注：
-    // 时间：2016-04-20
-    //-----------------------------------------------------------------------------------------------------------------------------------
-    void updateIncome();
 
 protected:
-
     //-----------------------------------------------------------------------------------------------------------------------------------
     // 名称：init
     // 作用：初始化门诊收费所有界面控件的值
@@ -221,7 +179,6 @@ private:
     //-----------------------------------------------------------------------------------------------------------------------------------
     // - 界面
     //-----------------------------------------------------------------------------------------------------------------------------------
-    QLabel *m_chargeNumLabel;                 // 收费单号
     QLabel *m_nameLabel;                      // 姓名
     QLabel *m_genderLabel;                    // 性别
     QLabel *m_ageLabel;                       // 年龄
@@ -230,25 +187,19 @@ private:
     QLabel *m_medicalInsuranceTypeLabel;      // 医保类型
     QLabel *m_departmentLabel;                // 科室
     QLabel *m_doctorLabel;                    // 医生
-    QLabel *m_dueIncomeLabel;                 // 应收金额
-    QLabel *m_realIncomeLabel;                // 实收金额
 
-    QLineEdit *m_chargeNumEdit;               // 收费单号
+    QLabel *m_allRealIncomeLabel;             // 实收金额
+
     QLineEdit *m_nameEdit;                    // 姓名
     QLineEdit *m_ageEdit;                     // 年龄
     QLineEdit *m_idCardNumEdit;               // 身份证号码
     QLineEdit *m_socialSecurityNumEdit;       // 社保号码
     QLineEdit *m_departmentEdit;              // 科室
     QLineEdit *m_doctorEdit;                  // 医生
-    QLineEdit *m_dueIncomeEdit;               // 应收金额
-    QLineEdit *m_realIncomeEdit;              // 实收金额
+    QLineEdit *m_allRealIncomeEdit;           // 实收金额
 
     QComboBox *m_genderCombo;                 // 性别
     QComboBox *m_medicalInsuranceTypeCombo;   // 医保类型
-
-
-    QTableView *m_chargeTableView;            // 收费明细表
-    QStandardItemModel *m_chargeRecordsmodel;
 
     QGroupBox *m_patientGroup;                // 患者信息组
     QGroupBox *m_insuranceGroup;              // 医保信息组
@@ -256,15 +207,10 @@ private:
     QGroupBox *m_incomeGroup;                 // 应收信息组
     QGroupBox *m_chargeNumGroup;              // 实收信息组
 
-    QToolButton *addRowButton;                // 增行
-    QToolButton *deleteRowButton;             // 删行
-    QToolButton *comboButton;                 // 选择套餐
-
     //-----------------------------------------------------------------------------------------------------------------------------------
     // - 数据
     //-----------------------------------------------------------------------------------------------------------------------------------
     ClinicChargeTable *m_chargeTable;
-
 };
 
 #endif // CLINICCHARGE_H

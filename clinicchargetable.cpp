@@ -4,6 +4,7 @@
 ClinicChargeTable::ClinicChargeTable()
 {
     m_strID = getNewClinicChargeID();
+    m_dRealIncome = 0.0;
     m_strMaker = "maker";
 }
 

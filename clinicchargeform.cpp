@@ -1,8 +1,8 @@
 #include "clinicchargeform.h"
 #include "findclincchargedlg.h"
 
-ClinicChargeForm::ClinicChargeForm(SubForm *parent) :
-    SubForm(parent)
+ClinicChargeForm::ClinicChargeForm(ChargeForm *parent):
+    ChargeForm(parent)
 {
     create();
     init();
@@ -13,7 +13,7 @@ ClinicChargeForm::ClinicChargeForm(SubForm *parent) :
 
 ClinicChargeForm::~ClinicChargeForm()
 {
-    delete m_chargeNumLabel;
+    delete m_numberLabel;
     delete m_nameLabel;
     delete m_genderLabel;
     delete m_ageLabel;
@@ -22,38 +22,27 @@ ClinicChargeForm::~ClinicChargeForm()
     delete m_medicalInsuranceTypeLabel;
     delete m_departmentLabel;
     delete m_doctorLabel;
-    delete m_dueIncomeLabel;
-    delete m_realIncomeLabel;
+    delete m_allDueIncomeLabel;
+    delete m_allRealIncomeLabel;
 
-    delete m_chargeNumEdit;
+    delete m_numberEdit;
     delete m_nameEdit;
     delete m_ageEdit;
     delete m_idCardNumEdit;
     delete m_socialSecurityNumEdit;
     delete m_departmentEdit;
     delete m_doctorEdit;
-    delete m_dueIncomeEdit;
-    delete m_realIncomeEdit;
+    delete m_allDueIncomeEdit;
+    delete m_allRealIncomeEdit;
 
     delete m_genderCombo;
     delete m_medicalInsuranceTypeCombo;
-
-
-    delete m_chargeTableView;
-    delete m_chargeRecordsmodel;
 
     delete m_patientGroup;
     delete m_insuranceGroup;
     delete m_doctorGroup;
     delete m_incomeGroup;
     delete m_chargeNumGroup;
-
-    delete addRowButton;
-    delete deleteRowButton;
-    delete comboButton;
-
-    //delete m_chargeTable;
-
 }
 
 void ClinicChargeForm::newTableFile()
@@ -132,20 +121,19 @@ void ClinicChargeForm::setAllDefaultEnable()
     m_medicalInsuranceTypeCombo->setEnabled(true);
     m_departmentEdit->setReadOnly(false);
     m_doctorEdit->setReadOnly(false);
-    m_dueIncomeEdit->setReadOnly(true);
-    m_realIncomeEdit->setReadOnly(false);
-    m_chargeNumEdit->setReadOnly(true);
+    m_allDueIncomeEdit->setReadOnly(true);
+    m_allRealIncomeEdit->setReadOnly(false);
+    m_numberEdit->setReadOnly(true);
     addRowButton->setEnabled(true);
     deleteRowButton->setEnabled(true);
     comboButton->setEnabled(true);
-    m_chargeTableView->setEditTriggers(QAbstractItemView::DoubleClicked);
-    m_chargeTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    m_chargeRecordsView->setEditTriggers(QAbstractItemView::DoubleClicked);
+    m_chargeRecordsView->setSelectionBehavior(QAbstractItemView::SelectRows);
 }
 
 void ClinicChargeForm::setAllUnEnable()
 {
     m_nameEdit->setReadOnly(true);
-
 
     m_genderCombo->setEnabled(false);
     m_ageEdit->setReadOnly(true);
@@ -154,63 +142,14 @@ void ClinicChargeForm::setAllUnEnable()
     m_medicalInsuranceTypeCombo->setEnabled(false);
     m_departmentEdit->setReadOnly(true);
     m_doctorEdit->setReadOnly(true);
-    m_dueIncomeEdit->setReadOnly(true);
-    m_realIncomeEdit->setReadOnly(true);
-    m_chargeNumEdit->setReadOnly(true);
+    m_allDueIncomeEdit->setReadOnly(true);
+    m_allRealIncomeEdit->setReadOnly(true);
+    m_numberEdit->setReadOnly(true);
 
     addRowButton->setEnabled(false);
     deleteRowButton->setEnabled(false);
     comboButton->setEnabled(false);
-    m_chargeTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-}
-
-void ClinicChargeForm::addRow()
-{
-    int row = m_chargeRecordsmodel->rowCount();
-    m_chargeRecordsmodel->setItem(row, 5,NULL);
-}
-
-void ClinicChargeForm::deleteRow()
-{
-    QModelIndexList selected = m_chargeTableView->selectionModel()->selectedIndexes();
-    QMap<int, int> rowMap;
-
-    foreach (QModelIndex index, selected)
-    {
-        rowMap.insert(index.row(), 0);
-    }
-
-    QMapIterator<int, int> rowMapIterator(rowMap);
-    rowMapIterator.toBack();
-    while (rowMapIterator.hasPrevious())
-    {
-        rowMapIterator.previous();
-        int rowToDel = rowMapIterator.key();
-        m_chargeRecordsmodel->removeRow(rowToDel);
-    }
-}
-
-void ClinicChargeForm::combo()
-{
-    QMessageBox::information(this,"提示","选择套餐！");
-}
-
-void ClinicChargeForm::updateIncome()
-{
-    double dIncome = 0.0;
-
-    for(int i = 0; i < m_chargeRecordsmodel->rowCount();i++)
-    {
-        QStandardItem *countItem = m_chargeRecordsmodel->item(i,chargeItemCount);
-        QStandardItem *priceItem = m_chargeRecordsmodel->item(i,chargeItemPrice);
-
-        double dPrice = (priceItem == NULL) ? 0 : priceItem->text().toDouble();
-        int nCount = (countItem == NULL) ? 0 : countItem->text().toInt();
-
-        dIncome += (dPrice * nCount);
-    }
-    m_dueIncomeEdit->setText(QString::number(dIncome));
-    m_realIncomeEdit->setText(QString::number(dIncome));
+    m_chargeRecordsView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 void ClinicChargeForm::create()
@@ -234,23 +173,23 @@ void ClinicChargeForm::init()
     m_departmentEdit->setText(g_strNull);
     m_doctorEdit->setText(g_strNull);
 
-    m_dueIncomeEdit->setText(g_strNull);
-    m_realIncomeEdit->setText(g_strNull);
+    m_allDueIncomeEdit->setText(g_strNull);
+    m_allRealIncomeEdit->setText(g_strNull);
 
-    m_chargeNumEdit->setText(g_strNull);
+    m_numberEdit->setText(g_strNull);
     initTableModel();
 }
 
 void ClinicChargeForm::initTableModel()
 {
-    m_chargeRecordsmodel->clear();
-    m_chargeRecordsmodel->setHorizontalHeaderItem(chargeItemNo, new QStandardItem(QObject::tr("收费项编码")));
-    m_chargeRecordsmodel->setHorizontalHeaderItem(chargeItemName, new QStandardItem(QObject::tr("收费项名称")));
-    m_chargeRecordsmodel->setHorizontalHeaderItem(chargeItemCount, new QStandardItem(QObject::tr("数量")));
-    m_chargeRecordsmodel->setHorizontalHeaderItem(chargeItemPrice, new QStandardItem(QObject::tr("单价")));
-    m_chargeRecordsmodel->setHorizontalHeaderItem(clinicReceipt, new QStandardItem(QObject::tr("门诊收据")));
-    m_chargeRecordsmodel->setHorizontalHeaderItem(clinicSort, new QStandardItem(QObject::tr("门诊分类")));
-    m_chargeRecordsmodel->setItem(0, 5, NULL);
+    QStringList strList;
+    strList.append("收费项编码");
+    strList.append("收费项名称");
+    strList.append("数量");
+    strList.append("单价");
+    strList.append("门诊收据");
+    strList.append("门诊分类");
+    initTable(strList);
 }
 
 void ClinicChargeForm::CreatePatientPart()
@@ -329,49 +268,27 @@ void ClinicChargeForm::CreateDoctorPart()
 
 void ClinicChargeForm::CreateIncomePart()
 {
-    m_dueIncomeLabel = new QLabel(g_strDueIncomeLabel);
-    m_dueIncomeEdit = new QLineEdit;
-    m_dueIncomeLabel->setBuddy(m_dueIncomeEdit);
-
-    m_realIncomeLabel = new QLabel(g_strRealIncomeLabel);
-    m_realIncomeEdit = new QLineEdit;
+    m_allRealIncomeLabel = new QLabel(g_strRealIncomeLabel);
+    m_allRealIncomeEdit = new QLineEdit;
+    connect(m_allDueIncomeEdit, SIGNAL(textChanged(QString)),m_allRealIncomeEdit, SLOT(setText(QString)));
     m_doctorLabel->setBuddy(m_doctorEdit);
 
     m_incomeGroup = new QGroupBox(g_strIncomeGroup);
     QGridLayout *incomeGroupLayout = new QGridLayout;
-    incomeGroupLayout->addWidget(m_dueIncomeLabel,0,0);
-    incomeGroupLayout->addWidget(m_dueIncomeEdit,0,1);
-    incomeGroupLayout->addWidget(m_realIncomeLabel,1,0);
-    incomeGroupLayout->addWidget(m_realIncomeEdit,1,1);
+    incomeGroupLayout->addWidget(m_allDueIncomeLabel,0,0);
+    incomeGroupLayout->addWidget(m_allDueIncomeEdit,0,1);
+    incomeGroupLayout->addWidget(m_allRealIncomeLabel,1,0);
+    incomeGroupLayout->addWidget(m_allRealIncomeEdit,1,1);
     m_incomeGroup->setLayout(incomeGroupLayout);
 }
 
 void ClinicChargeForm::CreateChargeTablePart()
 {
-    m_chargeNumLabel = new QLabel(g_strClincChargeNumLabel);
-    m_chargeNumEdit = new QLineEdit;
-    m_chargeNumLabel->setBuddy(m_chargeNumEdit);
-
     m_chargeNumGroup = new QGroupBox(g_strClinicChargeNumGroup);
     QGridLayout *chargeGroupLayout = new QGridLayout;
-    chargeGroupLayout->addWidget(m_chargeNumLabel,0,0);
-    chargeGroupLayout->addWidget(m_chargeNumEdit,0,1);
+    chargeGroupLayout->addWidget(m_numberLabel,0,0);
+    chargeGroupLayout->addWidget(m_numberEdit,0,1);
     m_chargeNumGroup->setLayout(chargeGroupLayout);
-
-    addRowButton = new QToolButton;
-    addRowButton->setIcon(QIcon(g_strIconPath + "addRow.png"));
-    connect(addRowButton, SIGNAL(clicked()), this, SLOT(addRow()));
-    deleteRowButton = new QToolButton;
-    deleteRowButton->setIcon(QIcon(g_strIconPath + "deleteRow.png"));
-    connect(deleteRowButton, SIGNAL(clicked()), this, SLOT(deleteRow()));
-    comboButton = new QToolButton;
-    comboButton->setIcon(QIcon(g_strIconPath + "combo.png"));
-    connect(comboButton, SIGNAL(clicked()), this, SLOT(combo()));
-
-    m_chargeTableView = new QTableView;
-    m_chargeRecordsmodel = new QStandardItemModel;
-    m_chargeTableView->setModel(m_chargeRecordsmodel);
-    connect(m_chargeRecordsmodel,SIGNAL(dataChanged(QModelIndex,QModelIndex)),this, SLOT(updateIncome()));
     initTableModel();
 }
 
@@ -392,7 +309,7 @@ void ClinicChargeForm::setMyLayout()
     RightTopLayout->addStretch();
     QVBoxLayout *RightLayout = new QVBoxLayout;
     RightLayout->addLayout(RightTopLayout);
-    RightLayout->addWidget(m_chargeTableView);
+    RightLayout->addWidget(m_chargeRecordsView);
 
     QHBoxLayout *MainLayout = new QHBoxLayout;
     MainLayout->addLayout(LeftLayout);
@@ -406,7 +323,7 @@ bool ClinicChargeForm::Read()
     initTableModel();
     if(m_chargeTable->Read())
     {
-        m_chargeNumEdit->setText(m_chargeTable->getID());
+        m_numberEdit->setText(m_chargeTable->getID());
         QString strName = m_chargeTable->getPatient().getName();
         m_nameEdit->setText(strName);
         m_ageEdit->setText(QString::number(m_chargeTable->getPatient().getAge()));
@@ -416,22 +333,12 @@ bool ClinicChargeForm::Read()
         m_medicalInsuranceTypeCombo->setCurrentIndex(m_chargeTable->getPatient().getMedicalInsuranceType());
         m_departmentEdit->setText(m_chargeTable->getPatient().getDepartment());
         m_doctorEdit->setText(m_chargeTable->getPatient().getDoctor());
-        m_dueIncomeEdit->setText(QString::number(m_chargeTable->getDueIncome()));
-        m_realIncomeEdit->setText(QString::number(m_chargeTable->getRealImcome()));
+        m_allDueIncomeEdit->setText(QString::number(m_chargeTable->getDueIncome()));
+        m_allRealIncomeEdit->setText(QString::number(m_chargeTable->getRealImcome()));
 
 
         QVector<ChargeItem*> chargeItems = m_chargeTable->getChargeItems();
-        for(int index = 0; index< chargeItems.size();index++)
-        {
-            ChargeItem *item = new ChargeItem(chargeItems.at(index));
-
-            m_chargeRecordsmodel->setItem(index, chargeItemNo, new QStandardItem(item->getChargeItemNo()));
-            m_chargeRecordsmodel->setItem(index, chargeItemName, new QStandardItem(item->getChargeItemName()));
-            m_chargeRecordsmodel->setItem(index, chargeItemCount, new QStandardItem(QString::number(item->getChargeItemCount())));
-            m_chargeRecordsmodel->setItem(index, chargeItemPrice, new QStandardItem(QString::number(item->getChargeItemPrice())));
-            m_chargeRecordsmodel->setItem(index, clinicReceipt, new QStandardItem(item->getReceipt()));
-            m_chargeRecordsmodel->setItem(index, clinicSort, new QStandardItem(item->getSort()));
-        }
+        setChargeItems(chargeItems);
         return true;
     }
     else
@@ -440,7 +347,7 @@ bool ClinicChargeForm::Read()
 
 bool ClinicChargeForm::Save()
 {
-    m_chargeTable->setID(m_chargeNumEdit->text());
+    m_chargeTable->setID(m_numberEdit->text());
 
     Patient onePatient;
     onePatient.setName(m_nameEdit->text());
@@ -465,70 +372,10 @@ bool ClinicChargeForm::Save()
     }
 
     m_chargeTable->setPatient(onePatient);
-    m_chargeTable->setDueIncome(m_dueIncomeEdit->text().toDouble());
-    m_chargeTable->setRealIncome(m_realIncomeEdit->text().toDouble());
+    m_chargeTable->setDueIncome(m_allDueIncomeEdit->text().toDouble());
+    m_chargeTable->setRealIncome(m_allRealIncomeEdit->text().toDouble());
+    QVector<ChargeItem*> chargeItems = getChargeItems();
 
-    QVector<ChargeItem*> chargeItems;
-    for(int row = 0; row< m_chargeRecordsmodel->rowCount();row++)
-    {
-        ChargeItem *chargeItem = new ChargeItem;
-        for(int column = 0; column < m_chargeRecordsmodel->columnCount();column++)
-        {
-            QStandardItem *modelItem = m_chargeRecordsmodel->item(row,column);
-
-            if(modelItem == NULL)
-            {
-                continue;
-            }
-            else
-            {
-                QString strData = modelItem->text();
-                switch(column)
-                {
-                case chargeItemNo:
-                {
-                    chargeItem->setChargeItemNo(strData);
-                    break;
-                }
-                case chargeItemName:
-                {
-                    chargeItem->setChargeItemName(strData);
-                    break;
-                }
-                case chargeItemCount:
-                {
-                    int nCount = strData.isEmpty() ? 0 : strData.toInt();
-                    chargeItem->setChargeItemCount(nCount);
-                    break;
-                }
-                case chargeItemPrice:
-                {
-                    double nPrice= strData.isEmpty() ? 0 : strData.toDouble();
-                    chargeItem->setChargeItemPrice(nPrice);
-                    break;
-                }
-                case clinicReceipt:
-                {
-                    chargeItem->setReceipt(strData);
-                    break;
-                }
-                case clinicSort:
-                {
-                    chargeItem->setSort(strData);
-                    break;
-                }
-                default:
-                    break;
-                }
-            }
-        }
-        if(chargeItem->isEmptyItem())
-        {
-            continue;
-        }
-        chargeItem->setChargeId(m_chargeNumEdit->text());
-        chargeItems.append(chargeItem);
-    }
     if(chargeItems.size() <= 0)
     {
         QMessageBox::information(this,"提示","请填写收费列表！");

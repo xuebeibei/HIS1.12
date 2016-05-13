@@ -25,7 +25,6 @@ bool Hospitalistation::saveTableFile()
 {
     if(m_registry->saveTableFile())
     {
-        //m_account->setInpatientID(m_registry->getInpatientID());
         m_account->setEnabled(true);
         m_charge->setEnabled(true);
         m_leave->setEnabled(true);

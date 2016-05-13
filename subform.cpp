@@ -38,13 +38,5 @@ void SubForm::createToolButtons()
     m_findButton->setIcon(QIcon(g_strIconPath + "find.png"));
     m_findButton->setToolTip("find");
     connect(m_findButton, SIGNAL(clicked()), this, SLOT(findTableFile()));
-
-    m_topLayout = new QHBoxLayout;
-    m_topLayout->addWidget(m_newButton);
-    m_topLayout->addWidget(m_saveButton);
-    m_topLayout->addWidget(m_deleteButton);
-    m_topLayout->addWidget(m_amendButton);
-    m_topLayout->addWidget(m_findButton);
-    m_topLayout->addStretch();
 }
 

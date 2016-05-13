@@ -30,6 +30,7 @@ INPUT(
 ./debug\chargeitem.o
 ./debug\hospitalchargetable.o
 ./debug\chargetable.o
+./debug\chargeform.o
 ./debug\qrc_pic.o
 ./debug\moc_hismainwindow.o
 ./debug\moc_subform.o
@@ -48,4 +49,5 @@ INPUT(
 ./debug\moc_hospitalisationchargeform.o
 ./debug\moc_leavehospitalform.o
 ./debug\moc_allinpatientsform.o
+./debug\moc_chargeform.o
 );

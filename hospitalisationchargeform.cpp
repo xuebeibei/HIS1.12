@@ -1,7 +1,7 @@
 #include "hospitalisationchargeform.h"
 
-HospitalisationChargeForm::HospitalisationChargeForm(SubForm *parent) :
-    SubForm(parent)
+HospitalisationChargeForm::HospitalisationChargeForm(ChargeForm *parent) :
+    ChargeForm(parent)
 {
     create();
     setMyLayout();
@@ -21,7 +21,7 @@ void HospitalisationChargeForm::newTableFile()
 
 bool HospitalisationChargeForm::saveTableFile()
 {
-    return true;
+    return Save();
 }
 
 bool HospitalisationChargeForm::deleteTableFile()
@@ -52,22 +52,22 @@ void HospitalisationChargeForm::printTableFile()
 
 void HospitalisationChargeForm::create()
 {
-    m_numberLabel = new QLabel("收费单号：");
-    m_numberEdit = new QLineEdit;
-    m_numberEdit->setStyleSheet(g_strLineEditNoBorder);
-    m_numberEdit->setReadOnly(true);
-    m_allDueIncomeLabel = new QLabel("应收合计：");
-    m_allDueIncomeEdit = new QLineEdit;
-    m_allDueIncomeEdit->setStyleSheet(g_strLineEditNoBorder);
-    m_allDueIncomeEdit->setReadOnly(true);
 
-    m_chargeRecordsView = new QTableView;
-    m_chargeRecordsModel = new QStandardItemModel;
-    m_chargeRecordsView->setModel(m_chargeRecordsModel);
 }
 
 void HospitalisationChargeForm::setMyLayout()
 {
+    QHBoxLayout *topLayout = new QHBoxLayout;
+    topLayout->addWidget(m_newButton);
+    topLayout->addWidget(m_saveButton);
+    topLayout->addWidget(m_deleteButton);
+    topLayout->addWidget(m_amendButton);
+    topLayout->addWidget(m_findButton);
+    topLayout->addStretch();
+    topLayout->addWidget(addRowButton);
+    topLayout->addWidget(deleteRowButton);
+    topLayout->addWidget(comboButton);
+
     QGroupBox *leftTopGroup = new QGroupBox;
     QGridLayout *leftTopLayout = new QGridLayout;
     leftTopLayout->addWidget(m_numberLabel,0,0);
@@ -91,7 +91,7 @@ void HospitalisationChargeForm::setMyLayout()
     QGroupBox *allGroup = new QGroupBox;
     allGroup->setTitle("收费");
     QVBoxLayout *allLayout = new QVBoxLayout;
-    allLayout->addLayout(m_topLayout);
+    allLayout->addLayout(topLayout);
     allLayout->addLayout(bottomLayout);
     allGroup->setLayout(allLayout);
 
@@ -102,11 +102,6 @@ void HospitalisationChargeForm::setMyLayout()
 
 void HospitalisationChargeForm::init()
 {
-    initTable();
-}
-
-void HospitalisationChargeForm::initTable()
-{
     QStringList strList;
     strList.append("收费项编码");
     strList.append("收费项名称");
@@ -114,33 +109,26 @@ void HospitalisationChargeForm::initTable()
     strList.append("单价");
     strList.append("住院收据");
     strList.append("住院分类");
-
-    m_chargeRecordsModel->clear();
-    for(int i = 0; i < strList.size(); i++)
-    {
-        m_chargeRecordsModel->setHorizontalHeaderItem(i,new QStandardItem(strList.at(i)));
-    }
-    if(strList.size() > 0)
-        m_chargeRecordsModel->setItem(0, strList.size()-1, NULL);
+    initTable(strList);
 }
 
 void HospitalisationChargeForm::Read()
 {
     if(m_chargeTable->Read())
     {
-        QVector<ChargeItem*> vec = m_chargeTable->getChargeItems();
-        for(int i = 0; i < vec.size(); i++)
-        {
-            m_chargeRecordsModel->setItem(i, 0, new QStandardItem(vec.at(i)->getChargeItemNo()));
-            m_chargeRecordsModel->setItem(i, 1, new QStandardItem(vec.at(i)->getChargeItemName()));
-            m_chargeRecordsModel->setItem(i, 2, new QStandardItem(vec.at(i)->getChargeItemCount()));
-            m_chargeRecordsModel->setItem(i, 3, new QStandardItem(vec.at(i)->getChargeItemPrice()));
-            //m_chargeRecordsModel->setItem(i, 4, new QStandardItem(vec.at(i)->getC()));
-           // m_chargeRecordsModel->setItem(i, 5, new QStandardItem(vec.at(i)->getChargeId()));
-        }
+        QVector<ChargeItem*> chargeItems = m_chargeTable->getChargeItems();
+        setChargeItems(chargeItems);
     }
 
     m_numberEdit->setText(m_chargeTable->getID());
     m_allDueIncomeEdit->setText(QString::number(m_chargeTable->getDueIncome()));
 
+}
+
+bool HospitalisationChargeForm::Save()
+{
+    QVector<ChargeItem*> chargeItems = getChargeItems();
+    m_chargeTable->setChargeItems(chargeItems);
+
+    return m_chargeTable->Save();
 }

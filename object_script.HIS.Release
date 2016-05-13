@@ -30,6 +30,7 @@ INPUT(
 ./release\chargeitem.o
 ./release\hospitalchargetable.o
 ./release\chargetable.o
+./release\chargeform.o
 ./release\qrc_pic.o
 ./release\moc_hismainwindow.o
 ./release\moc_subform.o
@@ -48,4 +49,5 @@ INPUT(
 ./release\moc_hospitalisationchargeform.o
 ./release\moc_leavehospitalform.o
 ./release\moc_allinpatientsform.o
+./release\moc_chargeform.o
 );

@@ -114,8 +114,6 @@ protected:
     QToolButton *m_deleteButton;               // 删除
     QToolButton *m_amendButton;                // 修改
     QToolButton *m_findButton;                 // 查找
-
-    QHBoxLayout *m_topLayout;
 };
 
 #endif // SUBFORM_H

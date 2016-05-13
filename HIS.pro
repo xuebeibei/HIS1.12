@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     clinicchargeform.cpp \
     chargeitem.cpp \
     hospitalchargetable.cpp \
-    chargetable.cpp
+    chargetable.cpp \
+    chargeform.cpp
 
 HEADERS  += hismainwindow.h \
     stdafx.h \
@@ -78,7 +79,8 @@ HEADERS  += hismainwindow.h \
     allinpatientsform.h \
     chargeitem.h \
     hospitalchargetable.h \
-    chargetable.h
+    chargetable.h \
+    chargeform.h
 
 FORMS    +=
 
