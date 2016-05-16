@@ -6,7 +6,6 @@
 #include "account.h"
 #include "contacts.h"
 #include "histable.h"
-#include "connectDB.h"
 
 class Inpatient : public Patient, public HISTable
 {

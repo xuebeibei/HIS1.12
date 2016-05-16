@@ -1,6 +1,5 @@
 #include "clinicreportstatisticform.h"
 #include "clinicdailyreporttable.h"
-#include "connectDB.h"
 
 ClinicReportStatisticForm::ClinicReportStatisticForm(SubForm *parent) :
     SubForm(parent)

@@ -82,6 +82,7 @@ void Hospitalistation::create()
     m_leave = new LeaveHospitalForm;
     connect(m_account, SIGNAL(changePayIn(double,double)),m_leave,SLOT(updatePayIn(double,double)));
     connect(m_registry, SIGNAL(inpatientIDChanged(QString)), m_account, SLOT(updateInpatientID(QString)));
+    connect(m_registry, SIGNAL(inpatientIDChanged(QString)), m_charge, SLOT(updateInpatientID(QString)));
 }
 
 void Hospitalistation::setMyLayout()

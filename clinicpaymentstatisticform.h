@@ -4,7 +4,6 @@
 #include <QWidget>
 #include "stdafx.h"
 #include "subform.h"
-#include "connectDB.h"
 
 class ClinicPaymentStatisticForm : public SubForm
 {

@@ -50,6 +50,12 @@ void HospitalisationChargeForm::printTableFile()
 {
 }
 
+void HospitalisationChargeForm::updateInpatientID(QString strInpatientID)
+{
+    m_strInpatientID = strInpatientID;
+    newTableFile();
+}
+
 void HospitalisationChargeForm::create()
 {
 

@@ -18,7 +18,7 @@ QString HISTable::getNewID() const
     return strDate+strCurrentTime;
 }
 
-bool HISTable::deleteRows(QString strTableName, QString strIndexName, QString str) const
+bool HISTable::deleteRows(QString strTableName, QString strIndexName, QString str)
 {
     QSqlTableModel *model = new QSqlTableModel;
     model->setTable(strTableName);

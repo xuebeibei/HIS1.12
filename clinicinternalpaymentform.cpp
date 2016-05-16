@@ -1,5 +1,4 @@
 #include "clinicinternalpaymentform.h"
-#include "connectDB.h"
 
 ClinicInternalPaymentForm::ClinicInternalPaymentForm(SubForm *parent) :
     SubForm(parent)

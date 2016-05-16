@@ -1,7 +1,6 @@
 #ifndef CLINICINTERNALPAYMENTITEM_H
 #define CLINICINTERNALPAYMENTITEM_H
 #include "stdafx.h"
-#include "connectDB.h"
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 // 内部缴款明细

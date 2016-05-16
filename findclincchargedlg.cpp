@@ -1,5 +1,4 @@
 #include "findclincchargedlg.h"
-#include "connectDB.h"
 
 FindClincChargeDlg::FindClincChargeDlg(QWidget *parent) :
     QDialog(parent)
@@ -102,38 +101,36 @@ void FindClincChargeDlg::find()
     QString strId = m_chargeNumEdit->text();
     QString strName = m_nameEdit->text();
     Gender eGender = (Gender)m_genderComboBox->currentIndex();
-    if(myDB::connectDB())
+
+    QSqlTableModel *model = new QSqlTableModel;
+    model->setTable(g_strClinicCharge);
+    QString strSql = "" , strTemp = "";
+
+    strTemp = "Gender = " + QString::number((int)eGender);
+    strSql += strTemp;
+
+    if(!strId.isEmpty())
     {
-        QSqlTableModel *model = new QSqlTableModel;
-        model->setTable(g_strClinicCharge);
-        QString strSql = "" , strTemp = "";
-
-        strTemp = "Gender = " + QString::number((int)eGender);
+        strTemp = " and ID = \'" + strId + "\'";
         strSql += strTemp;
+    }
+    if(!strName.isEmpty())
+    {
+        strTemp = " and Name = \'" + strName + "\'";
+        strSql += strTemp;
+    }
 
-        if(!strId.isEmpty())
-        {
-            strTemp = " and ID = \'" + strId + "\'";
-            strSql += strTemp;
-        }
-        if(!strName.isEmpty())
-        {
-            strTemp = " and Name = \'" + strName + "\'";
-            strSql += strTemp;
-        }
+    model->setFilter(strSql);
+    model->select();
 
-        model->setFilter(strSql);
-        model->select();
-
-        for(int i = 0; i < model->rowCount();i++)
-        {
-            QSqlRecord record = model->record(i);
-            m_resultsModel->setItem(i,0,new QStandardItem(record.value("ID").toString()));
-            m_resultsModel->setItem(i,1,new QStandardItem(record.value("Time").toString()));
-            m_resultsModel->setItem(i,2,new QStandardItem(record.value("Name").toString()));
-            m_resultsModel->setItem(i,3,new QStandardItem(record.value("Department").toString()));
-            m_resultsModel->setItem(i,4,new QStandardItem(record.value("Doctor").toString()));
-        }
+    for(int i = 0; i < model->rowCount();i++)
+    {
+        QSqlRecord record = model->record(i);
+        m_resultsModel->setItem(i,0,new QStandardItem(record.value("ID").toString()));
+        m_resultsModel->setItem(i,1,new QStandardItem(record.value("Time").toString()));
+        m_resultsModel->setItem(i,2,new QStandardItem(record.value("Name").toString()));
+        m_resultsModel->setItem(i,3,new QStandardItem(record.value("Department").toString()));
+        m_resultsModel->setItem(i,4,new QStandardItem(record.value("Doctor").toString()));
     }
 }
 

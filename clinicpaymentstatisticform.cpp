@@ -255,39 +255,37 @@ void ClinicPaymentStatisticForm::selectFromDB(QDate startDate, QDate endDate, QS
     if(m_vecSort.size()<=0||m_vecWho.size()<=0)
         return;
     m_dueIncome.resize(0);
-    if(myDB::connectDB())
+
+    QString startTime = startDate.toString("yyyy-MM-dd") + "T00:00:00";
+    QString endTime = endDate.toString("yyyy-MM-dd") + "T23:59:59";
+    QSqlQueryModel *sqlModel = new QSqlTableModel;
+    for(int i = 0;i< m_vecSort.size();i++)
     {
-        QString startTime = startDate.toString("yyyy-MM-dd") + "T00:00:00";
-        QString endTime = endDate.toString("yyyy-MM-dd") + "T23:59:59";
-        QSqlQueryModel *sqlModel = new QSqlTableModel;
-        for(int i = 0;i< m_vecSort.size();i++)
+        QString strSort = m_vecSort.at(i);
+        m_resultModel->setItem(i, 0, new QStandardItem(strSort));
+        QVector<double> temp;
+        for(int j = 0;j< m_vecWho.size();j++)
         {
-            QString strSort = m_vecSort.at(i);
-            m_resultModel->setItem(i, 0, new QStandardItem(strSort));
-            QVector<double> temp;
-            for(int j = 0;j< m_vecWho.size();j++)
+
+            QString strWho = m_vecWho.at(j);
+
+            QString strSql = "select * from clinicchargedetails where "
+                    + strConditionSort+ " = \'" + strSort + "\' and chargei"
+                    "d in (select id from cliniccharge where time between \'"
+                    + startTime+"\' and \'"+endTime+
+                    "\' and " + strConditionWho +
+                    " = \'" + strWho +"\')";
+            sqlModel->setQuery(strSql);
+
+            double all = 0;
+            for(int n = 0;n<sqlModel->rowCount();n++)
             {
-
-                QString strWho = m_vecWho.at(j);
-
-                QString strSql = "select * from clinicchargedetails where "
-                        + strConditionSort+ " = \'" + strSort + "\' and chargei"
-                        "d in (select id from cliniccharge where time between \'"
-                        + startTime+"\' and \'"+endTime+
-                        "\' and " + strConditionWho +
-                        " = \'" + strWho +"\')";
-                sqlModel->setQuery(strSql);
-
-                double all = 0;
-                for(int n = 0;n<sqlModel->rowCount();n++)
-                {
-                    int nCount = sqlModel->record(n).value("ChargeItemCount").toInt();
-                    double nPrice = sqlModel->record(n).value("ChargeItemPrice").toDouble();
-                    all += nCount*nPrice;
-                }
-                temp.append(all);
+                int nCount = sqlModel->record(n).value("ChargeItemCount").toInt();
+                double nPrice = sqlModel->record(n).value("ChargeItemPrice").toDouble();
+                all += nCount*nPrice;
             }
-            m_dueIncome.append(temp);
+            temp.append(all);
         }
+        m_dueIncome.append(temp);
     }
 }

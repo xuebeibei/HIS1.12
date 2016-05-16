@@ -21,6 +21,7 @@ public slots:
     void amendTableFile();
     void previewTableFile();
     void printTableFile();
+    void updateInpatientID(QString strInpatientID);
 protected:
     void create();
     void setMyLayout();
@@ -30,6 +31,7 @@ protected:
     bool Save();
 protected:
     HospitalChargeTable *m_chargeTable;       // 收费单
+    QString m_strInpatientID;
 };
 
 #endif // HOSIPITALISATIONCHARGEFORM_H

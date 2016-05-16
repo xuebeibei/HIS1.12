@@ -26,36 +26,31 @@ QVector<QString> ClinicInternalPayment::getDistinctFromDB(QString strColumn, QSt
 QVector<InternalPaymentItem *> ClinicInternalPayment::selectFromDB(QDate startDate, QDate endDate)
 {
     QVector<InternalPaymentItem *> result;
-    if(myDB::connectDB())
+    QString strClumn = "ChinicReceipt";
+    QVector<QString> Receipt = getDistinctFromDB(strClumn , g_strClinicChargeDetails);
+
+    QSqlQueryModel *sqlModel = new QSqlTableModel;
+    for(int i=0;i<Receipt.size();i++)
     {
-        QString strClumn = "ChinicReceipt";
-        QVector<QString> Receipt = getDistinctFromDB(strClumn , g_strClinicChargeDetails);
+        InternalPaymentItem *item = new InternalPaymentItem;
+        item->m_strName = Receipt.at(i);
 
-        QSqlQueryModel *sqlModel = new QSqlTableModel;
-        for(int i=0;i<Receipt.size();i++)
+        QString startTime = startDate.toString("yyyy-MM-dd") + "T00:00:00";
+        QString endTime = endDate.toString("yyyy-MM-dd") + "T23:59:59";
+        sqlModel->setQuery("Select * from " + g_strClinicChargeDetails +
+                           " where "+ strClumn + "= \'" + item->m_strName +
+                           "\' and chargeid in (select id from cliniccharge where time between \'" +
+                           startTime +
+                           "\' and \'" +
+                           endTime + "\')");
+        for(int j = 0;j<sqlModel->rowCount();j++)
         {
-            InternalPaymentItem *item = new InternalPaymentItem;
-            item->m_strName = Receipt.at(i);
-
-            QString startTime = startDate.toString("yyyy-MM-dd") + "T00:00:00";
-            QString endTime = endDate.toString("yyyy-MM-dd") + "T23:59:59";
-            sqlModel->setQuery("Select * from " + g_strClinicChargeDetails +
-                               " where "+ strClumn + "= \'" + item->m_strName +
-                               "\' and chargeid in (select id from cliniccharge where time between \'" +
-                               startTime +
-                               "\' and \'" +
-                               endTime + "\')");
-            for(int j = 0;j<sqlModel->rowCount();j++)
-            {
-                int nCount = sqlModel->record(j).value("ChargeItemCount").toInt();
-                double nPrice = sqlModel->record(j).value("ChargeItemPrice").toDouble();
-                item->m_dDueIncome += nCount*nPrice;
-            }
-            result.append(item);
+            int nCount = sqlModel->record(j).value("ChargeItemCount").toInt();
+            double nPrice = sqlModel->record(j).value("ChargeItemPrice").toDouble();
+            item->m_dDueIncome += nCount*nPrice;
         }
+        result.append(item);
     }
 
     return result;
 }
-
-
