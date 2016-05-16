@@ -5,6 +5,7 @@ LeaveHospitalForm::LeaveHospitalForm(QWidget *parent) :
 {
     create();
     setMyLayout();
+    init();
 }
 
 LeaveHospitalForm::~LeaveHospitalForm()
@@ -19,6 +20,13 @@ void LeaveHospitalForm::updatePayIn(double dPayIn, double dConsume)
      m_allPayInEdit->setText(QString::number(dPayIn));
      m_allChargeEdit->setText(QString::number(dConsume));
      m_allBalanceEdit->setText(QString::number(dBalance));
+     if(dBalance > 0)
+         m_payInArrearsButton->setText("退款");
+     else if(dBalance < 0)
+         m_payInArrearsButton->setText("补款");
+     else
+         m_payInArrearsButton->setEnabled(false);
+
 }
 
 void LeaveHospitalForm::create()
@@ -76,4 +84,8 @@ void LeaveHospitalForm::setMyLayout()
 
 void LeaveHospitalForm::init()
 {
+    m_allPayInEdit->setText(QString::number(0));
+    m_allChargeEdit->setText(QString::number(0));
+    m_allBalanceEdit->setText(QString::number(0));
+    m_payInArrearsButton->setEnabled(false);
 }

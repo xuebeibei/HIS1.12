@@ -23,7 +23,6 @@ public:
     void previewTableFile();
     void printTableFile();
 
-
 signals:
     void inpatientIDChanged(QString strID);
 
@@ -96,7 +95,7 @@ protected:
     QGroupBox *m_hospitalGroup;
     QGroupBox *m_hospitalisationGroup;
 
-    Inpatient *m_inpatient; // 门诊登记表
+    Inpatient *m_inpatient;                   // 门诊登记表
 };
 
 #endif // HOSPITALISATIONREGISTRY_H

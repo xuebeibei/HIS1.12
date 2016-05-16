@@ -112,7 +112,7 @@ bool Account::Read()
     {
         QSqlRecord record = sqlModel->record(0);
         m_InpatientID = record.value("HospitalID").toString();
-        m_eAction = (AccountAction)record.value("Action").toInt();
+        m_eAction = (AccountAction)record.value("AccountAction").toInt();
         m_dActionMoney = record.value("ActionMoney").toDouble();
         m_dBalance = record.value("Balance").toDouble();
         m_dateTime = record.value("Time").toDateTime();
@@ -142,6 +142,8 @@ bool Account::Read()
 
 bool Account::Save()
 {
+    deleteRows(g_strAccount,"ID",m_strID);
+
     QSqlTableModel *sqlModel = new QSqlTableModel;
     sqlModel->setTable(g_strAccount);
 
@@ -152,6 +154,7 @@ bool Account::Save()
     sqlModel->setData(sqlModel->index(row,2), m_eAction);
     sqlModel->setData(sqlModel->index(row,3), m_dActionMoney);
     sqlModel->setData(sqlModel->index(row,4), m_dBalance);
+    m_dateTime = QDateTime::currentDateTime();
     sqlModel->setData(sqlModel->index(row,5), m_dateTime);
     sqlModel->setData(sqlModel->index(row,6), m_ePaymentMethod);
     sqlModel->setData(sqlModel->index(row,7), m_strRemarks);
@@ -162,7 +165,7 @@ bool Account::Save()
 
 bool Account::Delete()
 {
-    return true;
+    return deleteRows(g_strAccount,"ID",m_strID);
 }
 
 QVector<Account *> Account::getRecords(QString strInpatientID)
@@ -179,7 +182,7 @@ QVector<Account *> Account::getRecords(QString strInpatientID)
         QSqlRecord record = sqlModel->record(i);
         temp->m_strID = record.value("ID").toString();
         temp->m_InpatientID = record.value("HospitalID").toString();
-        temp->m_eAction = (AccountAction)record.value("Action").toInt();
+        temp->m_eAction = (AccountAction)record.value("AccountAction").toInt();
         temp->m_dActionMoney = record.value("Money").toDouble();
         temp->m_dBalance = record.value("Balance").toDouble();
         temp->m_dateTime = record.value("DateTime").toDateTime();
@@ -194,22 +197,22 @@ QVector<Account *> Account::getRecords(QString strInpatientID)
 
 QString Account::actionToString()
 {
-    QString strTemp = "";
+    QString strTemp = g_strNull;
     switch(m_eAction)
     {
     case payIn:
     {
-        strTemp = "缴费";
+        strTemp = "+";
         break;
     }
     case refund:
     {
-        strTemp = "退费";
+        strTemp = "-";
         break;
     }
     case consume:
     {
-        strTemp = "收费";
+        strTemp = "-";
         break;
     }
     default:
@@ -221,7 +224,7 @@ QString Account::actionToString()
 
 QString Account::paymentMethodToString()
 {
-    QString strTemp = "";
+    QString strTemp = g_strNull;
     switch(m_ePaymentMethod)
     {
     case cash:

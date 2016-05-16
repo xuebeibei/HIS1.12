@@ -14,15 +14,50 @@ QString HospitalChargeTable::getNewHospitalChargeID()
 
 bool HospitalChargeTable::Read()
 {
-    return true;
+    Account *temp = new Account(m_InpatientID);
+    temp->setID(m_strID);
+
+    if(temp->Read())
+    {
+        m_dDueIncome = temp->getActionMoney();
+        m_time = temp->getDateTime();
+
+        return ReadChargeRecords();
+    }
+    else
+        return false;
 }
 
 bool HospitalChargeTable::Save()
 {
-    return true;
+    Account *temp = new Account(m_InpatientID);
+    temp->setID(m_strID);
+    temp->Read();
+    temp->setAction(consume);
+    temp->setActionMoney(m_dDueIncome);
+    temp->Refund();
+    if(temp->Save() && saveChargeRecords())
+        return true;
+    else
+        return false;
 }
 
 bool HospitalChargeTable::Delete()
 {
-    return true;
+    Account *temp = new Account(m_InpatientID);
+    temp->setID(m_strID);
+    if(temp->Delete() && deleteChargeRecords())
+        return true;
+    else
+        return false;
+}
+
+void HospitalChargeTable::setInpatientID(QString strInpatientID)
+{
+    m_InpatientID = strInpatientID;
+}
+
+QString HospitalChargeTable::getInpatientID() const
+{
+    return m_InpatientID;
 }

@@ -19,6 +19,7 @@ HospitalisationRegistry::~HospitalisationRegistry()
 
 void HospitalisationRegistry::newTableFile()
 {
+    setAllDefaultEnable();
     m_inpatient = new Inpatient;
     Read();
 }
@@ -72,11 +73,6 @@ void HospitalisationRegistry::previewTableFile()
 void HospitalisationRegistry::printTableFile()
 {
 }
-
-//QString HospitalisationRegistry::getInpatientID()
-//{
-//    return m_inpatient->getID();
-//}
 
 void HospitalisationRegistry::create()
 {  
@@ -286,7 +282,7 @@ void HospitalisationRegistry::Save()
     m_inpatient->setName(m_nameEdit->text());
     m_inpatient->setGender((Gender)m_genderCombo->currentIndex());
     m_inpatient->setAge(m_ageEdit->text().toInt());
-    setInpatientID(m_idCardNumEdit->text());
+    m_inpatient->setIDCard(m_idCardNumEdit->text());
 
     Contacts oneContacts;
     oneContacts.setName(m_contactsEdit->text());

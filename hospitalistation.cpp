@@ -18,7 +18,9 @@ void Hospitalistation::newTableFile()
     m_account->setEnabled(false);
     m_account->init();
     m_charge->setEnabled(false);
+    m_charge->init();
     m_leave->setEnabled(false);
+    m_leave->init();
 }
 
 bool Hospitalistation::saveTableFile()
@@ -59,7 +61,10 @@ bool Hospitalistation::findTableFile()
 
 void Hospitalistation::amendTableFile()
 {
-    m_registry->amendTableFile();
+    m_account->setEnabled(false);
+    m_charge->setEnabled(false);
+    m_leave->setEnabled(false);
+    m_registry->amendTableFile(); 
 }
 
 void Hospitalistation::previewTableFile()
@@ -80,9 +85,11 @@ void Hospitalistation::create()
 
     m_charge = new HospitalisationChargeForm;
     m_leave = new LeaveHospitalForm;
-    connect(m_account, SIGNAL(changePayIn(double,double)),m_leave,SLOT(updatePayIn(double,double)));
+
     connect(m_registry, SIGNAL(inpatientIDChanged(QString)), m_account, SLOT(updateInpatientID(QString)));
     connect(m_registry, SIGNAL(inpatientIDChanged(QString)), m_charge, SLOT(updateInpatientID(QString)));
+    connect(m_charge, SIGNAL(ChargeChanged()),m_account,SLOT(showRecords()));
+    connect(m_account, SIGNAL(changePayIn(double,double)),m_leave,SLOT(updatePayIn(double,double)));
 }
 
 void Hospitalistation::setMyLayout()

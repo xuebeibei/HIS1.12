@@ -12,6 +12,9 @@ class HospitalisationChargeForm: public ChargeForm
 public:
     explicit HospitalisationChargeForm(ChargeForm *parent = 0);
     ~HospitalisationChargeForm();
+    void init();
+signals:
+    void ChargeChanged();
 public slots:
     void newTableFile();
     bool saveTableFile();
@@ -25,13 +28,14 @@ public slots:
 protected:
     void create();
     void setMyLayout();
-    void init();
+
 
     void Read();
     bool Save();
+    bool Delete();
 protected:
+    QString m_InpatientID;
     HospitalChargeTable *m_chargeTable;       // 收费单
-    QString m_strInpatientID;
 };
 
 #endif // HOSIPITALISATIONCHARGEFORM_H

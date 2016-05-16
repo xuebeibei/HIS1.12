@@ -30,6 +30,8 @@ public slots:
     void printTableFile();
     void init();
     void updateInpatientID(QString strInpatientID);
+    void updateAccountDate();
+    void showRecords();
 
 protected slots:
     void updateAfterBalance();
@@ -37,13 +39,9 @@ protected:
     void create();
     void setMyLayout();
 
-
     void Read();
     void initTableView();
-    void showRecords();
     void setAllPayIn(double pay, double consume);
-
-    
 protected:
     QLabel *m_numberLabel;              // 单号
     QLineEdit *m_numberEdit;            // 单号

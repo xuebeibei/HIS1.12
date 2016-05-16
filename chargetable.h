@@ -4,6 +4,15 @@
 #include "chargeitem.h"
 #include "histable.h"
 
+const QString strCharge = QObject::tr("Charge");
+const QString strId = strCharge + QObject::tr("Id");
+const QString strItemNo = strCharge +  QObject::tr("ItemNo");
+const QString strItemName = strCharge +  QObject::tr("ItemName");
+const QString strItemCount = strCharge + QObject::tr("ItemCount");
+const QString strItemPrice = strCharge + QObject::tr("ItemPrice");
+const QString strReceipt = QObject::tr("ChinicReceipt");
+const QString strSort = QObject::tr("ClinicSort");
+
 class ChargeTable
 {
 public:
@@ -131,6 +140,18 @@ public:
     // 时间：2016-04-20
     //-----------------------------------------------------------------------------------------------------------------------------------
     bool saveChargeRecords();
+
+    //-----------------------------------------------------------------------------------------------------------------------------------
+    // 名称：deleteChargeRecords
+    // 作用：根据自身单号从数据库中删除收费单对应的所有收费记录
+    // 参数：无
+    // 返回值：
+    // true  - 删除成功
+    // false - 删除失败
+    // 备注：无
+    // 时间：2016-04-20
+    //-----------------------------------------------------------------------------------------------------------------------------------
+    bool deleteChargeRecords();
 
 protected:
     QString m_strID;                          // 收费单单号

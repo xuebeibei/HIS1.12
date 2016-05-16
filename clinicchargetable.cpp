@@ -4,7 +4,7 @@ ClinicChargeTable::ClinicChargeTable()
 {
     m_strID = getNewClinicChargeID();
     m_dRealIncome = 0.0;
-    m_strMaker = "maker";
+    m_strMaker = g_strMaker;
 }
 
 QString ClinicChargeTable::getNewClinicChargeID()
@@ -32,39 +32,36 @@ void ClinicChargeTable::setPatient(Patient patient)
     this->m_patient = patient;
 }
 
-bool ClinicChargeTable::readChargeTable()
+bool ClinicChargeTable::Read()
 {
-
     QSqlTableModel *model = new QSqlTableModel;
     model->setTable(g_strClinicCharge);
-    model->setFilter("ID = \'" + m_strID + "\'");
+    model->setFilter(g_strID + " = \'" + m_strID + "\'");
     model->select();
     for(int i = 0; i< model->rowCount();i++)
     {
         QSqlRecord record = model->record(i);
-        m_strID = record.value("id").toString();
-        m_patient.setName(record.value("name").toString());
-        m_patient.setGender((Gender)record.value("Gender").toInt());
-        m_patient.setAge(record.value("Age").toInt());
-        m_patient.setIDCard(record.value("IdCardNum").toString());
-        m_patient.setSocialSecurityNum(record.value("SocialSecurityNum").toString());
-        m_patient.setMedicalInsuranceType((MedicalInsuranceType)record.value("MedicalInsuranceType").toInt());
-        m_patient.setDepartment(record.value("Department").toString());
-        m_patient.setDoctor(record.value("Doctor").toString());
-        m_time = record.value("Time").toDateTime();
-        m_dDueIncome = record.value("DueIncome").toDouble();
-        m_dRealIncome = record.value("RealIncome").toDouble();
-        m_strMaker = record.value("Maker").toString();
+        m_strID = record.value(g_strID).toString();
+        m_patient.setName(record.value(g_strName).toString());
+        m_patient.setGender((Gender)record.value(g_strGender).toInt());
+        m_patient.setAge(record.value(g_strAge).toInt());
+        m_patient.setIDCard(record.value(g_strIdCardNum).toString());
+        m_patient.setSocialSecurityNum(record.value(g_strSocialSecurityNum).toString());
+        m_patient.setMedicalInsuranceType((MedicalInsuranceType)record.value(g_strMedicalInsuranceType).toInt());
+        m_patient.setDepartment(record.value(g_strDepartment).toString());
+        m_patient.setDoctor(record.value(g_strDoctor).toString());
+        m_time = record.value(g_strTime).toDateTime();
+        m_dDueIncome = record.value(g_strDueIncome).toDouble();
+        m_dRealIncome = record.value(g_strRealIncome).toDouble();
+        m_strMaker = record.value(g_strMaker).toString();
     }
 
-    return true;
-
+    return ReadChargeRecords();
 }
 
-bool ClinicChargeTable::saveChargeTable()
+bool ClinicChargeTable::Save()
 {
-
-    deleteRows(g_strClinicCharge,"ID",m_strID);
+    deleteRows(g_strClinicCharge,g_strID,m_strID);
 
     QSqlTableModel *model = new QSqlTableModel;
     model->setTable(g_strClinicCharge);
@@ -85,32 +82,13 @@ bool ClinicChargeTable::saveChargeTable()
     model->setData(model->index(row,11),m_time);
     model->setData(model->index(row,12),m_strMaker);
     model->submitAll();
-    return true;
-}
 
-bool ClinicChargeTable::Read()
-{
-    if(readChargeTable())
-    {
-        return ReadChargeRecords();
-    }
-    else
-        return false;
-}
-
-bool ClinicChargeTable::Save()
-{
-    if(saveChargeTable())
-    {
-        return saveChargeRecords();
-    }
-    else
-        return false;
+    return saveChargeRecords();
 }
 
 bool ClinicChargeTable::Delete()
 {
-    if(deleteChargeTable())
+    if(deleteRows(g_strClinicCharge,g_strID,m_strID))
         return deleteChargeRecords();
     else
         return false;
@@ -121,24 +99,25 @@ QVector<ClinicChargeTable *> ClinicChargeTable::selectClinicChargesFromDb(QDate 
     QVector<ClinicChargeTable *> vecClinicCharges;
     QSqlTableModel *model = new QSqlTableModel;
     model->setTable(g_strClinicCharge);
-    QString strStartTime = date.toString("yyyy-MM-dd") + "T00:00:00";
+
+    QString strStartTime = date.toString(g_strYMD) + g_strDayStartTime;
     QString strEndTime;
     if(ReportTime .date() > date)
     {
-        strEndTime = date.toString("yyyy-MM-dd") + "T23:59:59";
+        strEndTime = date.toString(g_strYMD) + g_strDayEndTime;
     }
     else if(ReportTime .date() == date)
     {
-        strEndTime = date.toString("yyyy-MM-dd") + ReportTime .time().toString("Thh:mm:ss");
+        strEndTime = date.toString(g_strYMD) + ReportTime .time().toString("Thh:mm:ss");
     }
 
-    model->setFilter("Time between \'" + strStartTime + "\' and \'" +strEndTime +"\'");
+    model->setFilter(g_strTime +" between \'" + strStartTime + "\' and \'" +strEndTime +"\'");
     model->select();
 
     for(int i = 0; i < model->rowCount(); i++)
     {
         QSqlRecord record = model->record(i);
-        QString strChargeId = record.value("ID").toString();
+        QString strChargeId = record.value(g_strID).toString();
         ClinicChargeTable *charge = new ClinicChargeTable;
         charge->setID(strChargeId);
         charge->Read();
@@ -146,17 +125,3 @@ QVector<ClinicChargeTable *> ClinicChargeTable::selectClinicChargesFromDb(QDate 
     }
     return vecClinicCharges;
 }
-
-bool ClinicChargeTable::deleteChargeTable()
-{
-
-    return deleteRows(g_strClinicCharge,"ID",m_strID);
-
-}
-
-bool ClinicChargeTable::deleteChargeRecords()
-{
-
-    return deleteRows(g_strClinicChargeDetails,"ChargeId",m_strID);
-}
-

@@ -8,7 +8,6 @@ HospitalisationAccountForm::HospitalisationAccountForm(SubForm *parent) :
     init();
     setMaximumHeight(240);
     setMinimumWidth(700);
-
 }
 
 HospitalisationAccountForm::~HospitalisationAccountForm()
@@ -22,6 +21,11 @@ void HospitalisationAccountForm::updateInpatientID(QString strInpatientID)
     newTableFile();
 }
 
+void HospitalisationAccountForm::updateAccountDate()
+{
+    showRecords();
+}
+
 double HospitalisationAccountForm::getAllPayIn()
 {
     return m_allPayIn;
@@ -31,7 +35,6 @@ double HospitalisationAccountForm::getAllConsume()
 {
     return m_allConsume;
 }
-
 
 void HospitalisationAccountForm::newTableFile()
 {
@@ -47,6 +50,7 @@ bool HospitalisationAccountForm::saveTableFile()
     double dMoney = m_paymentEdit->text().toDouble();
     if(dMoney <= 0)
         return false;
+    m_account->Read();
     m_account->setActionMoney(dMoney);
     m_account->setPaymentMethod((PaymentMethod)m_paymentMethodCombo->currentIndex());
     m_account->PayIn();
@@ -193,7 +197,7 @@ void HospitalisationAccountForm::initTableView()
     strList.append("单号");
     strList.append("日期");
     strList.append("余额");
-    strList.append("操作类型");
+    strList.append("类型");
     strList.append("金额");
     strList.append("付款方式");
 
@@ -237,7 +241,6 @@ void HospitalisationAccountForm::showRecords()
         }
     }
     setAllPayIn(dAllPayIn, dallConsume);
-
 }
 
 void HospitalisationAccountForm::setAllPayIn(double pay, double consume)
@@ -246,6 +249,7 @@ void HospitalisationAccountForm::setAllPayIn(double pay, double consume)
     {
         m_allPayIn = pay;
         m_allConsume = consume;
+        m_beforeBalanceEdit->setText(QString::number(m_allPayIn - m_allConsume));
         emit changePayIn(m_allPayIn, m_allConsume);
     }
 }

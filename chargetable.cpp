@@ -63,7 +63,7 @@ bool ChargeTable::ReadChargeRecords()
 {
     QSqlTableModel *model = new QSqlTableModel;
     model->setTable(g_strClinicChargeDetails);
-    model->setFilter("ChargeId = \'" + m_strID +"\'");
+    model->setFilter(strId + " = \'" + m_strID +"\'");
     model->select();
 
     m_chargeItems.clear();
@@ -72,25 +72,24 @@ bool ChargeTable::ReadChargeRecords()
         QSqlRecord record = model->record(i);
 
         ChargeItem *item = new ChargeItem;
-        item->setChargeItemNo(record.value("ChargeItemNo").toString());
-        item->setChargeItemName(record.value("ChargeItemName").toString());
-        item->setChargeItemCount(record.value("ChargeItemCount").toInt());
-        item->setChargeItemPrice(record.value("ChargeItemPrice").toDouble());
-        item->setReceipt(record.value("ChinicReceipt").toString());
-        item->setSort(record.value("ClinicSort").toString());
-        item->setChargeId(record.value("ClinicChargeId").toString());
+        item->setChargeId(record.value(strId).toString());
+        item->setChargeItemNo(record.value(strItemNo).toString());
+        item->setChargeItemName(record.value(strItemName).toString());
+        item->setChargeItemCount(record.value(strItemCount).toInt());
+        item->setChargeItemPrice(record.value(strItemPrice).toDouble());
+        item->setReceipt(record.value(strReceipt).toString());
+        item->setSort(record.value(strSort).toString());
 
         m_chargeItems.append(item);
     }
 
     return true;
-
 }
 
 bool ChargeTable::saveChargeRecords()
 {
 
-    HISTable::deleteRows(g_strClinicChargeDetails,"ChargeId",m_strID);
+    HISTable::deleteRows(g_strClinicChargeDetails,strId,m_strID);
 
     QSqlTableModel *model = new QSqlTableModel;
     model->setTable(g_strClinicChargeDetails);
@@ -105,9 +104,13 @@ bool ChargeTable::saveChargeRecords()
         model->setData(model->index(row,chargeItemPrice),m_chargeItems.at(row)->getChargeItemPrice());
         model->setData(model->index(row,clinicReceipt),m_chargeItems.at(row)->getReceipt());
         model->setData(model->index(row,clinicSort),m_chargeItems.at(row)->getSort());
-        model->setData(model->index(row,clinicChargeId),m_chargeItems.at(row)->getChargeId());
+        model->setData(model->index(row,ChargeId),m_chargeItems.at(row)->getChargeId());
         model->submitAll();
     }
-
     return true;
+}
+
+bool ChargeTable::deleteChargeRecords()
+{
+     return HISTable::deleteRows(g_strClinicChargeDetails,strId,m_strID);
 }

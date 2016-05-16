@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "chargetable.h"
 #include "histable.h"
+#include "account.h"
 
 class HospitalChargeTable : public ChargeTable, public HISTable
 {
@@ -23,8 +24,11 @@ public:
     bool Read();
     bool Save();
     bool Delete();
+    void setInpatientID(QString strInpatientID);
+    QString getInpatientID() const;
 protected:
     QString m_InpatientID;                    // 患者住院号
+    //Account *m_account;                        // 患者账户
 };
 
 #endif // HOSPITALCHARGETABLE_H

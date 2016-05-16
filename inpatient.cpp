@@ -109,7 +109,6 @@ bool Inpatient::Read()
         m_contacts.setAddress(record.value("Address").toString());
         m_registryDate = record.value("Date").toDate();
 
-
         return true;
     }
     else
@@ -183,7 +182,6 @@ QStringList Inpatient::getIDsFromDB(QString strID, QString strName, Gender eGend
         QString strID = record.value("HospitalID").toString();
         strList.append(strID);
     }
-
 
     return strList;
 }

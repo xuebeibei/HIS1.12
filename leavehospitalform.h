@@ -12,6 +12,7 @@ class LeaveHospitalForm : public QWidget
 public:
     explicit LeaveHospitalForm(QWidget *parent = 0);
     ~LeaveHospitalForm();
+    void init();
 
 public slots:
     void updatePayIn(double dPayIn,double dConsume);
@@ -19,7 +20,7 @@ public slots:
 protected:
     void create();
     void setMyLayout();
-    void init();
+
 protected:
     QLabel *m_allPayInLabel;
     QLineEdit *m_allPayInEdit;

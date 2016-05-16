@@ -16,17 +16,26 @@ HospitalisationChargeForm::~HospitalisationChargeForm()
 void HospitalisationChargeForm::newTableFile()
 {
     m_chargeTable = new HospitalChargeTable;
+    init();
     Read();
 }
 
 bool HospitalisationChargeForm::saveTableFile()
 {
-    return Save();
+    bool result = Save();
+
+    emit ChargeChanged();
+    newTableFile();
+    return result;
 }
 
 bool HospitalisationChargeForm::deleteTableFile()
 {
-    return true;
+    bool result = Delete();
+
+    emit ChargeChanged();
+    newTableFile();
+    return result;
 }
 
 void HospitalisationChargeForm::exportTableFile()
@@ -52,13 +61,12 @@ void HospitalisationChargeForm::printTableFile()
 
 void HospitalisationChargeForm::updateInpatientID(QString strInpatientID)
 {
-    m_strInpatientID = strInpatientID;
+    m_InpatientID = strInpatientID;
     newTableFile();
 }
 
 void HospitalisationChargeForm::create()
 {
-
 }
 
 void HospitalisationChargeForm::setMyLayout()
@@ -67,12 +75,12 @@ void HospitalisationChargeForm::setMyLayout()
     topLayout->addWidget(m_newButton);
     topLayout->addWidget(m_saveButton);
     topLayout->addWidget(m_deleteButton);
-    topLayout->addWidget(m_amendButton);
     topLayout->addWidget(m_findButton);
-    topLayout->addStretch();
+    topLayout->addWidget(m_amendButton);
     topLayout->addWidget(addRowButton);
     topLayout->addWidget(deleteRowButton);
     topLayout->addWidget(comboButton);
+    topLayout->addStretch();
 
     QGroupBox *leftTopGroup = new QGroupBox;
     QGridLayout *leftTopLayout = new QGridLayout;
@@ -108,6 +116,7 @@ void HospitalisationChargeForm::setMyLayout()
 
 void HospitalisationChargeForm::init()
 {
+
     QStringList strList;
     strList.append("收费项编码");
     strList.append("收费项名称");
@@ -120,6 +129,7 @@ void HospitalisationChargeForm::init()
 
 void HospitalisationChargeForm::Read()
 {
+    m_chargeTable->setInpatientID(m_InpatientID);
     if(m_chargeTable->Read())
     {
         QVector<ChargeItem*> chargeItems = m_chargeTable->getChargeItems();
@@ -128,13 +138,25 @@ void HospitalisationChargeForm::Read()
 
     m_numberEdit->setText(m_chargeTable->getID());
     m_allDueIncomeEdit->setText(QString::number(m_chargeTable->getDueIncome()));
-
 }
 
 bool HospitalisationChargeForm::Save()
 {
+    m_chargeTable->setInpatientID(m_InpatientID);
+    m_chargeTable->setDueIncome(m_allDueIncomeEdit->text().toDouble());
     QVector<ChargeItem*> chargeItems = getChargeItems();
+    if(chargeItems.size() <= 0)
+    {
+        return false;
+    }
     m_chargeTable->setChargeItems(chargeItems);
 
     return m_chargeTable->Save();
+}
+
+bool HospitalisationChargeForm::Delete()
+{
+    m_chargeTable->setInpatientID(m_InpatientID);
+    m_chargeTable->setID(m_numberEdit->text());
+    return m_chargeTable->Delete();
 }
