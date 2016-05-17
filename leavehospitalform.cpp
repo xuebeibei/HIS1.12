@@ -21,12 +21,17 @@ void LeaveHospitalForm::updatePayIn(double dPayIn, double dConsume)
      m_allChargeEdit->setText(QString::number(dConsume));
      m_allBalanceEdit->setText(QString::number(dBalance));
      if(dBalance > 0)
+     {
          m_payInArrearsButton->setText("退款");
+         m_payInArrearsButton->setEnabled(true);
+     }
      else if(dBalance < 0)
+     {
          m_payInArrearsButton->setText("补款");
-     else
+         m_payInArrearsButton->setEnabled(true);
+     }
+     else if(dBalance == 0)
          m_payInArrearsButton->setEnabled(false);
-
 }
 
 void LeaveHospitalForm::create()
@@ -87,5 +92,4 @@ void LeaveHospitalForm::init()
     m_allPayInEdit->setText(QString::number(0));
     m_allChargeEdit->setText(QString::number(0));
     m_allBalanceEdit->setText(QString::number(0));
-    m_payInArrearsButton->setEnabled(false);
 }

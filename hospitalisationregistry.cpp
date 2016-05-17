@@ -27,6 +27,7 @@ void HospitalisationRegistry::newTableFile()
 bool HospitalisationRegistry::saveTableFile()
 {
     Save();
+    setAllUnEnable();
     return true;
 }
 

@@ -118,6 +118,8 @@ bool Inpatient::Read()
 bool Inpatient::Save()
 {
 
+    deleteRows(g_strInPatient,"HospitalID",m_strID);
+
     QSqlTableModel *sqlModel = new QSqlTableModel;
     sqlModel->setTable(g_strInPatient);
 
@@ -143,8 +145,6 @@ bool Inpatient::Save()
     sqlModel->submitAll();
 
     return true;
-
-
 }
 
 bool Inpatient::Delete()
