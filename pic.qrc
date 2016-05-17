@@ -11,5 +11,9 @@
         <file>icon/find.png</file>
         <file>icon/bed.png</file>
         <file>icon/patient.png</file>
+        <file>icon/down.png</file>
+        <file>icon/left.png</file>
+        <file>icon/right.png</file>
+        <file>icon/up.png</file>
     </qresource>
 </RCC>

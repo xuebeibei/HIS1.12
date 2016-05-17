@@ -18,11 +18,15 @@ void HospitalisationChargeForm::newTableFile()
     m_chargeTable = new HospitalChargeTable;
     init();
     Read();
+    m_deleteButton->setEnabled(false);
+    m_amendButton->setEnabled(false);
+    m_saveButton->setEnabled(true);
 }
 
 bool HospitalisationChargeForm::saveTableFile()
 {
     bool result = Save();
+
 
     emit ChargeChanged();
     newTableFile();
@@ -58,12 +62,17 @@ bool HospitalisationChargeForm::findTableFile()
         m_chargeTable->setID(strId);
         Read();
         setAllUnEnable();
+        m_deleteButton->setEnabled(true);
+        m_amendButton->setEnabled(true);
+        m_saveButton->setEnabled(false);
         return true;
     }
 }
 
 void HospitalisationChargeForm::amendTableFile()
 {
+    setAllDefaultEnable();
+    m_saveButton->setEnabled(true);
 }
 
 void HospitalisationChargeForm::previewTableFile()
@@ -144,6 +153,7 @@ void HospitalisationChargeForm::init()
 
 void HospitalisationChargeForm::Read()
 {
+    init();
     m_chargeTable->setInpatientID(m_InpatientID);
     if(m_chargeTable->Read())
     {

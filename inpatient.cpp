@@ -154,28 +154,38 @@ bool Inpatient::Delete()
 
 QStringList Inpatient::getIDsFromDB(QString strID, QString strName, Gender eGender)
 {
-    QStringList strList;
-
     QSqlTableModel *sqlModel = new QSqlTableModel;
     sqlModel->setTable(g_strInPatient);
 
-    QString strTemp = "" , strSql;
-    strTemp = "Gender = \'" + QString::number((int)eGender) +"\' ";
-    strSql += strTemp;
+    QString strSql = "",strTemp;
+    QStringList sqlList;
+    if(eGender != allGender)
+    {
+        strTemp = "Gender = \'" + QString::number((int)eGender) +"\' ";
+        sqlList.append(strTemp);
+    }
+
     if(!strID.isEmpty())
     {
-        strTemp = "and HospitalID = \'" + strID +"\' ";
-        strSql += strTemp;
+        strTemp = " HospitalID = \'" + strID +"\' ";
+        sqlList.append(strTemp);
     }
     if(!strName.isEmpty())
     {
-        strTemp = "and Name = \'" + strName +"\' ";
-        strSql += strTemp;
+        strTemp = " Name = \'" + strName +"\' ";
+        sqlList.append(strTemp);
+    }
+
+    for(int i = 0; i < sqlList.size(); i++)
+    {
+        if(i != 0)
+            strSql += " and ";
+        strSql += sqlList.at(i);
     }
 
     sqlModel->setFilter(strSql);
     sqlModel->select();
-
+    QStringList strList;
     for(int i = 0;i < sqlModel->rowCount(); i++)
     {
         QSqlRecord record = sqlModel->record(i);

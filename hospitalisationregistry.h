@@ -13,7 +13,7 @@ class HospitalisationRegistry : public SubForm
 public:
     explicit HospitalisationRegistry(SubForm *parent = 0);
     ~HospitalisationRegistry();
-
+public slots:
     void newTableFile();
     bool saveTableFile();
     bool deleteTableFile();
@@ -22,6 +22,7 @@ public:
     void amendTableFile();
     void previewTableFile();
     void printTableFile();
+    void showInpatient(QString strID);
 
 signals:
     void inpatientIDChanged(QString strID);

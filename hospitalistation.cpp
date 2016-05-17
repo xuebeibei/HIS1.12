@@ -86,6 +86,7 @@ void Hospitalistation::create()
     m_charge = new HospitalisationChargeForm;
     m_leave = new LeaveHospitalForm;
 
+    connect(m_allInpaitent,SIGNAL(UpdateInpatientID(QString)),m_registry, SLOT(showInpatient(QString)));
     connect(m_registry, SIGNAL(inpatientIDChanged(QString)), m_account, SLOT(updateInpatientID(QString)));
     connect(m_registry, SIGNAL(inpatientIDChanged(QString)), m_charge, SLOT(updateInpatientID(QString)));
     connect(m_charge, SIGNAL(ChargeChanged()),m_account,SLOT(showRecords()));

@@ -48,7 +48,6 @@ void HospitalisationRegistry::exportTableFile()
 
 bool HospitalisationRegistry::findTableFile()
 {
-
     FindRegistryDlg *dailog = new FindRegistryDlg;
     dailog->exec();
     QString strID = dailog->getID();
@@ -73,6 +72,13 @@ void HospitalisationRegistry::previewTableFile()
 
 void HospitalisationRegistry::printTableFile()
 {
+}
+
+void HospitalisationRegistry::showInpatient(QString strID)
+{
+    setInpatientID(strID);
+    Read();
+    setAllUnEnable();
 }
 
 void HospitalisationRegistry::create()
