@@ -113,9 +113,9 @@ bool Account::Read()
         QSqlRecord record = sqlModel->record(0);
         m_InpatientID = record.value("HospitalID").toString();
         m_eAction = (AccountAction)record.value("AccountAction").toInt();
-        m_dActionMoney = record.value("ActionMoney").toDouble();
+        m_dActionMoney = record.value("Money").toDouble();
         m_dBalance = record.value("Balance").toDouble();
-        m_dateTime = record.value("Time").toDateTime();
+        m_dateTime = record.value("DateTime").toDateTime();
 
         m_ePaymentMethod = (PaymentMethod)record.value("Method").toInt();
         m_strRemarks = record.value("Remarks").toString();

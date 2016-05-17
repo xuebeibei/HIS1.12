@@ -31,6 +31,7 @@ INPUT(
 ./release\hospitalchargetable.o
 ./release\chargetable.o
 ./release\chargeform.o
+./release\findhospitalchargedlg.o
 ./release\qrc_pic.o
 ./release\moc_hismainwindow.o
 ./release\moc_subform.o

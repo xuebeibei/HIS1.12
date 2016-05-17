@@ -7,6 +7,7 @@
 QT       += core gui
 QT += sql
 QT += xml
+PRECOMPILED_HEADER = stdafx.h
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -45,7 +46,8 @@ SOURCES += main.cpp\
     chargeitem.cpp \
     hospitalchargetable.cpp \
     chargetable.cpp \
-    chargeform.cpp
+    chargeform.cpp \
+    findhospitalchargedlg.cpp
 
 HEADERS  += hismainwindow.h \
     stdafx.h \
@@ -80,7 +82,8 @@ HEADERS  += hismainwindow.h \
     chargeitem.h \
     hospitalchargetable.h \
     chargetable.h \
-    chargeform.h
+    chargeform.h \
+    findhospitalchargedlg.h
 
 FORMS    +=
 

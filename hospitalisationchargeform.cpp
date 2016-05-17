@@ -44,7 +44,22 @@ void HospitalisationChargeForm::exportTableFile()
 
 bool HospitalisationChargeForm::findTableFile()
 {
-    return true;
+    FindHospitalChargeDlg *dialog = new FindHospitalChargeDlg;
+    dialog->setInpatientID(m_InpatientID);
+    dialog->exec();
+    QString strId = dialog->getID();
+
+    if(strId.isEmpty())
+    {
+        return false;
+    }
+    else
+    {
+        m_chargeTable->setID(strId);
+        Read();
+        setAllUnEnable();
+        return true;
+    }
 }
 
 void HospitalisationChargeForm::amendTableFile()
@@ -159,4 +174,16 @@ bool HospitalisationChargeForm::Delete()
     m_chargeTable->setInpatientID(m_InpatientID);
     m_chargeTable->setID(m_numberEdit->text());
     return m_chargeTable->Delete();
+}
+
+void HospitalisationChargeForm::setAllDefaultEnable()
+{
+    m_chargeRecordsView->setEditTriggers(QAbstractItemView::DoubleClicked);
+    m_chargeRecordsView->setSelectionBehavior(QAbstractItemView::SelectRows);
+}
+
+void HospitalisationChargeForm::setAllUnEnable()
+{
+    m_chargeRecordsView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    m_chargeRecordsView->setSelectionBehavior(QAbstractItemView::SelectRows);
 }

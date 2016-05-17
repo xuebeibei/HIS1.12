@@ -5,6 +5,8 @@
 #include "subform.h"
 #include "hospitalchargetable.h"
 #include "chargeform.h"
+#include "findhospitalchargedlg.h"
+
 class HospitalisationChargeForm: public ChargeForm
 {
     Q_OBJECT
@@ -33,6 +35,8 @@ protected:
     void Read();
     bool Save();
     bool Delete();
+    void setAllDefaultEnable();
+    void setAllUnEnable();
 protected:
     QString m_InpatientID;
     HospitalChargeTable *m_chargeTable;       // 收费单

@@ -26,9 +26,9 @@ public:
     bool Delete();
     void setInpatientID(QString strInpatientID);
     QString getInpatientID() const;
+
 protected:
     QString m_InpatientID;                    // 患者住院号
-    //Account *m_account;                        // 患者账户
 };
 
 #endif // HOSPITALCHARGETABLE_H
