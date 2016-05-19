@@ -49,7 +49,7 @@ SOURCES += main.cpp\
     chargeform.cpp \
     findhospitalchargedlg.cpp \
     internalpaymentform.cpp \
-    hospitalinterpaymentform.cpp
+    hospitalinternalpaymentform.cpp
 
 HEADERS  += hismainwindow.h \
     stdafx.h \
@@ -87,7 +87,7 @@ HEADERS  += hismainwindow.h \
     chargeform.h \
     findhospitalchargedlg.h \
     internalpaymentform.h \
-    hospitalinterpaymentform.h
+    hospitalinternalpaymentform.h
 
 FORMS    +=
 

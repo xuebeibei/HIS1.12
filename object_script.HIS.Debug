@@ -33,7 +33,7 @@ INPUT(
 ./debug\chargeform.o
 ./debug\findhospitalchargedlg.o
 ./debug\internalpaymentform.o
-./debug\hospitalinterpaymentform.o
+./debug\hospitalinternalpaymentform.o
 ./debug\qrc_pic.o
 ./debug\moc_hismainwindow.o
 ./debug\moc_subform.o
@@ -54,4 +54,5 @@ INPUT(
 ./debug\moc_allinpatientsform.o
 ./debug\moc_chargeform.o
 ./debug\moc_internalpaymentform.o
+./debug\moc_hospitalinternalpaymentform.o
 );

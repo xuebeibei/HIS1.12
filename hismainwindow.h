@@ -11,7 +11,7 @@
 #include "clinicpaymentstatisticform.h"
 #include "hospitalisationregistry.h"
 #include "hospitalistation.h"
-#include "hospitalinterpaymentform.h"
+#include "hospitalinternalpaymentform.h"
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 // HIS系统主界面类

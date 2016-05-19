@@ -113,7 +113,7 @@ void HISMainWindow::showHospitalRegistry()
 void HISMainWindow::showHospitalInterPayment()
 {
     initToolsAllEnable();
-    subForm = new HospitalInterPaymentForm;
+    subForm = new HospitalInternalPaymentForm;
     setCentralWidget(subForm);
 
     newAction->setEnabled(false);
