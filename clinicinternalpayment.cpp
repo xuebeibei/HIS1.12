@@ -54,3 +54,51 @@ QVector<InternalPaymentItem *> ClinicInternalPayment::selectFromDB(QDate startDa
 
     return result;
 }
+
+
+QVector<QVector<QString> >* ClinicInternalPayment::selectFromDB(QDate startDate, QDate endDate, QString strConditionSort, QString strConditionWho)
+{
+    QVector<QString> vecSort = getDistinctFromDB(strConditionSort , g_strClinicChargeDetails);
+    QVector<QString> vecWho = getDistinctFromDB(strConditionWho , g_strClinicCharge);
+
+    QVector<QVector<QString> > *dueIncome = new QVector<QVector<QString> >;
+    if(endDate < startDate)
+        return NULL;
+    if(vecSort.size()<=0||vecWho.size()<=0)
+        return NULL;
+    dueIncome->resize(0);
+    dueIncome->append(vecWho);
+
+    QString startTime = startDate.toString("yyyy-MM-dd") + "T00:00:00";
+    QString endTime = endDate.toString("yyyy-MM-dd") + "T23:59:59";
+    QSqlQueryModel *sqlModel = new QSqlTableModel;
+    for(int i = 0;i< vecSort.size();i++)
+    {
+        QString strSort = vecSort.at(i);
+        QVector<QString> temp;
+        temp.append(vecSort.at(i));
+        for(int j = 0;j< vecWho.size();j++)
+        {
+            QString strWho = vecWho.at(j);
+
+            QString strSql = "select * from "+ g_strClinicChargeDetails + " where "
+                    + strConditionSort+ " = \'" + strSort + "\' and chargei"
+                    "d in (select id from cliniccharge where time between \'"
+                    + startTime+"\' and \'"+endTime+
+                    "\' and " + strConditionWho +
+                    " = \'" + strWho +"\')";
+            sqlModel->setQuery(strSql);
+
+            double all = 0;
+            for(int n = 0;n<sqlModel->rowCount();n++)
+            {
+                int nCount = sqlModel->record(n).value("ChargeItemCount").toInt();
+                double nPrice = sqlModel->record(n).value("ChargeItemPrice").toDouble();
+                all += nCount*nPrice;
+            }
+            temp.append(QString::number(all));
+        }
+        dueIncome->append(temp);
+    }
+    return dueIncome;
+}

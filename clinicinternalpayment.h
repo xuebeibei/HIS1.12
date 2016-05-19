@@ -49,6 +49,21 @@ public:
     // 时间：2016-05-12
     //-----------------------------------------------------------------------------------------------------------------------------------
     static QVector<InternalPaymentItem*> selectFromDB(QDate startDate, QDate endDate);
+
+
+    //-----------------------------------------------------------------------------------------------------------------------------------
+    // 名称：selectFromDB
+    // 作用：从数据库中查询一段时间内所有收据/分类 中 不同 科室/医生/制单人 的应收金额总计
+    // 参数：
+    // startDate - 起始日期
+    // endDate - 结束日期
+    // strConditionSort - 按照 收据/分类 进行筛选
+    // strConditionWho - 按照 科室/医生/制单人 进行筛选
+    // 返回值：无
+    // 备注：备注需要修改
+    // 时间：2016-5-19
+    //-----------------------------------------------------------------------------------------------------------------------------------
+    static QVector<QVector<QString> >* selectFromDB(QDate startDate, QDate endDate, QString strConditionSort,QString strConditionWho);
 };
 
 #endif // CLINICINTERNALPAYMENTITEM_H

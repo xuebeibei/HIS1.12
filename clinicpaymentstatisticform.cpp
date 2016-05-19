@@ -19,11 +19,9 @@ ClinicPaymentStatisticForm::~ClinicPaymentStatisticForm()
     delete m_conditionSortBtnGroup;
     delete m_conditionWhoBtnGroup;
 
-    delete m_conditionSortGroup;
     delete m_clinicReceiptRadio;
     delete m_clinicSortRadio;
 
-    delete m_conditionWhoGroup;
     delete m_departmentRadio;
     delete m_doctorRadio;
     delete m_makerRadio;
@@ -84,7 +82,6 @@ void ClinicPaymentStatisticForm::create()
     m_conditionSortBtnGroup = new QButtonGroup(this);
     m_conditionWhoBtnGroup = new QButtonGroup(this);
 
-    m_conditionSortGroup = new QGroupBox;
     m_clinicReceiptRadio = new QRadioButton("门诊收据");
     connect(m_clinicReceiptRadio, SIGNAL(clicked(bool)), this, SLOT(setConditionSort()));
     m_clinicSortRadio = new QRadioButton("门诊分类");
@@ -92,7 +89,6 @@ void ClinicPaymentStatisticForm::create()
     m_conditionSortBtnGroup->addButton(m_clinicReceiptRadio, 0);
     m_conditionSortBtnGroup->addButton(m_clinicSortRadio, 1);
 
-    m_conditionWhoGroup = new QGroupBox;
     m_departmentRadio = new QRadioButton("科室");
     connect(m_departmentRadio, SIGNAL(clicked(bool)), this, SLOT(setConditionWho()));
     m_doctorRadio = new QRadioButton("医生");
@@ -127,17 +123,19 @@ void ClinicPaymentStatisticForm::setMyLayout()
     dateLayout->addWidget(m_endDateLabel,1,0);
     dateLayout->addWidget(m_endDateEdit,1,1);
 
+    QGroupBox *conditionSortGroup = new QGroupBox;
     conditionSortLayout->addWidget(m_clinicReceiptRadio);
     conditionSortLayout->addWidget(m_clinicSortRadio);
-    m_conditionSortGroup->setLayout(conditionSortLayout);
+    conditionSortGroup->setLayout(conditionSortLayout);
 
+    QGroupBox *m_conditionWhoGroup = new QGroupBox;
     conditionWhoLayout->addWidget(m_departmentRadio);
     conditionWhoLayout->addWidget(m_doctorRadio);
     conditionWhoLayout->addWidget(m_makerRadio);
     m_conditionWhoGroup->setLayout(conditionWhoLayout);
 
     leftLayout->addLayout(dateLayout);
-    leftLayout->addWidget(m_conditionSortGroup);
+    leftLayout->addWidget(conditionSortGroup);
     leftLayout->addWidget(m_conditionWhoGroup);
     leftLayout->addStretch();
 
@@ -168,35 +166,49 @@ void ClinicPaymentStatisticForm::initTable()
     if(m_strConditionSort == "ClinicSort")
         str = "门诊分类";
     m_resultModel->setHorizontalHeaderItem(0, new QStandardItem(str));
-    for(int i = 0; i < m_vecWho.size();i++)
-    {
-        m_resultModel->setHorizontalHeaderItem(i+1, new QStandardItem(m_vecWho.at(i)));
-    }
-    int last = m_vecWho.size() == 0 ? 1: m_vecWho.size()+1;
-    m_resultModel->setHorizontalHeaderItem(last, new QStandardItem("应收合计"));
-    for(int i = 0;i < m_vecSort.size();i++)
-    {
-        m_resultModel->setItem(i, 0, new QStandardItem(m_vecSort.at(i)));
-    }
 }
 
 void ClinicPaymentStatisticForm::updateTable()
 {
+    QVector<QVector<QString> > *dueIncome = new QVector<QVector<QString> >;
     // 获取条件
     initTable();
     // 从数据库按条件查询
-    selectFromDB(m_startDateEdit->date(),m_endDateEdit->date(),m_strConditionSort,m_strConditionWho);
+    dueIncome = ClinicInternalPayment::selectFromDB(
+                m_startDateEdit->date(),
+                m_endDateEdit->date(),
+                m_strConditionSort,
+                m_strConditionWho);
 
-    for(int i = 0;i<m_dueIncome.size();i++)
+    if(dueIncome == NULL)
+        return;
+    for(int i = 0;i<dueIncome->size();i++)
     {
         double all = 0.0;
-        QVector<double> temp = m_dueIncome.at(i);
+        QVector<QString> temp = dueIncome->at(i);
         for(int j = 0;j<temp.size();j++)
         {
-            all += temp.at(j);
-            m_resultModel->setItem(i, j+1, new QStandardItem(QString::number(temp.at(j))));
+            if(i == 0)
+            {
+                m_resultModel->setHorizontalHeaderItem(j+1, new QStandardItem(temp.at(j)));
+            }
+            else if( i > 0)
+            {
+                m_resultModel->setItem(i-1, j, new QStandardItem(temp.at(j)));
+                if(j!=0)
+                     all += temp.at(j).toDouble();
+            }
+
         }
-        m_resultModel->setItem(i, temp.size()+1, new QStandardItem(QString::number(all)));
+        if(i == 0)
+        {
+            m_resultModel->setHorizontalHeaderItem(temp.size()+1, new QStandardItem("合计"));
+        }
+        else if(i > 0)
+        {
+            m_resultModel->setItem(i-1, temp.size(), new QStandardItem(QString::number(all)));
+        }
+
     }
 }
 
@@ -215,8 +227,6 @@ void ClinicPaymentStatisticForm::setConditionSort()
         break;
     }
     }
-
-    m_vecSort = ClinicInternalPayment::getDistinctFromDB(m_strConditionSort , g_strClinicChargeDetails);
 
     updateTable();
 }
@@ -242,50 +252,5 @@ void ClinicPaymentStatisticForm::setConditionWho()
     }
     }
 
-    m_vecWho = ClinicInternalPayment::getDistinctFromDB(m_strConditionWho , g_strClinicCharge);
-
     updateTable();
-}
-
-
-void ClinicPaymentStatisticForm::selectFromDB(QDate startDate, QDate endDate, QString strConditionSort,QString strConditionWho)
-{
-    if(endDate < startDate)
-        return;
-    if(m_vecSort.size()<=0||m_vecWho.size()<=0)
-        return;
-    m_dueIncome.resize(0);
-
-    QString startTime = startDate.toString("yyyy-MM-dd") + "T00:00:00";
-    QString endTime = endDate.toString("yyyy-MM-dd") + "T23:59:59";
-    QSqlQueryModel *sqlModel = new QSqlTableModel;
-    for(int i = 0;i< m_vecSort.size();i++)
-    {
-        QString strSort = m_vecSort.at(i);
-        m_resultModel->setItem(i, 0, new QStandardItem(strSort));
-        QVector<double> temp;
-        for(int j = 0;j< m_vecWho.size();j++)
-        {
-
-            QString strWho = m_vecWho.at(j);
-
-            QString strSql = "select * from clinicchargedetails where "
-                    + strConditionSort+ " = \'" + strSort + "\' and chargei"
-                    "d in (select id from cliniccharge where time between \'"
-                    + startTime+"\' and \'"+endTime+
-                    "\' and " + strConditionWho +
-                    " = \'" + strWho +"\')";
-            sqlModel->setQuery(strSql);
-
-            double all = 0;
-            for(int n = 0;n<sqlModel->rowCount();n++)
-            {
-                int nCount = sqlModel->record(n).value("ChargeItemCount").toInt();
-                double nPrice = sqlModel->record(n).value("ChargeItemPrice").toDouble();
-                all += nCount*nPrice;
-            }
-            temp.append(all);
-        }
-        m_dueIncome.append(temp);
-    }
 }
