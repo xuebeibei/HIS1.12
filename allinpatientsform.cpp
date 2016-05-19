@@ -6,7 +6,7 @@ AllInpatientsForm::AllInpatientsForm(QWidget *parent) :
     create();
     setMyLayout();
     setMaximumWidth(200);
-    init();
+    updateAllInpatients();
 }
 
 AllInpatientsForm::~AllInpatientsForm()
@@ -63,8 +63,37 @@ void AllInpatientsForm::setMyLayout()
 
 void AllInpatientsForm::init()
 {
+    m_treeModel->clear();
     m_treeModel->setHorizontalHeaderLabels(QStringList()<<QStringLiteral("床位")<<QStringLiteral("姓名"));
+}
 
+
+void AllInpatientsForm::setInpatientID()
+{
+    QModelIndex index = m_tree->currentIndex();
+    if(index.isValid() && index.parent().isValid())
+    {
+        QString strDepartment = index.parent().data().toString();
+
+        QVector<Inpatient *> vec;
+        QMap<QString,QVector<Inpatient*> >::iterator iter;
+        iter = map.find(strDepartment);
+        if(iter != map.end())
+        {
+            vec = iter.value();
+            QString strID = vec.at(index.row())->getID();
+            if(QString::compare(strID,m_InpatientID) != 0)
+            {
+                m_InpatientID = strID;
+                emit UpdateInpatientID(m_InpatientID);
+            }
+        }
+    }
+}
+
+void AllInpatientsForm::updateAllInpatients()
+{
+    init();
     getAllInpatients();
     QVector<Inpatient *> vec;
     QMap<QString,QVector<Inpatient*> >::iterator iter;
@@ -90,34 +119,10 @@ void AllInpatientsForm::init()
 }
 
 
-void AllInpatientsForm::setInpatientID()
-{
-    QModelIndex index = m_tree->currentIndex();
-    if(index.isValid() && index.parent().isValid())
-    {
-        QString strDepartment = index.parent().data().toString();
-
-        QVector<Inpatient *> vec;
-        QMap<QString,QVector<Inpatient*> >::iterator iter;
-        iter = map.find(strDepartment);
-        if(iter != map.end())
-        {
-            vec = iter.value();
-            QString strID = vec.at(index.row())->getID();
-            if(QString::compare(strID,m_InpatientID) != 0)
-            {
-                m_InpatientID = strID;
-                emit UpdateInpatientID(m_InpatientID);
-            }
-        }
-    }
-
-}
-
-
 void AllInpatientsForm::getAllInpatients()
 {
     QVector<Inpatient *> allInpatients = Inpatient::selectFromDB("", "", allGender);
+    map.clear();
 
     QVector<Inpatient *> vec;
     QMap<QString,QVector<Inpatient*> >::iterator iter;

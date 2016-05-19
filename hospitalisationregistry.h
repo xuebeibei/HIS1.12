@@ -26,6 +26,7 @@ public slots:
 
 signals:
     void inpatientIDChanged(QString strID);
+    void allInpatientsChanged();
 
 protected:
     void create();

@@ -140,7 +140,6 @@ void HospitalisationChargeForm::setMyLayout()
 
 void HospitalisationChargeForm::init()
 {
-
     QStringList strList;
     strList.append("收费项编码");
     strList.append("收费项名称");

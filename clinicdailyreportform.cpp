@@ -29,8 +29,6 @@ ClinicDailyReportFrom::~ClinicDailyReportFrom()
     delete m_dailyChargesView;
 
     delete m_dailyChargesModel;
-
-    //delete m_dailyReportTable;
 }
 
 void ClinicDailyReportFrom::newTableFile()

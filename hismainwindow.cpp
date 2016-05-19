@@ -8,11 +8,10 @@ HISMainWindow::HISMainWindow(QWidget *parent) :
     createToolBars();
     createStatusBar();
     //showClinicCharge();
-    showHospitalisationRegistry();
+    showHospitalInterPayment();
 
     setMinimumHeight(g_nSubFormDefaultHeight);
     setMinimumWidth(g_nSubFormDefaultWidth);
-
 }
 
 HISMainWindow::~HISMainWindow()
@@ -100,7 +99,7 @@ void HISMainWindow::showPaymentStatistic()
     locationLabel->setText("门诊项目查询");
 }
 
-void HISMainWindow::showHospitalisationRegistry()
+void HISMainWindow::showHospitalRegistry()
 {
     initToolsAllEnable();
     subForm = new Hospitalistation;
@@ -109,6 +108,20 @@ void HISMainWindow::showHospitalisationRegistry()
     deleteAction->setEnabled(false);
     amendAction->setEnabled(false);
     locationLabel->setText("住院管理");
+}
+
+void HISMainWindow::showHospitalInterPayment()
+{
+    initToolsAllEnable();
+    subForm = new HospitalInterPaymentForm;
+    setCentralWidget(subForm);
+
+    newAction->setEnabled(false);
+    deleteAction->setEnabled(false);
+    amendAction->setEnabled(false);
+    findAction->setEnabled(false);
+    saveAction->setEnabled(false);
+    locationLabel->setText("住院管理 - 内部缴款");
 }
 
 void HISMainWindow::newTableFile()
@@ -196,33 +209,12 @@ void HISMainWindow::printTableFile()
 
 void HISMainWindow::createActions()
 {  
-    clinicChargeAction = new QAction(g_strChargeAction,this);
-    connect(clinicChargeAction, SIGNAL(triggered()), this, SLOT(showClinicCharge()));
+    createMenuActions();
+    createToolActions();
+}
 
-    clinicDailyReportAction = new QAction(g_strDailyReportAction,this);
-    connect(clinicDailyReportAction, SIGNAL(triggered()), this, SLOT(showClinicDailyReport()));
-
-    clinicInternalPaymentAction = new QAction(g_strInternalPaymentAction,this);
-    connect(clinicInternalPaymentAction, SIGNAL(triggered()), this, SLOT(showClinicInternalPayment()));
-
-    clinicChargeStatisticAction = new QAction(g_strClinicChargeStatisticAction,this);
-    connect(clinicChargeStatisticAction, SIGNAL(triggered()), this, SLOT(showChargeStatistic()));
-
-    clinicReportStatisticAction = new QAction(g_strClinicReportStatisticAction,this);
-    connect(clinicReportStatisticAction, SIGNAL(triggered()), this, SLOT(showReportStatistic()));
-
-    clinicPaymentStatisticAction = new QAction(g_strClinicPaymentStatisticAction,this);
-    connect(clinicPaymentStatisticAction, SIGNAL(triggered()), this, SLOT(showPaymentStatistic()));
-
-    hospitalRegistryAction = new QAction(g_strhospitalRegistryAction,this);
-    connect(hospitalRegistryAction, SIGNAL(triggered()), this, SLOT(showHospitalisationRegistry()));
-
-    hospitalPayAction = new QAction(g_strhospitalPayAction,this);
-    hospitalChargeAction = new QAction(g_strChargeAction,this);
-    hospitalDischargeAction = new QAction(g_strhospitalDischargeAction,this);
-    hospitalDailyreportAction = new QAction(g_strDailyReportAction,this);
-    hospitalInternalPaymentAction = new QAction(g_strInternalPaymentAction,this);
-
+void HISMainWindow::createToolActions()
+{
     newAction = new QAction(g_strNewAction,this);
     connect(newAction, SIGNAL(triggered()), this, SLOT(newTableFile()));
 
@@ -248,13 +240,44 @@ void HISMainWindow::createActions()
     connect(printAction, SIGNAL(triggered()), this, SLOT(printTableFile()));
 }
 
+void HISMainWindow::createMenuActions()
+{
+    clinicChargeAction = new QAction(g_strChargeAction,this);
+    connect(clinicChargeAction, SIGNAL(triggered()), this, SLOT(showClinicCharge()));
+
+    clinicDailyReportAction = new QAction(g_strDailyReportAction,this);
+    connect(clinicDailyReportAction, SIGNAL(triggered()), this, SLOT(showClinicDailyReport()));
+
+    clinicInternalPaymentAction = new QAction(g_strInternalPaymentAction,this);
+    connect(clinicInternalPaymentAction, SIGNAL(triggered()), this, SLOT(showClinicInternalPayment()));
+
+    clinicChargeStatisticAction = new QAction(g_strClinicChargeStatisticAction,this);
+    connect(clinicChargeStatisticAction, SIGNAL(triggered()), this, SLOT(showChargeStatistic()));
+
+    clinicReportStatisticAction = new QAction(g_strClinicReportStatisticAction,this);
+    connect(clinicReportStatisticAction, SIGNAL(triggered()), this, SLOT(showReportStatistic()));
+
+    clinicPaymentStatisticAction = new QAction(g_strClinicPaymentStatisticAction,this);
+    connect(clinicPaymentStatisticAction, SIGNAL(triggered()), this, SLOT(showPaymentStatistic()));
+
+    hospitalRegistryAction = new QAction(g_strhospitalRegistryAction,this);
+    connect(hospitalRegistryAction, SIGNAL(triggered()), this, SLOT(showHospitalRegistry()));
+
+    hospitalInternalPaymentAction = new QAction(g_strInternalPaymentAction,this);
+    connect(hospitalInternalPaymentAction, SIGNAL(triggered()), this, SLOT(showHospitalInterPayment()));
+    hospitalDailyreportAction = new QAction(g_strDailyReportAction,this);
+
+    hospitalStatisitcAction = new QAction(g_strStatisticAction,this);
+}
+
+
 void HISMainWindow::createMenus()
 {
     clinicMenu = menuBar()->addMenu(g_strClinicMenu);
     clinicMenu->addAction(clinicChargeAction);
     clinicMenu->addAction(clinicDailyReportAction);
     clinicMenu->addAction(clinicInternalPaymentAction);
-    clinicStatistics = new QMenu("统计查询");
+    clinicStatistics = new QMenu(g_strStatisticAction);
     clinicMenu->addMenu(clinicStatistics);
 
     clinicStatistics->addAction(clinicChargeStatisticAction);
@@ -263,6 +286,9 @@ void HISMainWindow::createMenus()
 
     hospitalisationMenu = menuBar()->addMenu(g_strhospitalMenu);
     hospitalisationMenu->addAction(hospitalRegistryAction);
+    hospitalisationMenu->addAction(hospitalInternalPaymentAction);
+    hospitalisationMenu->addAction(hospitalStatisitcAction);
+    hospitalisationMenu->addAction(hospitalDailyreportAction);
 }
 
 void HISMainWindow::createToolBars()
@@ -271,15 +297,15 @@ void HISMainWindow::createToolBars()
     fileToolBar->addAction(newAction);
     fileToolBar->addAction(saveAction);
     fileToolBar->addAction(deleteAction);
-    //fileToolBar->addAction(exportAction);
+    fileToolBar->addAction(exportAction);
 
     editToolBar = addToolBar(g_strEditToolBar);
     editToolBar->addAction(findAction);
     editToolBar->addAction(amendAction);
 
-    //printToolBar = addToolBar(strPrintToolBar);
-    //printToolBar->addAction(previewAction);
-    //printToolBar->addAction(printAction);
+    printToolBar = addToolBar(g_strPrintToolBar);
+    printToolBar->addAction(previewAction);
+    printToolBar->addAction(printAction);
 }
 
 void HISMainWindow::createStatusBar()

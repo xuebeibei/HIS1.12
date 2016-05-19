@@ -11,6 +11,7 @@
 #include "clinicpaymentstatisticform.h"
 #include "hospitalisationregistry.h"
 #include "hospitalistation.h"
+#include "hospitalinterpaymentform.h"
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 // HIS系统主界面类
@@ -84,7 +85,8 @@ private slots:
     //-----------------------------------------------------------------------------------------------------------------------------------
     void showPaymentStatistic();
 
-    void showHospitalisationRegistry();
+    void showHospitalRegistry();
+    void showHospitalInterPayment();
 
     //-----------------------------------------------------------------------------------------------------------------------------------
     // 名称：newTableFile
@@ -178,6 +180,8 @@ private:
     // 时间：2016-04-15
     //-----------------------------------------------------------------------------------------------------------------------------------
     void createActions();
+    void createToolActions();
+    void createMenuActions();
 
     //-----------------------------------------------------------------------------------------------------------------------------------
     // 名称：createMenus
@@ -234,9 +238,7 @@ private:
     QAction *clinicPaymentStatisticAction;  // 门诊 - 项目统计
 
     QAction *hospitalRegistryAction;        // 住院 - 登记
-    QAction *hospitalPayAction;             // 住院 - 缴费
-    QAction *hospitalChargeAction;          // 住院 - 收费
-    QAction *hospitalDischargeAction;       // 住院 - 出院
+    QAction *hospitalStatisitcAction;       // 住院 - 统计查询
     QAction *hospitalDailyreportAction;     // 住院 - 日结
     QAction *hospitalInternalPaymentAction; // 住院 - 内部缴款
 

@@ -105,31 +105,31 @@ bool Account::Read()
 {
     QSqlTableModel *sqlModel = new QSqlTableModel;
     sqlModel->setTable(g_strAccount);
-    sqlModel->setFilter("ID = \'" + m_strID + "\'");
+    sqlModel->setFilter(g_strID + " = \'" + m_strID + "\'");
     sqlModel->select();
 
     if(sqlModel->rowCount() > 0)
     {
         QSqlRecord record = sqlModel->record(0);
-        m_InpatientID = record.value("HospitalID").toString();
-        m_eAction = (AccountAction)record.value("AccountAction").toInt();
-        m_dActionMoney = record.value("Money").toDouble();
-        m_dBalance = record.value("Balance").toDouble();
-        m_dateTime = record.value("DateTime").toDateTime();
+        m_InpatientID = record.value(g_strHospitalID).toString();
+        m_eAction = (AccountAction)record.value(g_strAccountAction).toInt();
+        m_dActionMoney = record.value(g_strMoney).toDouble();
+        m_dBalance = record.value(g_strBalance).toDouble();
+        m_dateTime = record.value(g_strDateTime).toDateTime();
 
-        m_ePaymentMethod = (PaymentMethod)record.value("Method").toInt();
-        m_strRemarks = record.value("Remarks").toString();
+        m_ePaymentMethod = (PaymentMethod)record.value(g_strMethod).toInt();
+        m_strRemarks = record.value(g_strRemarks).toString();
         return true;
     }
     else
     {
-        sqlModel->setFilter("HospitalID = \'" + m_InpatientID + "\' Order By DateTime desc");
+        sqlModel->setFilter(g_strHospitalID + " = \'" + m_InpatientID + "\' Order By DateTime desc");
         sqlModel->select();
 
         if(sqlModel->rowCount() > 0)
         {
             QSqlRecord record = sqlModel->record(0);
-            m_dBalance = record.value("Balance").toDouble();
+            m_dBalance = record.value(g_strBalance).toDouble();
         }
         else
         {
@@ -142,7 +142,7 @@ bool Account::Read()
 
 bool Account::Save()
 {
-    deleteRows(g_strAccount,"ID",m_strID);
+    deleteRows(g_strAccount,g_strID,m_strID);
 
     QSqlTableModel *sqlModel = new QSqlTableModel;
     sqlModel->setTable(g_strAccount);
@@ -165,7 +165,7 @@ bool Account::Save()
 
 bool Account::Delete()
 {
-    return deleteRows(g_strAccount,"ID",m_strID);
+    return deleteRows(g_strAccount,g_strHospitalID,m_strID);
 }
 
 QVector<Account *> Account::getRecords(QString strInpatientID)
@@ -173,22 +173,22 @@ QVector<Account *> Account::getRecords(QString strInpatientID)
     QVector<Account *> vec;
     QSqlTableModel *sqlModel = new QSqlTableModel;
     sqlModel->setTable(g_strAccount);
-    sqlModel->setFilter("HospitalID = \'" + strInpatientID + "\' Order By DateTime desc");
+    sqlModel->setFilter(g_strHospitalID + " = \'" + strInpatientID + "\' Order By DateTime desc");
     sqlModel->select();
 
     for(int i = 0; i < sqlModel->rowCount(); i++)
     {
         Account *temp = new Account(strInpatientID);
         QSqlRecord record = sqlModel->record(i);
-        temp->m_strID = record.value("ID").toString();
-        temp->m_InpatientID = record.value("HospitalID").toString();
-        temp->m_eAction = (AccountAction)record.value("AccountAction").toInt();
-        temp->m_dActionMoney = record.value("Money").toDouble();
-        temp->m_dBalance = record.value("Balance").toDouble();
-        temp->m_dateTime = record.value("DateTime").toDateTime();
+        temp->m_strID = record.value(g_strHospitalID).toString();
+        temp->m_InpatientID = record.value(g_strHospitalID).toString();
+        temp->m_eAction = (AccountAction)record.value(g_strAccountAction).toInt();
+        temp->m_dActionMoney = record.value(g_strMoney).toDouble();
+        temp->m_dBalance = record.value(g_strBalance).toDouble();
+        temp->m_dateTime = record.value(g_strDateTime).toDateTime();
 
-        temp->m_ePaymentMethod = (PaymentMethod)record.value("Method").toInt();
-        temp->m_strRemarks = record.value("Remarks").toString();
+        temp->m_ePaymentMethod = (PaymentMethod)record.value(g_strMethod).toInt();
+        temp->m_strRemarks = record.value(g_strRemarks).toString();
         vec.append(temp);
     }
 
@@ -202,17 +202,17 @@ QString Account::actionToString()
     {
     case payIn:
     {
-        strTemp = "+";
+        strTemp = g_strAdd;
         break;
     }
     case refund:
     {
-        strTemp = "-";
+        strTemp = g_strSubtract;
         break;
     }
     case consume:
     {
-        strTemp = "-";
+        strTemp = g_strSubtract;
         break;
     }
     default:
@@ -229,17 +229,17 @@ QString Account::paymentMethodToString()
     {
     case cash:
     {
-        strTemp = "现金";
+        strTemp = g_strCash;
         break;
     }
     case slotCard:
     {
-        strTemp = "刷卡";
+        strTemp = g_strSlotCard;
         break;
     }
     case bank:
     {
-        strTemp = "银行";
+        strTemp = g_strBank;
         break;
     }
     default:

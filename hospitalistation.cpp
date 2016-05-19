@@ -15,11 +15,8 @@ Hospitalistation::~Hospitalistation()
 void Hospitalistation::newTableFile()
 {
     m_registry->newTableFile();
-    m_account->setEnabled(false);
     m_account->init();
-    m_charge->setEnabled(false);
     m_charge->init();
-    m_leave->setEnabled(false);
     m_leave->init();
 }
 
@@ -27,9 +24,6 @@ bool Hospitalistation::saveTableFile()
 {
     if(m_registry->saveTableFile())
     {
-        m_account->setEnabled(true);
-        m_charge->setEnabled(true);
-        m_leave->setEnabled(true);
         return true;
     }
     else
@@ -50,9 +44,6 @@ bool Hospitalistation::findTableFile()
 {
     if(m_registry->findTableFile())
     {
-        m_account->setEnabled(true);
-        m_charge->setEnabled(true);
-        m_leave->setEnabled(true);
         return true;
     }
     else
@@ -61,9 +52,6 @@ bool Hospitalistation::findTableFile()
 
 void Hospitalistation::amendTableFile()
 {
-    m_account->setEnabled(false);
-    m_charge->setEnabled(false);
-    m_leave->setEnabled(false);
     m_registry->amendTableFile(); 
 }
 
@@ -87,6 +75,7 @@ void Hospitalistation::create()
     m_leave = new LeaveHospitalForm;
 
     connect(m_allInpaitent,SIGNAL(UpdateInpatientID(QString)),m_registry, SLOT(showInpatient(QString)));
+    connect(m_registry, SIGNAL(allInpatientsChanged()), m_allInpaitent, SLOT(updateAllInpatients()));
     connect(m_registry, SIGNAL(inpatientIDChanged(QString)), m_account, SLOT(updateInpatientID(QString)));
     connect(m_registry, SIGNAL(inpatientIDChanged(QString)), m_charge, SLOT(updateInpatientID(QString)));
     connect(m_charge, SIGNAL(ChargeChanged()),m_account,SLOT(showRecords()));

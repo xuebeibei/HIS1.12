@@ -28,6 +28,7 @@ bool HospitalisationRegistry::saveTableFile()
 {
     Save();
     setAllUnEnable();
+    emit allInpatientsChanged();
     return true;
 }
 
@@ -36,6 +37,7 @@ bool HospitalisationRegistry::deleteTableFile()
     if(m_inpatient->Delete())
     {
        newTableFile();
+       emit allInpatientsChanged();
        return true;
     }
     else

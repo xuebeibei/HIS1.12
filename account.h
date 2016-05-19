@@ -4,6 +4,23 @@
 #include "winSet.h"
 #include "histable.h"
 
+
+const QString g_strHospitalID = QObject::tr("HospitalID");
+const QString g_strAccountAction = QObject::tr("AccountAction");
+const QString g_strMoney = QObject::tr("Money");
+const QString g_strBalance = QObject::tr("Balance");
+const QString g_strDateTime = QObject::tr("DateTime");
+const QString g_strMethod = QObject::tr("Method");
+const QString g_strRemarks = QObject::tr("Remarks");
+const QString g_strAdd = QObject::tr("+");
+const QString g_strSubtract = QObject::tr("-");
+
+const QString g_strCash = QObject::tr("现金");
+const QString g_strSlotCard = QObject::tr("刷卡");
+const QString g_strBank = QObject::tr("银行");
+
+
+
 //-----------------------------------------------------------------------------------------------------------------------------------
 // 住院账户缴费消费退费记录
 //-----------------------------------------------------------------------------------------------------------------------------------

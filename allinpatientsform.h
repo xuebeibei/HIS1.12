@@ -30,17 +30,19 @@ public:
     ~AllInpatientsForm();
 
     static QString TreeMenuTypeToString(TreeMenuType eType);
+public slots:
+    void updateAllInpatients();
 signals:
     void UpdateInpatientID(QString strID);
 protected slots:
     void setInpatientID();
+
 protected:
     void create();
     void setMyLayout();
     void init();
     void createTreeMenu();
     void createTools();
-    void setTreeMenu();
     void getAllInpatients();
 
 protected:

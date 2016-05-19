@@ -5,7 +5,7 @@
 #include "chargeitem.h"
 #include "chargetable.h"
 
-const QString g_strID = QObject::tr("ID");
+
 const QString g_strName = QObject::tr("Name");
 const QString g_strGender = QObject::tr("Gender");
 const QString g_strAge = QObject::tr("Age");
