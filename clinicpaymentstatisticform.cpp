@@ -1,5 +1,5 @@
 #include "clinicpaymentstatisticform.h"
-#include "clinicinternalpayment.h"
+#include "internalpayment.h"
 
 ClinicPaymentStatisticForm::ClinicPaymentStatisticForm(SubForm *parent) :
     SubForm(parent)
@@ -105,7 +105,7 @@ void ClinicPaymentStatisticForm::create()
     m_resultView->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_resultView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-    m_strConditionSort = "ChinicReceipt";
+    m_strConditionSort = "ClinicReceipt";
     m_strConditionWho = "Department";
 }
 
@@ -161,7 +161,7 @@ void ClinicPaymentStatisticForm::initTable()
 {
     m_resultModel->clear();
     QString str = "";
-    if(m_strConditionSort == "ChinicReceipt")
+    if(m_strConditionSort == "ClinicReceipt")
         str = "门诊收据";
     if(m_strConditionSort == "ClinicSort")
         str = "门诊分类";
@@ -174,11 +174,21 @@ void ClinicPaymentStatisticForm::updateTable()
     // 获取条件
     initTable();
     // 从数据库按条件查询
-    dueIncome = ClinicInternalPayment::selectFromDB(
+//    dueIncome = ClinicInternalPayment::selectFromDB(
+//                ClinicPatient,
+//                m_startDateEdit->date(),
+//                m_endDateEdit->date(),
+//                m_strConditionSort,
+//                m_strConditionWho);
+
+    dueIncome = InternalPayment::selectFromDB(
                 m_startDateEdit->date(),
                 m_endDateEdit->date(),
                 m_strConditionSort,
-                m_strConditionWho);
+                g_strChargeDetails,
+                m_strConditionWho,
+                g_strClinicCharge);
+
 
     if(dueIncome == NULL)
         return;
@@ -218,7 +228,7 @@ void ClinicPaymentStatisticForm::setConditionSort()
     {
     case 0:
     {
-        m_strConditionSort = "ChinicReceipt";
+        m_strConditionSort = "ClinicReceipt";
         break;
     }
     case 1:

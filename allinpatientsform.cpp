@@ -5,7 +5,8 @@ AllInpatientsForm::AllInpatientsForm(QWidget *parent) :
 {
     create();
     setMyLayout();
-    setMaximumWidth(200);
+    setMaximumWidth(220);
+    setMinimumWidth(180);
     updateAllInpatients();
 }
 

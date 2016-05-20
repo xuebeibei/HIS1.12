@@ -10,8 +10,10 @@ const QString strItemNo = strCharge +  QObject::tr("ItemNo");
 const QString strItemName = strCharge +  QObject::tr("ItemName");
 const QString strItemCount = strCharge + QObject::tr("ItemCount");
 const QString strItemPrice = strCharge + QObject::tr("ItemPrice");
-const QString strReceipt = QObject::tr("ChinicReceipt");
-const QString strSort = QObject::tr("ClinicSort");
+const QString strClinicReceipt = QObject::tr("ClinicReceipt");
+const QString strClinicSort = QObject::tr("ClinicSort");
+const QString strHospitalReceipt = QObject::tr("HospitalReceipt");
+const QString strHospitalSort = QObject::tr("HospitalSort");
 
 class ChargeTable
 {
@@ -127,7 +129,7 @@ public:
     // 备注：无
     // 时间：2016-04-20
     //-----------------------------------------------------------------------------------------------------------------------------------
-    bool ReadChargeRecords();
+    bool ReadChargeRecords(PatientType eType);
 
     //-----------------------------------------------------------------------------------------------------------------------------------
     // 名称：saveChargeRecords
@@ -139,7 +141,7 @@ public:
     // 备注：无
     // 时间：2016-04-20
     //-----------------------------------------------------------------------------------------------------------------------------------
-    bool saveChargeRecords();
+    bool saveChargeRecords(PatientType eType);
 
     //-----------------------------------------------------------------------------------------------------------------------------------
     // 名称：deleteChargeRecords

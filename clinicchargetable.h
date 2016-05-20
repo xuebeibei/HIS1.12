@@ -14,7 +14,7 @@ const QString g_strSocialSecurityNum = QObject::tr("SocialSecurityNum");
 const QString g_strMedicalInsuranceType = QObject::tr("MedicalInsuranceType");
 const QString g_strDepartment = QObject::tr("Department");
 const QString g_strDoctor = QObject::tr("Doctor");
-const QString g_strTime = QObject::tr("Time");
+
 const QString g_strDueIncome= QObject::tr("DueIncome");
 const QString g_strRealIncome = QObject::tr("RealIncome");
 const QString g_strMaker = QObject::tr("Maker"); // temp

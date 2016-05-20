@@ -149,7 +149,9 @@ bool Inpatient::Save()
 
 bool Inpatient::Delete()
 {
-    return deleteRows(g_strInPatient,"HospitalID",m_strID);
+    bool deleteInpatient = deleteRows(g_strInPatient,"HospitalID",m_strID);
+    bool deleteAccounts =  deleteRows(g_strAccount,"HospitalID",m_strID);
+    return deleteInpatient&&deleteAccounts;
 }
 
 QStringList Inpatient::getIDsFromDB(QString strID, QString strName, Gender eGender)
@@ -210,4 +212,28 @@ QVector<Inpatient *> Inpatient::selectFromDB(QString strID, QString strName, Gen
     }
 
     return vec;
+}
+
+QString Inpatient::getNameByID(QString strID)
+{
+    Inpatient *tempInpatient = new Inpatient;
+    tempInpatient->setID(strID);
+    tempInpatient->Read();
+    return tempInpatient->getName();
+}
+
+bool Inpatient::isLeaveHospital(QString strID)
+{
+    QSqlTableModel *sqlModel = new QSqlTableModel;
+    sqlModel->setTable(g_strLeaveHospital);
+    sqlModel->setFilter("HospitalID = \'" + strID +"\'" );
+    sqlModel->select();
+
+    if(sqlModel->rowCount() > 0)
+    {
+        return true;
+    }
+    else
+        return false;
+
 }

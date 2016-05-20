@@ -115,7 +115,7 @@ bool Account::Read()
         m_eAction = (AccountAction)record.value(g_strAccountAction).toInt();
         m_dActionMoney = record.value(g_strMoney).toDouble();
         m_dBalance = record.value(g_strBalance).toDouble();
-        m_dateTime = record.value(g_strDateTime).toDateTime();
+        m_dateTime = record.value(g_strTime).toDateTime();
 
         m_ePaymentMethod = (PaymentMethod)record.value(g_strMethod).toInt();
         m_strRemarks = record.value(g_strRemarks).toString();
@@ -173,19 +173,19 @@ QVector<Account *> Account::getRecords(QString strInpatientID)
     QVector<Account *> vec;
     QSqlTableModel *sqlModel = new QSqlTableModel;
     sqlModel->setTable(g_strAccount);
-    sqlModel->setFilter(g_strHospitalID + " = \'" + strInpatientID + "\' Order By DateTime desc");
+    sqlModel->setFilter(g_strHospitalID + " = \'" + strInpatientID + "\' Order By " + g_strTime + " desc");
     sqlModel->select();
 
     for(int i = 0; i < sqlModel->rowCount(); i++)
     {
         Account *temp = new Account(strInpatientID);
         QSqlRecord record = sqlModel->record(i);
-        temp->m_strID = record.value(g_strHospitalID).toString();
+        temp->m_strID = record.value(g_strID).toString();
         temp->m_InpatientID = record.value(g_strHospitalID).toString();
         temp->m_eAction = (AccountAction)record.value(g_strAccountAction).toInt();
         temp->m_dActionMoney = record.value(g_strMoney).toDouble();
         temp->m_dBalance = record.value(g_strBalance).toDouble();
-        temp->m_dateTime = record.value(g_strDateTime).toDateTime();
+        temp->m_dateTime = record.value(g_strTime).toDateTime();
 
         temp->m_ePaymentMethod = (PaymentMethod)record.value(g_strMethod).toInt();
         temp->m_strRemarks = record.value(g_strRemarks).toString();

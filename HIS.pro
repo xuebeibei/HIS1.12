@@ -26,7 +26,6 @@ SOURCES += main.cpp\
     clinicdailyreportform.cpp \
     clinicdailyreporttable.cpp \
     clinicinternalpaymentform.cpp \
-    clinicinternalpayment.cpp \
     clinicchargestatisticform.cpp \
     clinicreportstatisticform.cpp \
     clinicpaymentstatisticform.cpp \
@@ -49,7 +48,8 @@ SOURCES += main.cpp\
     chargeform.cpp \
     findhospitalchargedlg.cpp \
     internalpaymentform.cpp \
-    hospitalinternalpaymentform.cpp
+    hospitalinternalpaymentform.cpp \
+    internalpayment.cpp
 
 HEADERS  += hismainwindow.h \
     stdafx.h \
@@ -65,7 +65,6 @@ HEADERS  += hismainwindow.h \
     clinicdailyreportform.h \
     clinicdailyreporttable.h \
     clinicinternalpaymentform.h \
-    clinicinternalpayment.h \
     clinicchargestatisticform.h \
     clinicreportstatisticform.h \
     clinicpaymentstatisticform.h \
@@ -87,7 +86,8 @@ HEADERS  += hismainwindow.h \
     chargeform.h \
     findhospitalchargedlg.h \
     internalpaymentform.h \
-    hospitalinternalpaymentform.h
+    hospitalinternalpaymentform.h \
+    internalpayment.h
 
 FORMS    +=
 

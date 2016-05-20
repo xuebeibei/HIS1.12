@@ -56,7 +56,7 @@ bool ClinicChargeTable::Read()
         m_strMaker = record.value(g_strMaker).toString();
     }
 
-    return ReadChargeRecords();
+    return ReadChargeRecords(ClinicPatient);
 }
 
 bool ClinicChargeTable::Save()
@@ -83,7 +83,7 @@ bool ClinicChargeTable::Save()
     model->setData(model->index(row,12),m_strMaker);
     model->submitAll();
 
-    return saveChargeRecords();
+    return saveChargeRecords(ClinicPatient);
 }
 
 bool ClinicChargeTable::Delete()

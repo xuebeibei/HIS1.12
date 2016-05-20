@@ -9,7 +9,7 @@ const QString g_strHospitalID = QObject::tr("HospitalID");
 const QString g_strAccountAction = QObject::tr("AccountAction");
 const QString g_strMoney = QObject::tr("Money");
 const QString g_strBalance = QObject::tr("Balance");
-const QString g_strDateTime = QObject::tr("DateTime");
+
 const QString g_strMethod = QObject::tr("Method");
 const QString g_strRemarks = QObject::tr("Remarks");
 const QString g_strAdd = QObject::tr("+");

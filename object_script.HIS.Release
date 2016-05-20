@@ -10,7 +10,6 @@ INPUT(
 ./release\clinicdailyreportform.o
 ./release\clinicdailyreporttable.o
 ./release\clinicinternalpaymentform.o
-./release\clinicinternalpayment.o
 ./release\clinicchargestatisticform.o
 ./release\clinicreportstatisticform.o
 ./release\clinicpaymentstatisticform.o
@@ -34,6 +33,7 @@ INPUT(
 ./release\findhospitalchargedlg.o
 ./release\internalpaymentform.o
 ./release\hospitalinternalpaymentform.o
+./release\internalpayment.o
 ./release\qrc_pic.o
 ./release\moc_hismainwindow.o
 ./release\moc_subform.o

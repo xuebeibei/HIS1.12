@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include"stdafx.h"
-#include "clinicinternalpayment.h"
+#include "internalpayment.h"
 #include "internalpaymentform.h"
 
 class ClinicInternalPaymentForm : public InternalPaymentForm

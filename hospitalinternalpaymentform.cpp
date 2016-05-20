@@ -13,11 +13,12 @@ HospitalInternalPaymentForm::~HospitalInternalPaymentForm()
 
 }
 
-void HospitalInternalPaymentForm::updateTable()
-{
-    QVector<InternalPaymentItem*> payments = ClinicInternalPayment::selectFromDB(m_startDateEdit->date(), m_endDateEdit->date());
 
-    //initResults();
+void HospitalInternalPaymentForm::onSummarizing()
+{
+    initResults();
+
+    QVector<InternalPaymentItem*> payments = InternalPayment::selectFromDB(HospitalInPatient,m_startDateEdit->date(), m_endDateEdit->date());
     for(int i = 0; i < payments.size() ; i++)
     {
         m_resultModel->setItem(i, 0, new QStandardItem(payments.at(i)->m_strName));
@@ -26,26 +27,54 @@ void HospitalInternalPaymentForm::updateTable()
     updateIncome();
 }
 
-void HospitalInternalPaymentForm::onSummarizing()
-{
-    QStringList strList;
-    strList.append("住院收据");
-    strList.append("应收金额");
-    initTable(strList);
-    updateTable();
-}
-
 void HospitalInternalPaymentForm::onParticulars()
 {
-    QStringList strList;
-    strList.append("住院收据");
-    strList.append("患者1");
-    strList.append("患者2");
-    strList.append("……");
-    strList.append("患者n");
-    strList.append("应收金额");
-    initTable(strList);
-    updateTable();
+    initResults();
+
+    QVector<QVector<QString> > *dueIncome = new QVector<QVector<QString> >;
+
+    dueIncome = InternalPayment::selectFromDB(
+                m_startDateEdit->date(),
+                m_endDateEdit->date(),
+                "HospitalReceipt",
+                g_strChargeDetails,
+                "HospitalID",
+                g_strAccount);
+
+    if(dueIncome == NULL)
+        return;
+
+    for(int nIndexReceipt = 0;nIndexReceipt<dueIncome->size();nIndexReceipt++)
+    {
+        double all = 0.0;
+        QVector<QString> temp = dueIncome->at(nIndexReceipt);
+        for(int nIndexPatient = 0;nIndexPatient<temp.size();nIndexPatient++)
+        {
+            if(nIndexReceipt == 0)
+            {
+                m_resultModel->setHorizontalHeaderItem(nIndexPatient+1, new QStandardItem(Inpatient::getNameByID(temp.at(nIndexPatient))));
+
+            }
+            else if( nIndexReceipt > 0)
+            {
+                m_resultModel->setItem(nIndexReceipt-1, nIndexPatient, new QStandardItem(temp.at(nIndexPatient)));
+                if(nIndexPatient!=0)
+                     all += temp.at(nIndexPatient).toDouble();
+            }
+
+        }
+        if(nIndexReceipt == 0)
+        {
+            m_resultModel->setHorizontalHeaderItem(temp.size()+1, new QStandardItem("合计"));
+        }
+        else if(nIndexReceipt > 0)
+        {
+            m_resultModel->setItem(nIndexReceipt-1, temp.size(), new QStandardItem(QString::number(all)));
+        }
+
+    }
+
+    updateIncome();
 }
 
 void HospitalInternalPaymentForm::create()
@@ -60,6 +89,9 @@ void HospitalInternalPaymentForm::create()
 
     connect(m_startDateEdit, SIGNAL(dateChanged(QDate)),this, SLOT(updateTable()));
     connect(m_endDateEdit, SIGNAL(dateChanged(QDate)),this, SLOT(updateTable()));
+
+    m_allDueIncomeEdit->setReadOnly(true);
+    m_allDueIncomeEdit->setStyleSheet(g_strLineEditNoBorder);
 }
 
 void HospitalInternalPaymentForm::setMyLayout()
@@ -93,4 +125,13 @@ void HospitalInternalPaymentForm::init()
 {
     m_particulars->setChecked(true);
     onParticulars();
+}
+
+void HospitalInternalPaymentForm::initResults()
+{
+    QStringList strList;
+    strList.append("住院收据");
+    strList.append("应收金额");
+    initTable(strList);
+    m_allDueIncomeEdit->setText(g_strNull);
 }

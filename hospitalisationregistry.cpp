@@ -22,6 +22,7 @@ void HospitalisationRegistry::newTableFile()
     setAllDefaultEnable();
     m_inpatient = new Inpatient;
     Read();
+    emit inpatientIDChanged(m_inpatient->getID());
 }
 
 bool HospitalisationRegistry::saveTableFile()
@@ -29,6 +30,7 @@ bool HospitalisationRegistry::saveTableFile()
     Save();
     setAllUnEnable();
     emit allInpatientsChanged();
+    emit inpatientIDChanged(m_inpatient->getID());
     return true;
 }
 

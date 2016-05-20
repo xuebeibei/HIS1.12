@@ -165,7 +165,7 @@ void ClinicChargeStatisticForm::updateTable()
         QSqlRecord record = model->record(i);
         QString strID = record.value("ID").toString();
         QSqlTableModel *mymodel = new QSqlTableModel;
-        mymodel->setTable(g_strClinicChargeDetails);
+        mymodel->setTable(g_strChargeDetails);
         mymodel->setFilter("ChargeId = \'" + strID + "\'");
         mymodel->select();
         for(int j = 0; j < mymodel->rowCount(); j++)

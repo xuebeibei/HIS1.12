@@ -6,6 +6,7 @@ LeaveHospitalForm::LeaveHospitalForm(QWidget *parent) :
     create();
     setMyLayout();
     init();
+    setMinimumWidth(180);
 }
 
 LeaveHospitalForm::~LeaveHospitalForm()

@@ -62,7 +62,7 @@ void ClinicInternalPaymentForm::initResults()
 
 void ClinicInternalPaymentForm::updateTable()
 {
-    QVector<InternalPaymentItem*> payments = ClinicInternalPayment::selectFromDB(m_startDateEdit->date(), m_endDateEdit->date());
+    QVector<InternalPaymentItem*> payments = InternalPayment::selectFromDB(ClinicPatient, m_startDateEdit->date(), m_endDateEdit->date());
 
     initResults();
     for(int i = 0; i < payments.size() ; i++)

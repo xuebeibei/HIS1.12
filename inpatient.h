@@ -33,6 +33,9 @@ public:
 
     static QStringList getIDsFromDB(QString strID, QString strName, Gender eGender);
     static QVector<Inpatient* > selectFromDB(QString strID, QString strName, Gender eGender);
+    static QString getNameByID(QString strID);
+
+    static bool isLeaveHospital(QString strID);
 protected:
     QString m_strID;              // 住院号
     QString m_strCaseID;          // 病例号*

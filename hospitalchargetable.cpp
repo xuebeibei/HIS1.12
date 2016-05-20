@@ -22,7 +22,7 @@ bool HospitalChargeTable::Read()
         m_dDueIncome = temp->getActionMoney();
         m_time = temp->getDateTime();
 
-        return ReadChargeRecords();
+        return ReadChargeRecords(HospitalInPatient);
     }
     else
         return false;
@@ -36,7 +36,7 @@ bool HospitalChargeTable::Save()
     temp->setAction(consume);
     temp->setActionMoney(m_dDueIncome);
     temp->Refund();
-    if(temp->Save() && saveChargeRecords())
+    if(temp->Save() && saveChargeRecords(HospitalInPatient))
         return true;
     else
         return false;

@@ -59,10 +59,10 @@ void ChargeTable::setChargeItems(QVector<ChargeItem *> chargeItems)
     }
 }
 
-bool ChargeTable::ReadChargeRecords()
+bool ChargeTable::ReadChargeRecords(PatientType eType)
 {
     QSqlTableModel *model = new QSqlTableModel;
-    model->setTable(g_strClinicChargeDetails);
+    model->setTable(g_strChargeDetails);
     model->setFilter(strId + " = \'" + m_strID +"\'");
     model->select();
 
@@ -77,8 +77,18 @@ bool ChargeTable::ReadChargeRecords()
         item->setChargeItemName(record.value(strItemName).toString());
         item->setChargeItemCount(record.value(strItemCount).toInt());
         item->setChargeItemPrice(record.value(strItemPrice).toDouble());
-        item->setReceipt(record.value(strReceipt).toString());
-        item->setSort(record.value(strSort).toString());
+
+        if(eType == ClinicPatient)
+        {
+            item->setReceipt(record.value(strClinicReceipt).toString());
+            item->setSort(record.value(strClinicSort).toString());
+        }
+        else if(eType == HospitalInPatient)
+        {
+            item->setReceipt(record.value(strHospitalReceipt).toString());
+            item->setSort(record.value(strHospitalSort).toString());
+        }
+
 
         m_chargeItems.append(item);
     }
@@ -86,13 +96,13 @@ bool ChargeTable::ReadChargeRecords()
     return true;
 }
 
-bool ChargeTable::saveChargeRecords()
+bool ChargeTable::saveChargeRecords(PatientType eType)
 {
 
-    HISTable::deleteRows(g_strClinicChargeDetails,strId,m_strID);
+    HISTable::deleteRows(g_strChargeDetails,strId,m_strID);
 
     QSqlTableModel *model = new QSqlTableModel;
-    model->setTable(g_strClinicChargeDetails);
+    model->setTable(g_strChargeDetails);
 
     for(int i = 0; i < m_chargeItems.size(); i++)
     {
@@ -102,8 +112,17 @@ bool ChargeTable::saveChargeRecords()
         model->setData(model->index(row,chargeItemName),m_chargeItems.at(row)->getChargeItemName());
         model->setData(model->index(row,chargeItemCount),m_chargeItems.at(row)->getChargeItemCount());
         model->setData(model->index(row,chargeItemPrice),m_chargeItems.at(row)->getChargeItemPrice());
-        model->setData(model->index(row,clinicReceipt),m_chargeItems.at(row)->getReceipt());
-        model->setData(model->index(row,clinicSort),m_chargeItems.at(row)->getSort());
+        if(eType == ClinicPatient)
+        {
+            model->setData(model->index(row,clinicReceipt),m_chargeItems.at(row)->getReceipt());
+            model->setData(model->index(row,clinicSort),m_chargeItems.at(row)->getSort());
+        }
+        else if(eType == HospitalInPatient)
+        {
+            model->setData(model->index(row,hospitalReceipt),m_chargeItems.at(row)->getReceipt());
+            model->setData(model->index(row,hospitalSort),m_chargeItems.at(row)->getSort());
+        }
+
         model->setData(model->index(row,ChargeId),m_chargeItems.at(row)->getChargeId());
         model->submitAll();
     }
@@ -112,5 +131,5 @@ bool ChargeTable::saveChargeRecords()
 
 bool ChargeTable::deleteChargeRecords()
 {
-     return HISTable::deleteRows(g_strClinicChargeDetails,strId,m_strID);
+     return HISTable::deleteRows(g_strChargeDetails,strId,m_strID);
 }

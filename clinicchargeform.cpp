@@ -305,7 +305,7 @@ void ClinicChargeForm::setMyLayout()
     QHBoxLayout *RightTopLayout = new QHBoxLayout;
     RightTopLayout->addWidget(addRowButton);
     RightTopLayout->addWidget(deleteRowButton);
-    //RightTopLayout->addWidget(comboButton);
+    RightTopLayout->addWidget(comboButton);
     RightTopLayout->addStretch();
     QVBoxLayout *RightLayout = new QVBoxLayout;
     RightLayout->addLayout(RightTopLayout);

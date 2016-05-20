@@ -7,7 +7,7 @@ HospitalisationAccountForm::HospitalisationAccountForm(SubForm *parent) :
     setMyLayout();
     init();
     setMaximumHeight(240);
-    setMinimumWidth(700);
+    setMinimumWidth(650);
 }
 
 HospitalisationAccountForm::~HospitalisationAccountForm()
@@ -195,7 +195,7 @@ void HospitalisationAccountForm::initTableView()
 {
     QStringList strList;
     strList.append("单号");
-    strList.append("日期");
+    strList.append("时间");
     strList.append("余额");
     strList.append("类型");
     strList.append("金额");
@@ -208,6 +208,7 @@ void HospitalisationAccountForm::initTableView()
     }
     if(strList.size() > 0)
         m_resultsModel->setItem(0, strList.size()-1, NULL);
+
 }
 
 void HospitalisationAccountForm::showRecords()

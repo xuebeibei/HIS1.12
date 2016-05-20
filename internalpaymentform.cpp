@@ -108,7 +108,7 @@ void InternalPaymentForm::updateIncome()
     double dAllDueIncome = 0.0;
     for(int i = 0; i < m_resultModel->rowCount();i++)
     {
-        QStandardItem *dueIncomeItem = m_resultModel->item(i,1);
+        QStandardItem *dueIncomeItem = m_resultModel->item(i,m_resultModel->columnCount()-1);
         double dDueIncome  = (dueIncomeItem == NULL) ? 0 : dueIncomeItem->text().toDouble();
         dAllDueIncome += dDueIncome;
     }

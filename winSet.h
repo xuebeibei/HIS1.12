@@ -69,23 +69,32 @@ enum ChargeItemIndex
     chargeItemPrice = 3, // 收费项单价
     clinicReceipt = 4,   // 收费项所属门诊收据
     clinicSort = 5,      // 收费项所属门诊分类
-    ChargeId = 6   // 收费项所属收费单单号
+    hospitalReceipt = 6,
+    hospitalSort = 7,
+    ChargeId = 8   // 收费项所属收费单单号
 };
 
 //---------------------------------------------------------------------------------------------------------------------------------------
 // 数据库
 //---------------------------------------------------------------------------------------------------------------------------------------
 const QString g_strDBType = "QSQLITE";
-// const QString g_strDBName = "./sqlite/test.db"; // 其他系统数据库路径
 const QString g_strDBName = "./sqlite/test.db"; // windows相对路径
 const QString g_strClinicCharge = "ClinicCharge";
-const QString g_strClinicChargeDetails = "ClinicChargeDetails";
+const QString g_strChargeDetails = "ChargeDetails";
 const QString g_strClinicDailyReport = "ClinicDailyReport";
 
 const QString g_strHospitalRegistry = "HospitalRegistry";
 const QString g_strInPatient = "Inpatient";
 const QString g_strAccount = "Account";
+const QString g_strLeaveHospital = "LeaveHospital";
 const QString g_strID = QObject::tr("ID");
+const QString g_strTime = QObject::tr("Time");
+
+enum PatientType
+{
+    ClinicPatient = 0,         // 门诊病患
+    HospitalInPatient = 1      // 住院病患
+};
 
 
 //---------------------------------------------------------------------------------------------------------------------------------------
