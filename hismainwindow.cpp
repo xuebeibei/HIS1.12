@@ -132,7 +132,7 @@ void HISMainWindow::showPaymentStatistic()
     locationLabel->setText("门诊项目查询");
 }
 
-void HISMainWindow::showHospitalRegistry()
+void HISMainWindow::showInHospital()
 {
     initToolsAllEnable();
     mySubForm = new Hospitalistation;
@@ -169,6 +169,18 @@ void HISMainWindow::showHospitalStatistic()
     findAction->setEnabled(false);
     saveAction->setEnabled(false);
     locationLabel->setText("住院管理 - 统计查询");
+}
+
+void HISMainWindow::showHospitalDailyReport()
+{
+    initToolsAllEnable();
+    mySubForm = new ClinicDailyReportFrom;
+    setCentralWidget(mySubForm);
+
+    saveAction->setEnabled(true);
+    deleteAction->setEnabled(false);
+    amendAction->setEnabled(false);
+    locationLabel->setText("门诊日结");
 }
 
 void HISMainWindow::newTableFile()
@@ -308,11 +320,13 @@ void HISMainWindow::createMenuActions()
     connect(clinicPaymentStatisticAction, SIGNAL(triggered()), this, SLOT(showPaymentStatistic()));
 
     hospitalRegistryAction = new QAction(g_strhospitalRegistryAction,this);
-    connect(hospitalRegistryAction, SIGNAL(triggered()), this, SLOT(showHospitalRegistry()));
+    connect(hospitalRegistryAction, SIGNAL(triggered()), this, SLOT(showInHospital()));
 
     hospitalInternalPaymentAction = new QAction(g_strInternalPaymentAction,this);
     connect(hospitalInternalPaymentAction, SIGNAL(triggered()), this, SLOT(showHospitalInterPayment()));
+
     hospitalDailyreportAction = new QAction(g_strDailyReportAction,this);
+    connect(hospitalDailyreportAction, SIGNAL(triggered()), this, SLOT(showHospitalDailyReport()));
 
     hospitalStatisitcAction = new QAction(g_strStatisticAction,this);
     connect(hospitalStatisitcAction, SIGNAL(triggered()), this, SLOT(showHospitalStatistic()));
