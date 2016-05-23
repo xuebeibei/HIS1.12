@@ -92,6 +92,20 @@ public:
     bool Delete();
 
     static QVector<ClinicChargeTable*> selectClinicChargesFromDb(QDate date , QDateTime ReportTime);
+
+    //-----------------------------------------------------------------------------------------------------------------------------------
+    // 名称：收费统计接口
+    // 作用：从数据库中查找一段时间内，某个人或者所有人的门诊收费单
+    // 参数：
+    // startDate - 起始查找日期
+    // endDate - 结束查找日期
+    // strName - 姓名
+    // eGender - 性别
+    // 返回值：
+    // QVector<ClinicChargeTable*>* - 收费单数组
+    // 备注：无
+    // 时间：2016-04-20
+    //-----------------------------------------------------------------------------------------------------------------------------------
     static QVector<ClinicChargeTable*> * selectFromDB(QDate startDate, QDate endDate, QString strName, Gender eGender);
 protected:
     double m_dRealIncome;                     // 实收金额

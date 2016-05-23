@@ -27,6 +27,18 @@ public:
     void setInpatientID(QString strInpatientID);
     QString getInpatientID() const;
 
+    //-----------------------------------------------------------------------------------------------------------------------------------
+    // 名称：收费统计接口
+    // 作用：从数据库中查找一段时间内，某个人或者所有人的住院收费单
+    // 参数：
+    // startDate - 起始查找日期
+    // endDate - 结束查找日期
+    // inpatientID - 一个人的住院号，如果为空则查询所有人的收费单
+    // 返回值：
+    // QVector<HospitalChargeTable*>* - 收费单数组
+    // 备注：无
+    // 时间：2016-04-20
+    //-----------------------------------------------------------------------------------------------------------------------------------
     static QVector<HospitalChargeTable*>* selectFromDB(QDate startDate, QDate endDate, QString inpatientID);
 
 protected:
