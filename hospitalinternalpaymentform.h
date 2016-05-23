@@ -18,13 +18,15 @@ public:
 protected slots:
     void onSummarizing();
     void onParticulars();
+    void setCondition();
 protected:
     void create();
     void setMyLayout();
     void init();
     void initResults();
+
 protected:
-    QGroupBox *m_conditionSortGroup;
+    QButtonGroup *m_conditionGroup;
     QRadioButton *m_summarizing;
     QRadioButton *m_particulars;
     

@@ -34,6 +34,7 @@ INPUT(
 ./debug\internalpaymentform.o
 ./debug\hospitalinternalpaymentform.o
 ./debug\internalpayment.o
+./debug\hospitalstatisticform.o
 ./debug\qrc_pic.o
 ./debug\moc_hismainwindow.o
 ./debug\moc_subform.o
@@ -55,4 +56,5 @@ INPUT(
 ./debug\moc_chargeform.o
 ./debug\moc_internalpaymentform.o
 ./debug\moc_hospitalinternalpaymentform.o
+./debug\moc_hospitalstatisticform.o
 );

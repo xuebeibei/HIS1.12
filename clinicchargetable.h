@@ -92,6 +92,7 @@ public:
     bool Delete();
 
     static QVector<ClinicChargeTable*> selectClinicChargesFromDb(QDate date , QDateTime ReportTime);
+    static QVector<ClinicChargeTable*> * selectFromDB(QDate startDate, QDate endDate, QString strName, Gender eGender);
 protected:
     double m_dRealIncome;                     // 实收金额
     Patient m_patient;                        // 患者

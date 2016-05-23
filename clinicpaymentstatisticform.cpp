@@ -174,13 +174,6 @@ void ClinicPaymentStatisticForm::updateTable()
     // 获取条件
     initTable();
     // 从数据库按条件查询
-//    dueIncome = ClinicInternalPayment::selectFromDB(
-//                ClinicPatient,
-//                m_startDateEdit->date(),
-//                m_endDateEdit->date(),
-//                m_strConditionSort,
-//                m_strConditionWho);
-
     dueIncome = InternalPayment::selectFromDB(
                 m_startDateEdit->date(),
                 m_endDateEdit->date(),

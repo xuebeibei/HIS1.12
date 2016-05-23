@@ -21,6 +21,8 @@ bool HospitalChargeTable::Read()
     {
         m_dDueIncome = temp->getActionMoney();
         m_time = temp->getDateTime();
+        if(m_InpatientID.trimmed().isEmpty())
+            m_InpatientID = temp->getInpatientID();
 
         return ReadChargeRecords(HospitalInPatient);
     }
@@ -61,3 +63,41 @@ QString HospitalChargeTable::getInpatientID() const
 {
     return m_InpatientID;
 }
+
+QVector<HospitalChargeTable *>* HospitalChargeTable::selectFromDB(QDate startDate, QDate endDate, QString inpatientID)
+{
+    QVector<HospitalChargeTable*> *vec = new QVector<HospitalChargeTable*>;
+    if(startDate > endDate)
+        return NULL;
+
+    QSqlTableModel *model = new QSqlTableModel;
+    model->setTable(g_strAccount);
+    QString strSql = "" , strTemp = "";
+
+    QString strStartTime = startDate.toString("yyyy-MM-dd") + "T00:00:00";
+    QString strEndTime = endDate.toString("yyyy-MM-dd") + "T23:59:59";
+
+    strTemp = " Time between \'" + strStartTime + "\' and \'" + strEndTime + "\'";
+    strSql += strTemp;
+
+    if(!inpatientID.isEmpty())
+    {
+        strTemp = "and HospitalID = \'" + inpatientID + "\'";
+        strSql += strTemp;
+    }
+
+    model->setFilter(strSql);
+    model->select();
+
+    for(int i = 0; i < model->rowCount();i++)
+    {
+        QSqlRecord record = model->record(i);
+        HospitalChargeTable *temp = new HospitalChargeTable;
+        temp->setID(record.value("ID").toString());
+        temp->Read();
+        vec->append(temp);
+    }
+    return vec;
+}
+
+

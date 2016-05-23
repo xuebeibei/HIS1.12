@@ -173,8 +173,15 @@ QVector<Account *> Account::getRecords(QString strInpatientID)
     QVector<Account *> vec;
     QSqlTableModel *sqlModel = new QSqlTableModel;
     sqlModel->setTable(g_strAccount);
-    sqlModel->setFilter(g_strHospitalID + " = \'" + strInpatientID + "\' Order By " + g_strTime + " desc");
+
+    if(!strInpatientID.trimmed().isEmpty())
+    {
+        QString strSql = g_strHospitalID + " = \'" + strInpatientID + "\' " + "Order By " + g_strTime + " desc";
+        sqlModel->setFilter(strSql);
+    }
+
     sqlModel->select();
+
 
     for(int i = 0; i < sqlModel->rowCount(); i++)
     {

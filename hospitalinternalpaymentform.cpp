@@ -79,19 +79,40 @@ void HospitalInternalPaymentForm::onParticulars()
 
 void HospitalInternalPaymentForm::create()
 {
-    m_conditionSortGroup = new QGroupBox;
+    m_conditionGroup = new QButtonGroup(this);
     m_summarizing = new QRadioButton;
     m_summarizing->setText(QObject::tr("汇总"));
-    connect(m_summarizing, SIGNAL(clicked(bool)), this, SLOT(onSummarizing()));
     m_particulars = new QRadioButton;
     m_particulars->setText(QObject::tr("明细"));
-    connect(m_particulars, SIGNAL(clicked(bool)), this, SLOT(onParticulars()));
 
-    connect(m_startDateEdit, SIGNAL(dateChanged(QDate)),this, SLOT(updateTable()));
-    connect(m_endDateEdit, SIGNAL(dateChanged(QDate)),this, SLOT(updateTable()));
+    m_conditionGroup->addButton(m_particulars,0);
+    m_conditionGroup->addButton(m_summarizing,1);
+
+    connect(m_summarizing, SIGNAL(clicked(bool)), this, SLOT(setCondition()));
+    connect(m_particulars, SIGNAL(clicked(bool)), this, SLOT(setCondition()));
+
+    connect(m_startDateEdit, SIGNAL(dateChanged(QDate)),this, SLOT(setCondition()));
+    connect(m_endDateEdit, SIGNAL(dateChanged(QDate)),this, SLOT(setCondition()));
 
     m_allDueIncomeEdit->setReadOnly(true);
     m_allDueIncomeEdit->setStyleSheet(g_strLineEditNoBorder);
+}
+
+void HospitalInternalPaymentForm::setCondition()
+{
+    switch(m_conditionGroup->checkedId())
+    {
+    case 0:
+    {
+        onParticulars();
+        break;
+    }
+    case 1:
+    {
+        onSummarizing();
+        break;
+    }
+    }
 }
 
 void HospitalInternalPaymentForm::setMyLayout()

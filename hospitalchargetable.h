@@ -27,6 +27,8 @@ public:
     void setInpatientID(QString strInpatientID);
     QString getInpatientID() const;
 
+    static QVector<HospitalChargeTable*>* selectFromDB(QDate startDate, QDate endDate, QString inpatientID);
+
 protected:
     QString m_InpatientID;                    // 患者住院号
 };

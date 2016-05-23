@@ -8,7 +8,7 @@ HISMainWindow::HISMainWindow(QWidget *parent) :
     createToolBars();
     createStatusBar();
     //showClinicCharge();
-    showHospitalInterPayment();
+    showHospitalStatistic();
 
     setMinimumHeight(g_nSubFormDefaultHeight);
     setMinimumWidth(g_nSubFormDefaultWidth);
@@ -16,14 +16,47 @@ HISMainWindow::HISMainWindow(QWidget *parent) :
 
 HISMainWindow::~HISMainWindow()
 {
+    delete mySubForm;
 
+    delete clinicMenu;
+    delete clinicStatistics;
+    delete hospitalisationMenu;
+
+    delete clinicChargeAction;
+    delete clinicDailyReportAction;
+    delete clinicInternalPaymentAction;
+    delete clinicChargeStatisticAction;
+    delete clinicReportStatisticAction;
+    delete clinicPaymentStatisticAction;
+
+    delete hospitalRegistryAction;
+    delete hospitalStatisitcAction;
+    delete hospitalDailyreportAction;
+    delete hospitalInternalPaymentAction;
+
+    delete fileToolBar;
+    delete editToolBar;
+    delete printToolBar;
+
+    delete newAction;
+    delete saveAction;
+    delete deleteAction;
+    delete exportAction;
+
+    delete findAction;
+    delete amendAction;
+
+    delete previewAction;
+    delete printAction;
+
+    delete locationLabel;
 }
 
 void HISMainWindow::showClinicCharge()
 {
     initToolsAllEnable();
-    subForm = new ClinicChargeForm;
-    setCentralWidget(subForm);
+    mySubForm = new ClinicChargeForm;
+    setCentralWidget(mySubForm);
 
     saveAction->setEnabled(true);
     deleteAction->setEnabled(false);
@@ -34,8 +67,8 @@ void HISMainWindow::showClinicCharge()
 void HISMainWindow::showClinicDailyReport()
 {
     initToolsAllEnable();
-    subForm = new ClinicDailyReportFrom;
-    setCentralWidget(subForm);
+    mySubForm = new ClinicDailyReportFrom;
+    setCentralWidget(mySubForm);
 
     saveAction->setEnabled(true);
     deleteAction->setEnabled(false);
@@ -46,8 +79,8 @@ void HISMainWindow::showClinicDailyReport()
 void HISMainWindow::showClinicInternalPayment()
 {
     initToolsAllEnable();
-    subForm = new ClinicInternalPaymentForm;
-    setCentralWidget(subForm);
+    mySubForm = new ClinicInternalPaymentForm;
+    setCentralWidget(mySubForm);
 
     newAction->setEnabled(false);
     deleteAction->setEnabled(false);
@@ -60,8 +93,8 @@ void HISMainWindow::showClinicInternalPayment()
 void HISMainWindow::showChargeStatistic()
 {
     initToolsAllEnable();
-    subForm = new ClinicChargeStatisticForm;
-    setCentralWidget(subForm);
+    mySubForm = new ClinicChargeStatisticForm;
+    setCentralWidget(mySubForm);
 
     newAction->setEnabled(false);
     deleteAction->setEnabled(false);
@@ -74,8 +107,8 @@ void HISMainWindow::showChargeStatistic()
 void HISMainWindow::showReportStatistic()
 {
     initToolsAllEnable();
-    subForm = new ClinicReportStatisticForm;
-    setCentralWidget(subForm);
+    mySubForm = new ClinicReportStatisticForm;
+    setCentralWidget(mySubForm);
 
     newAction->setEnabled(false);
     deleteAction->setEnabled(false);
@@ -88,8 +121,8 @@ void HISMainWindow::showReportStatistic()
 void HISMainWindow::showPaymentStatistic()
 {
     initToolsAllEnable();
-    subForm = new ClinicPaymentStatisticForm;
-    setCentralWidget(subForm);
+    mySubForm = new ClinicPaymentStatisticForm;
+    setCentralWidget(mySubForm);
 
     newAction->setEnabled(false);
     deleteAction->setEnabled(false);
@@ -102,8 +135,8 @@ void HISMainWindow::showPaymentStatistic()
 void HISMainWindow::showHospitalRegistry()
 {
     initToolsAllEnable();
-    subForm = new Hospitalistation;
-    setCentralWidget(subForm);
+    mySubForm = new Hospitalistation;
+    setCentralWidget(mySubForm);
 
     deleteAction->setEnabled(false);
     amendAction->setEnabled(false);
@@ -113,8 +146,8 @@ void HISMainWindow::showHospitalRegistry()
 void HISMainWindow::showHospitalInterPayment()
 {
     initToolsAllEnable();
-    subForm = new HospitalInternalPaymentForm;
-    setCentralWidget(subForm);
+    mySubForm = new HospitalInternalPaymentForm;
+    setCentralWidget(mySubForm);
 
     newAction->setEnabled(false);
     deleteAction->setEnabled(false);
@@ -124,9 +157,23 @@ void HISMainWindow::showHospitalInterPayment()
     locationLabel->setText("住院管理 - 内部缴款");
 }
 
+void HISMainWindow::showHospitalStatistic()
+{
+    initToolsAllEnable();
+    mySubForm = new HospitalStatisticForm;
+    setCentralWidget(mySubForm);
+
+    newAction->setEnabled(false);
+    deleteAction->setEnabled(false);
+    amendAction->setEnabled(false);
+    findAction->setEnabled(false);
+    saveAction->setEnabled(false);
+    locationLabel->setText("住院管理 - 统计查询");
+}
+
 void HISMainWindow::newTableFile()
 {
-    subForm->newTableFile();
+    mySubForm->newTableFile();
 
     saveAction->setEnabled(true);
     deleteAction->setEnabled(false);
@@ -135,7 +182,7 @@ void HISMainWindow::newTableFile()
 
 void HISMainWindow::saveTableFile()
 {
-    if(subForm->saveTableFile())
+    if(mySubForm->saveTableFile())
     {
         saveAction->setEnabled(false);
         deleteAction->setEnabled(true);
@@ -159,7 +206,7 @@ void HISMainWindow::deleteTableFile()
     box->setButtonText(QMessageBox::No,"否");
     if(box->exec()==QMessageBox::Yes)
     {
-        if(subForm->deleteTableFile())
+        if(mySubForm->deleteTableFile())
         {
             saveAction->setEnabled(true);
             deleteAction->setEnabled(false);
@@ -175,12 +222,12 @@ void HISMainWindow::deleteTableFile()
 
 void HISMainWindow::exportTableFile()
 {
-    subForm->exportTableFile();
+    mySubForm->exportTableFile();
 }
 
 void HISMainWindow::findTableFile()
 {
-    if(subForm->findTableFile())
+    if(mySubForm->findTableFile())
     {
         saveAction->setEnabled(false);
         deleteAction->setEnabled(true);
@@ -190,7 +237,7 @@ void HISMainWindow::findTableFile()
 
 void HISMainWindow::amendTableFile()
 {
-    subForm->amendTableFile();
+    mySubForm->amendTableFile();
 
     saveAction->setEnabled(true);
     deleteAction->setEnabled(true);
@@ -199,12 +246,12 @@ void HISMainWindow::amendTableFile()
 
 void HISMainWindow::previewTableFile()
 {
-    subForm->previewTableFile();
+    mySubForm->previewTableFile();
 }
 
 void HISMainWindow::printTableFile()
 {
-    subForm->printTableFile();
+    mySubForm->printTableFile();
 }
 
 void HISMainWindow::createActions()
@@ -268,6 +315,7 @@ void HISMainWindow::createMenuActions()
     hospitalDailyreportAction = new QAction(g_strDailyReportAction,this);
 
     hospitalStatisitcAction = new QAction(g_strStatisticAction,this);
+    connect(hospitalStatisitcAction, SIGNAL(triggered()), this, SLOT(showHospitalStatistic()));
 }
 
 

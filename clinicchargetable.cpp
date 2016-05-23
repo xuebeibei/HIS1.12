@@ -102,11 +102,11 @@ QVector<ClinicChargeTable *> ClinicChargeTable::selectClinicChargesFromDb(QDate 
 
     QString strStartTime = date.toString(g_strYMD) + g_strDayStartTime;
     QString strEndTime;
-    if(ReportTime .date() > date)
+    if(ReportTime.date() > date)
     {
         strEndTime = date.toString(g_strYMD) + g_strDayEndTime;
     }
-    else if(ReportTime .date() == date)
+    else if(ReportTime.date() == date)
     {
         strEndTime = date.toString(g_strYMD) + ReportTime .time().toString("Thh:mm:ss");
     }
@@ -124,4 +124,44 @@ QVector<ClinicChargeTable *> ClinicChargeTable::selectClinicChargesFromDb(QDate 
         vecClinicCharges.append(charge);
     }
     return vecClinicCharges;
+}
+
+
+QVector<ClinicChargeTable*> * ClinicChargeTable::selectFromDB(QDate startDate,QDate endDate,QString strName,Gender eGender)
+{
+    QVector<ClinicChargeTable*> *vec = new QVector<ClinicChargeTable*>;
+    if(startDate > endDate)
+        return NULL;
+
+    QSqlTableModel *model = new QSqlTableModel;
+    model->setTable(g_strClinicCharge);
+    QString strSql = "" , strTemp = "";
+
+    strTemp = "Gender = " + QString::number((int)eGender);
+    strSql += strTemp;
+
+    if(!strName.isEmpty())
+    {
+        strTemp = " and Name = \'" + strName + "\'";
+        strSql += strTemp;
+    }
+
+    QString strStartTime = startDate.toString("yyyy-MM-dd") + "T00:00:00";
+    QString strEndTime = endDate.toString("yyyy-MM-dd") + "T23:59:59";
+
+    strTemp = " and Time between \'" + strStartTime + "\' and \'" + strEndTime + "\'";
+    strSql += strTemp;
+
+    model->setFilter(strSql);
+    model->select();
+
+    for(int i = 0; i < model->rowCount();i++)
+    {
+        QSqlRecord record = model->record(i);
+        ClinicChargeTable *temp = new ClinicChargeTable;
+        temp->setID(record.value("ID").toString());
+        temp->Read();
+        vec->append(temp);
+    }
+    return vec;
 }

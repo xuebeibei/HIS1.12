@@ -139,6 +139,7 @@ const QString g_strNameLabel = "姓名：";
 const QString g_strGenderLabel = "性别：";
 const QString g_strMan = "男";
 const QString g_strWoman = "女";
+const QString g_strAllGender = "全部";
 const QString g_strAgeLabel = "年龄：";
 const QString g_strIdCardLabel = "身份证号：";
 const QString g_strContactsLabel = "联系人：";

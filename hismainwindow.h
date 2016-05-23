@@ -12,6 +12,7 @@
 #include "hospitalisationregistry.h"
 #include "hospitalistation.h"
 #include "hospitalinternalpaymentform.h"
+#include "hospitalstatisticform.h"
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 // HIS系统主界面类
@@ -87,6 +88,7 @@ private slots:
 
     void showHospitalRegistry();
     void showHospitalInterPayment();
+    void showHospitalStatistic();
 
     //-----------------------------------------------------------------------------------------------------------------------------------
     // 名称：newTableFile
@@ -224,7 +226,7 @@ private:
     void initToolsAllEnable();
 private:
 
-    SubForm *subForm;                    // 子窗体
+    SubForm *mySubForm;                    // 子窗体
 
     QMenu *clinicMenu;                   // 门诊菜单
     QMenu *clinicStatistics;             // 门诊 - 统计

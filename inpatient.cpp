@@ -10,6 +10,10 @@ Inpatient::Inpatient()
     m_registryDate = QDate::currentDate();
 }
 
+Inpatient::~Inpatient()
+{
+}
+
 QString Inpatient::getID() const
 {
     return m_strID;
@@ -167,12 +171,12 @@ QStringList Inpatient::getIDsFromDB(QString strID, QString strName, Gender eGend
         sqlList.append(strTemp);
     }
 
-    if(!strID.isEmpty())
+    if(!strID.trimmed().isEmpty())
     {
         strTemp = " HospitalID = \'" + strID +"\' ";
         sqlList.append(strTemp);
     }
-    if(!strName.isEmpty())
+    if(!strName.trimmed().isEmpty())
     {
         strTemp = " Name = \'" + strName +"\' ";
         sqlList.append(strTemp);

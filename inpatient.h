@@ -11,6 +11,7 @@ class Inpatient : public Patient, public HISTable
 {
 public:
     Inpatient();
+    ~Inpatient();
     QString getID() const;
     QString getCaseID() const;
     int     getBedNum() const;

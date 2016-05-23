@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "stdafx.h"
 #include "subform.h"
+#include "clinicchargetable.h"
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 // 门诊-收费统计界面
@@ -29,6 +30,7 @@ public:
     void setMyLayout();
     void init();
     void initTable();
+    //QVector<ClinicChargeTable*> * selectFromDB(QDate startDate,QDate endDate,QString strName,Gender eGender);
 
 protected slots:
     void updateTable();
