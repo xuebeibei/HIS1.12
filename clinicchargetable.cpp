@@ -101,13 +101,17 @@ QVector<ClinicChargeTable *> ClinicChargeTable::selectClinicChargesFromDb(QDate 
     model->setTable(g_strClinicCharge);
 
     QString strStartTime = date.toString(g_strYMD) + g_strDayStartTime;
-    QString strEndTime;
+    QString strEndTime = g_strNull;
+
+
     if(ReportTime.date() > date)
     {
+        // 如果当前操作的是今天以前的日结
         strEndTime = date.toString(g_strYMD) + g_strDayEndTime;
     }
     else if(ReportTime.date() == date)
     {
+        // 如果当前操作的是今天的日结
         strEndTime = date.toString(g_strYMD) + ReportTime .time().toString("Thh:mm:ss");
     }
 
@@ -125,7 +129,6 @@ QVector<ClinicChargeTable *> ClinicChargeTable::selectClinicChargesFromDb(QDate 
     }
     return vecClinicCharges;
 }
-
 
 QVector<ClinicChargeTable*> * ClinicChargeTable::selectFromDB(QDate startDate,QDate endDate,QString strName,Gender eGender)
 {
